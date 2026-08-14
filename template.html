@@ -41,6 +41,14 @@
     max-width:1180px;margin:0 auto;padding:10px 22px;
     display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   }
+  .company-bar{
+    max-width:1180px;margin:0 auto;padding:8px 22px;
+    font-size:12.5px;color:var(--slate);line-height:1.6;
+    border-bottom:1px solid var(--line);background:rgba(246,244,239,.6);
+  }
+  .company-bar .co-name{font-weight:700;color:var(--ink);margin-right:14px;}
+  .company-bar .co-sep{color:var(--line);margin:0 10px;}
+  .company-bar .co-phone{color:var(--accent);}
   .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;}
   .brand .mark{
     font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.5px;color:var(--accent);
@@ -212,6 +220,9 @@
   }
   .archive-close:hover{background:rgba(244,236,226,.12);}
   .archive-frame{flex:1;border:0;width:100%;background:#fff;}
+  .archive-body{flex:1;overflow:auto;background:#fff;}
+  .archive-head{padding:18px 26px 6px;color:var(--muted);font-size:13px;}
+  .archive-head b{color:var(--accent);}
 </style>
 </head>
 <body>
@@ -230,13 +241,16 @@
   </div>
 </header>
 
-<!-- 历史快照查看器（选历史日期时覆盖显示） -->
+<div class="company-bar" id="companyBar"></div>
+
+
+<!-- 历史快照查看器（选历史日期时覆盖显示，前端渲染截至该日的真实汇总） -->
 <div class="archive-overlay" id="archiveOverlay">
   <div class="archive-bar">
     <span id="archiveLabel" class="archive-label"></span>
     <button class="archive-close" id="archiveClose" title="关闭">✕</button>
   </div>
-  <iframe class="archive-frame" id="archiveFrame"></iframe>
+  <div class="archive-body" id="archiveBody"></div>
 </div>
 
 <main class="wrap">
@@ -334,6 +348,8 @@ const DICT = {
     footerSource:"数据来源：公开网络检索。",
     footerNote:"所有资讯均忠实于检索到的原始来源，仅作主题调研参考，不构成任何投资建议。点击条目来源可跳转至原始网页。",
     baselineLabel:"（基线）",
+    companyLine:"苏州顺捷知识产权代理有限公司<span class=\"co-sep\">|</span>杨慧红 <span class=\"co-phone\">13962511841</span><span class=\"co-sep\">|</span>朱睿 <span class=\"co-phone\">18006254832</span>",
+    archiveHead:"截至 <b>{d}</b> 累计收录 {n} 条真实资讯（按日期由新到旧）",
     noResult:"未找到匹配的资讯，请调整筛选或检索词。"
   },
   en:{
@@ -388,6 +404,8 @@ const DICT = {
     footerSource:"Data source: public web search.",
     footerNote:"All items are faithful to their original retrieved sources and provided for topic research only — not investment advice. Click a source to open the original page.",
     baselineLabel:"(baseline)",
+    companyLine:"Suzhou Shunjie IP Agency Co., Ltd.<span class=\"co-sep\">|</span>Yang Huihong <span class=\"co-phone\">13962511841</span><span class=\"co-sep\">|</span>Zhu Rui <span class=\"co-phone\">18006254832</span>",
+    archiveHead:"Cumulative {n} real items up to <b>{d}</b> (newest to oldest)",
     noResult:"No matching items. Adjust the filter or search term."
   }
 };
@@ -396,7 +414,8 @@ const DICT = {
    资讯数据（双语字段；真实来源，按日期由新到旧）
    ============================================================ */
 const ITEMS = __ITEMS_JSON__;
-const ARCHIVE = __ARCHIVE_JSON__;   // [{date, file, count}] 按日期倒序
+const HISTORY_DATES = __HISTORY_DATES__;   // ["2026-08-15", ...] 2025-01-01 起倒序
+const ARCHIVE = __ARCHIVE_JSON__;   // 兼容占位（历史视图改为前端实时渲染）
 
 /* ============================================================
    渲染逻辑
@@ -414,7 +433,6 @@ const STATS = [
 let LANG = (new URLSearchParams(location.search).get("lang")==="en") ? "en" : "zh";
 let ACTIVE_DIM = "all";
 let QUERY = "";
-const BASELINE_FILE = "history-base.html";
 
 function t(k){return (DICT[LANG]&&DICT[LANG][k]!=null)?DICT[LANG][k]:(DICT.zh[k]||k);}
 function dItem(it,f){return it[f+LANG.charAt(0).toUpperCase()+LANG.slice(1)];}
@@ -435,6 +453,8 @@ function applyStaticText(){
   });
   document.querySelectorAll("[data-i18n-ph]").forEach(el=>{el.placeholder=t(el.getAttribute("data-i18n-ph"));});
   document.getElementById("btnLang").textContent = t("langToggle");
+  const cb=document.getElementById("companyBar");
+  if(cb) cb.innerHTML = t("companyLine");
   document.getElementById("lead").innerHTML = t("lead");
   document.getElementById("summaryBody").innerHTML = t("summaryText").map(p=>"<p>"+p+"</p>").join("");
   // footer
@@ -527,27 +547,22 @@ function renderAll(){
   initArchive();
 }
 
-/* 历史快照：填充下拉 + 打开/关闭查看器 */
+/* 历史快照：填充日期下拉 + 前端渲染「截至该日的真实汇总」 */
 let _archiveBound=false;
-function repoBase(){
-  let dir=location.pathname.replace(/\/[^\/]*$/,"/");   // 当前文件所在目录
-  if(dir.endsWith("/archive/")) dir=dir.replace(/\/archive\/$/,"/"); // 快照页回退到仓库根
-  return dir;
-}
 function initArchive(){
   const sel=document.getElementById("archiveSel"); if(!sel) return;
   sel.innerHTML='<option value="">'+t("archiveTitle")+'</option>';
-  (ARCHIVE||[]).forEach(a=>{
+  (HISTORY_DATES||[]).forEach(d=>{
     const o=document.createElement("option");
-    o.value=a.file;
-    o.textContent=a.date+(a.count?(" ("+a.count+")"):"")+(a.file===BASELINE_FILE?" "+t("baselineLabel"):"");
+    o.value=d;
+    o.textContent=d;
     sel.appendChild(o);
   });
   if(!_archiveBound){
     sel.addEventListener("change",onArchiveChange);
     document.getElementById("archiveClose").addEventListener("click",()=>{
       document.getElementById("archiveOverlay").classList.remove("open");
-      document.getElementById("archiveFrame").src="about:blank";
+      document.getElementById("archiveBody").innerHTML="";
       sel.value="";
     });
     _archiveBound=true;
@@ -555,15 +570,24 @@ function initArchive(){
 }
 function onArchiveChange(){
   const sel=this;
-  const idx=sel.selectedIndex-1; // 第 0 项是占位
-  const entry=(ARCHIVE&&ARCHIVE[idx])||null;
+  const d=sel.value;
   const overlay=document.getElementById("archiveOverlay");
-  const frame=document.getElementById("archiveFrame");
+  const body=document.getElementById("archiveBody");
   const label=document.getElementById("archiveLabel");
-  if(!entry){ overlay.classList.remove("open"); frame.src="about:blank"; return; }
-  const isBase=entry.file===BASELINE_FILE;
-  label.textContent=t("archiveTitle")+": "+entry.date+(isBase?" "+t("baselineLabel"):"");
-  frame.src=repoBase()+"archive/"+entry.file;
+  if(!d){ overlay.classList.remove("open"); body.innerHTML=""; return; }
+  label.textContent=t("archiveTitle")+": "+d;
+  // 截至所选日期的真实资讯（date <= d），按日期倒序
+  const list=ITEMS.filter(it=>it.date<=d).sort((a,b)=>b.date.localeCompare(a.date));
+  let html='<div class="archive-head">'+t("archiveHead").replace("{d}",d).replace("{n}",list.length)+'</div>';
+  if(!list.length){ html+='<div class="empty">'+t("noResult")+'</div>'; }
+  else {
+    DIMS.forEach(dim=>{
+      const sub=list.filter(it=>it.dim===dim);
+      if(!sub.length) return;
+      html+=dimBlock(dim,sub);
+    });
+  }
+  body.innerHTML=html;
   overlay.classList.add("open");
 }
 

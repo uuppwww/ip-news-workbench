@@ -233,12 +233,25 @@ def main():
         print(json.dumps(items[:3], ensure_ascii=False, indent=2), "...")
         return
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    # 保险：若当天 RSS 全军覆没（0 条），保留上一次的数据，避免报告变空白
-    if not items and OUT.exists():
-        print("[collect] 当天抓到 0 条，保留上一次数据不覆盖。", file=sys.stderr)
-        return
-    OUT.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[collect] 已写入 {OUT} ({len(items)} 条)")
+    # 合并策略：保留历史已整理条目，仅追加本次新抓到且未收录的，避免冲掉历史真实数据
+    existing = []
+    if OUT.exists():
+        try:
+            existing = json.loads(OUT.read_text(encoding="utf-8"))
+            if not isinstance(existing, list):
+                existing = []
+        except Exception:
+            existing = []
+    seen = {it.get("url", "") for it in existing if it.get("url")}
+    added = 0
+    for it in items:
+        if it.get("url") and it["url"] not in seen:
+            seen.add(it["url"])
+            existing.append(it)
+            added += 1
+    existing.sort(key=lambda x: x.get("date", ""), reverse=True)
+    OUT.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"[collect] 历史保留 {len(existing)-added} 条，本次新增 {added} 条，合计 {len(existing)} 条 -> {OUT}")
 
 
 if __name__ == "__main__":
