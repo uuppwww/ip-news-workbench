@@ -57,10 +57,16 @@ a:hover { text-decoration: underline; }
 
 /* Date picker */
 .date-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; margin-bottom: 26px; box-shadow: var(--shadow); }
-.date-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.date-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
 .date-hint { font-size: 13px; color: var(--text-sec); }
+.date-mode { display: flex; gap: 6px; flex-wrap: wrap; }
+.date-mode button { padding: 6px 14px; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-size: 13px; color: var(--text-sec); cursor: pointer; }
+.date-mode button:hover { border-color: var(--brand); color: var(--brand); }
+.date-mode button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
 .date-pickers { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.dp { display: inline-flex; align-items: center; gap: 4px; }
 .date-pickers select { padding: 7px 10px; border: 1px solid var(--line); border-radius: 5px; background: #fff; font-size: 14px; color: var(--text); min-width: 78px; }
+.date-pickers select:disabled { background: #f0eeec; color: var(--text-hint); }
 .date-pickers .sep { color: var(--text-hint); }
 .btn-today { margin-left: 8px; padding: 7px 14px; border: 1px solid var(--brand); color: var(--brand); background: #fff; border-radius: 5px; font-size: 13px; cursor: pointer; }
 .btn-today:hover { background: #fdf5f5; }
@@ -76,6 +82,7 @@ a:hover { text-decoration: underline; }
 .ov-tag.trademark { background: #eaf0f5; color: #1e4a73; }
 .ov-tag.patent { background: #e8f0e9; color: #1f5e3f; }
 .ov-tag.project { background: #f3ecf5; color: #5b2a73; }
+.ov-tag.policy { background: #e3f0f0; color: #1f5f5f; }
 .ov-tag.hot { background: #f5ece0; color: #8a5a18; }
 .overview-list { list-style: none; }
 .overview-list li { padding: 8px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; }
@@ -85,6 +92,7 @@ a:hover { text-decoration: underline; }
 .overview-list .dot.trademark { background: #2f5c8a; }
 .overview-list .dot.patent { background: #3a7a5e; }
 .overview-list .dot.project { background: #6b3a8a; }
+.overview-list .dot.policy { background: #2c7a7b; }
 .overview-list .dot.hot { background: #c97918; }
 .overview-list a { font-size: 14px; color: var(--text); }
 .overview-list a:hover { color: var(--brand); }
@@ -104,6 +112,7 @@ a:hover { text-decoration: underline; }
 /* Timeline */
 .timeline { position: relative; padding-left: 20px; border-left: 3px solid #b8b2a9; margin-top: 8px; }
 .timeline:empty { display: none; }
+.timeline-date { font-size: 13px; font-weight: 700; color: var(--brand); margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
 .timeline-item { position: relative; padding: 14px 0 14px 20px; border-bottom: 1px dashed var(--border); }
 .timeline-item:last-child { border-bottom: none; }
 .timeline-dot { position: absolute; left: -29px; top: 18px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #6b6b6b; box-shadow: 0 0 0 3px #fff; }
@@ -111,6 +120,7 @@ a:hover { text-decoration: underline; }
 .timeline-dot.trademark { border-color: #2f5c8a; }
 .timeline-dot.patent { border-color: #3a7a5e; }
 .timeline-dot.project { border-color: #6b3a8a; }
+.timeline-dot.policy { border-color: #2c7a7b; }
 .timeline-dot.hot { border-color: #c97918; }
 .timeline-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
 .timeline-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #ede9e3; color: var(--text-sec); }
@@ -150,6 +160,7 @@ a:hover { text-decoration: underline; }
       <a href="#" data-filter="trademark">商标</a>
       <a href="#" data-filter="patent">专利</a>
       <a href="#" data-filter="project">项目申报</a>
+      <a href="#" data-filter="policy">政策</a>
       <a href="#" data-filter="hot">热点</a>
       <button class="lang-btn" id="btnEn">EN</button>
     </nav>
@@ -171,16 +182,19 @@ a:hover { text-decoration: underline; }
   <!-- Date picker -->
   <div class="date-card">
     <div class="date-head">
-      <div class="date-hint" id="dateHint">选择日期，查看当日资讯</div>
-      <div class="date-pickers">
-        <select id="yearSel"></select>
-        <span class="sep">年</span>
-        <select id="monthSel"></select>
-        <span class="sep">月</span>
-        <select id="daySel"></select>
-        <span class="sep">日</span>
-        <button class="btn-today" id="btnToday">回到今天</button>
+      <div class="date-hint" id="dateHint">选择日期范围</div>
+      <div class="date-mode" id="dateMode">
+        <button data-mode="day" class="active">当天</button>
+        <button data-mode="month">整月</button>
+        <button data-mode="year">整年</button>
+        <button data-mode="all">全部</button>
       </div>
+    </div>
+    <div class="date-pickers" id="datePickers">
+      <span class="dp" id="dpYear"><select id="yearSel"></select><span class="sep">年</span></span>
+      <span class="dp" id="dpMonth"><select id="monthSel"></select><span class="sep">月</span></span>
+      <span class="dp" id="dpDay"><select id="daySel"></select><span class="sep">日</span></span>
+      <button class="btn-today" id="btnToday">回到今天</button>
     </div>
   </div>
 
@@ -223,42 +237,46 @@ a:hover { text-decoration: underline; }
 <script>
 const DICT = {
   zh: {
-    all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", hot: "热点",
-    dateHint: "选择日期，查看当日资讯",
-    ovTitle: "今日要览", keyTitle: "关键数据", chartTitle: "资讯分布", tlTitle: "时间线",
-    today: "回到今天", empty: "该日期暂无资讯",
+    all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点",
+    dateHint: "选择日期范围，查看对应资讯", dateHintAll: "已选择全部时间范围",
+    ovTitleDay: "今日要览", ovTitleMonth: "本月要览", ovTitleYear: "本年要览", ovTitleAll: "全部要览",
+    keyTitle: "关键数据", chartTitle: "资讯分布", tlTitle: "时间线",
+    today: "回到今天", empty: "该范围暂无资讯", more: "条，详见下方时间线",
     footer: "本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。",
     companyName: "苏州顺捷知识产权代理有限公司", contact: "联系人：",
     ovCount: "条"
   },
   en: {
-    all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", hot: "Hot Cases",
-    dateHint: "Pick a date to view that day's news",
-    ovTitle: "Daily Brief", keyTitle: "Key Data", chartTitle: "Distribution", tlTitle: "Timeline",
-    today: "Today", empty: "No news for the selected date",
+    all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot Cases",
+    dateHint: "Pick a date range to view the news", dateHintAll: "All time range selected",
+    ovTitleDay: "Daily Brief", ovTitleMonth: "Monthly Brief", ovTitleYear: "Yearly Brief", ovTitleAll: "Full Brief",
+    keyTitle: "Key Data", chartTitle: "Distribution", tlTitle: "Timeline",
+    today: "Today", empty: "No news for this range", more: " items, see timeline below",
     footer: "Compiled from public online sources for reference only; not investment advice.",
     companyName: "Suzhou Shunjie Intellectual Property Agency Co., Ltd.", contact: "Contact: ",
     ovCount: "items"
   }
 };
 const DIM_LABEL = {
-  zh: { all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", hot: "热点" },
-  en: { all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", hot: "Hot" }
+  zh: { all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点" },
+  en: { all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot" }
 };
-const DIM_COLOR = { ip: "#8a1c1c", trademark: "#2f5c8a", patent: "#3a7a5e", project: "#6b3a8a", hot: "#c97918" };
+const DIM_ORDER = { ip: 0, trademark: 1, patent: 2, project: 3, policy: 4, hot: 5 };
+const DIM_COLOR = { ip: "#8a1c1c", trademark: "#2f5c8a", patent: "#3a7a5e", project: "#6b3a8a", policy: "#2c7a7b", hot: "#c97918" };
 
 const ITEMS = __ITEMS_JSON__;
 const HISTORY_DATES = __HISTORY_DATES__;
 let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "zh";
 let currentFilter = "all";
+let dateMode = "day"; // day | month | year | all
 let selectedDate = new Date().toISOString().slice(0, 10);
 
 function t(key) { return DICT[lang][key] || key; }
 function dimLabel(d) { return DIM_LABEL[lang][d] || d; }
+function dimRank(d) { return DIM_ORDER[d] === undefined ? 9 : DIM_ORDER[d]; }
 
 function applyStaticText() {
   document.getElementById("dateHint").textContent = t("dateHint");
-  document.getElementById("ovTitle").textContent = t("ovTitle");
   document.getElementById("keyTitle").textContent = t("keyTitle");
   document.getElementById("chartTitle").textContent = t("chartTitle");
   document.getElementById("tlTitle").textContent = t("tlTitle");
@@ -309,17 +327,18 @@ function initHistory() {
     monthSel.value = String(opts.includes(curM) ? curM : Math.max(...opts));
   }
 
-  yearSel.addEventListener("change", () => { refreshMonths(); refreshDays(); onDateChange(); });
-  monthSel.addEventListener("change", () => { refreshDays(); onDateChange(); });
-  daySel.addEventListener("change", onDateChange);
+  yearSel.addEventListener("change", () => { refreshMonths(); refreshDays(); renderRange(); });
+  monthSel.addEventListener("change", () => { refreshDays(); renderRange(); });
+  daySel.addEventListener("change", () => { syncSelectedDate(); renderRange(); });
   document.getElementById("btnToday").addEventListener("click", () => {
     const today = new Date();
     if (years.includes(today.getFullYear())) yearSel.value = String(today.getFullYear());
     refreshMonths();
     if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
     refreshDays();
-    if ([...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
-    onDateChange();
+    if (dateMode === "day" && [...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
+    if (dateMode === "all") setMode("day");
+    else renderRange();
   });
 
   const today = new Date();
@@ -327,8 +346,22 @@ function initHistory() {
   refreshMonths();
   if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
   refreshDays();
-  if ([...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
+  if (dateMode === "day" && [...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
   syncSelectedDate();
+}
+
+function updatePickerState() {
+  const pickers = document.getElementById("datePickers");
+  const hint = document.getElementById("dateHint");
+  if (dateMode === "all") {
+    pickers.style.display = "none";
+    hint.textContent = t("dateHintAll");
+    return;
+  }
+  pickers.style.display = "";
+  hint.textContent = t("dateHint");
+  document.getElementById("dpMonth").style.display = (dateMode === "day" || dateMode === "month") ? "" : "none";
+  document.getElementById("dpDay").style.display = (dateMode === "day") ? "" : "none";
 }
 
 function syncSelectedDate() {
@@ -337,59 +370,97 @@ function syncSelectedDate() {
   const d = document.getElementById("daySel").value;
   selectedDate = `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 }
-function onDateChange() { syncSelectedDate(); renderDay(); }
 
-function dayItems() {
-  return ITEMS.filter(it => it.date === selectedDate && (currentFilter === "all" || it.dim === currentFilter));
+function setMode(mode) {
+  dateMode = mode;
+  document.querySelectorAll('.date-mode button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  updatePickerState();
+  renderRange();
+  drawChart();
 }
 
-function renderDay() {
-  const list = dayItems();
-  // overview
-  document.getElementById("ovDate").textContent = formatDate(selectedDate);
+function rangeItems() {
+  const y = document.getElementById("yearSel").value;
+  const m = document.getElementById("monthSel").value;
+  let pool = ITEMS.slice();
+  if (dateMode === "day") pool = pool.filter(it => it.date === selectedDate);
+  else if (dateMode === "month") pool = pool.filter(it => it.date.startsWith(`${y}-${String(m).padStart(2,"0")}`));
+  else if (dateMode === "year") pool = pool.filter(it => it.date.startsWith(String(y)));
+  if (currentFilter !== "all") pool = pool.filter(it => it.dim === currentFilter);
+  pool.sort((a, b) => b.date.localeCompare(a.date) || (dimRank(a.dim) - dimRank(b.dim)));
+  return pool;
+}
+
+function rangeLabel() {
+  const y = document.getElementById("yearSel").value;
+  const m = document.getElementById("monthSel").value;
+  if (dateMode === "day") return formatDate(selectedDate);
+  if (dateMode === "month") return lang === "zh" ? `${y}年${m}月` : `${y}-${String(m).padStart(2,"0")}`;
+  if (dateMode === "year") return lang === "zh" ? `${y}年` : String(y);
+  return lang === "zh" ? "全部时间范围" : "All Time";
+}
+
+function renderRange() {
+  const list = rangeItems();
+  document.getElementById("ovDate").textContent = rangeLabel();
   document.getElementById("ovCount").textContent = `${list.length} ${t("ovCount")}`;
+  const ovTitleMap = { day: "ovTitleDay", month: "ovTitleMonth", year: "ovTitleYear", all: "ovTitleAll" };
+  document.getElementById("ovTitle").textContent = t(ovTitleMap[dateMode]);
+
   const tags = {};
   list.forEach(it => tags[it.dim] = (tags[it.dim]||0)+1);
   document.getElementById("ovTags").innerHTML = Object.keys(tags).map(d =>
     `<span class="ov-tag ${d}">${dimLabel(d)} ${tags[d]}</span>`).join("");
+
+  // 概览列表（范围模式限显示前 25 条）
   const ovList = document.getElementById("ovList");
-  if (!list.length) { ovList.innerHTML = `<li class="empty" style="padding:20px 0;">${t("empty")}</li>`; }
-  else {
-    ovList.innerHTML = list.map(it => {
-      const title = it["title" + (lang==="zh"?"Zh":"En")] || it.titleZh;
+  const cap = 25;
+  if (!list.length) {
+    ovList.innerHTML = `<li class="empty" style="padding:20px 0;">${t("empty")}</li>`;
+  } else {
+    const shown = list.slice(0, cap);
+    ovList.innerHTML = shown.map(it => {
+      const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
       return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a></li>`;
-    }).join("");
+    }).join("") + (list.length > cap ? `<li class="empty" style="padding:8px 0;">…共 ${list.length} ${t("more")}</li>` : "");
   }
-  // timeline
+
+  // 时间线（按日期分组）
   const timeline = document.getElementById("timeline");
   if (!list.length) { timeline.innerHTML = `<div class="empty">${t("empty")}</div>`; return; }
-  timeline.innerHTML = list.map(it => {
+  let html = "";
+  let prevDate = null;
+  list.forEach(it => {
+    if (it.date !== prevDate) {
+      html += `<div class="timeline-date">${formatDate(it.date)}</div>`;
+      prevDate = it.date;
+    }
     const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
     const sum = it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh;
     const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
-    return `<div class="timeline-item"><div class="timeline-dot ${it.dim}"></div>
+    html += `<div class="timeline-item"><div class="timeline-dot ${it.dim}"></div>
       <div class="timeline-meta"><span class="timeline-tag">${dimLabel(it.dim)}</span></div>
       <div class="timeline-title"><a href="${it.url}" target="_blank">${title}</a></div>
       <div class="timeline-sum">${sum}</div>
       <div class="timeline-src">${lang === "zh" ? "来源" : "Source"}: ${src}</div></div>`;
-  }).join("");
+  });
+  timeline.innerHTML = html;
 }
 
 function drawChart() {
   const counts = {};
-  DIM_LABEL.zh && Object.keys(DIM_LABEL.zh).forEach(d => { if (d!=="all") counts[d] = 0; });
-  ITEMS.forEach(it => { if (counts[it.dim] !== undefined) counts[it.dim]++; });
+  Object.keys(DIM_COLOR).forEach(d => counts[d] = 0);
+  rangeItems().forEach(it => { if (counts[it.dim] !== undefined) counts[it.dim]++; });
   const canvas = document.getElementById("chart");
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.clientWidth, H = canvas.clientHeight;
   canvas.width = W * dpr; canvas.height = H * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, W, H);
-  const dims = ["ip","trademark","patent","project","hot"];
+  const dims = ["ip","trademark","patent","project","policy","hot"];
   const max = Math.max(...dims.map(d => counts[d]), 1);
   const padL = 40, padB = 36, padT = 16;
   const bw = (W - padL - 16) / dims.length;
-  // axis
   ctx.strokeStyle = "#ddd"; ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, H-padB); ctx.lineTo(W-8, H-padB); ctx.stroke();
   dims.forEach((d, i) => {
     const v = counts[d];
@@ -407,21 +478,31 @@ function drawChart() {
 function setFilter(f) {
   currentFilter = f;
   document.querySelectorAll('[data-filter]').forEach(el => el.classList.toggle('active', el.dataset.filter === f));
-  renderDay();
+  renderRange();
+  drawChart();
 }
 function setLang(l) {
-  lang = l; applyStaticText(); initHistory(); renderDay(); drawChart();
+  lang = l;
+  applyStaticText();
+  initHistory();
+  updatePickerState();
+  renderRange();
+  drawChart();
 }
 
 document.querySelectorAll('.nav a[data-filter], .filter-bar button[data-filter]').forEach(el => {
   el.addEventListener('click', e => { e.preventDefault(); setFilter(el.dataset.filter); });
+});
+document.querySelectorAll('.date-mode button').forEach(b => {
+  b.addEventListener('click', () => setMode(b.dataset.mode));
 });
 document.getElementById("btnEn").addEventListener("click", () => setLang(lang === "zh" ? "en" : "zh"));
 window.addEventListener("resize", drawChart);
 
 applyStaticText();
 initHistory();
-renderDay();
+updatePickerState();
+renderRange();
 drawChart();
 </script>
 </body>

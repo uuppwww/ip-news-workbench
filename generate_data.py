@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 生成 2025-01-01 ~ today 的每日知识产权主题资讯数据。
-维度：ip(知识产权综合) / trademark(商标) / patent(专利) / project(项目申报) / hot(热点案例)
+维度：ip(知识产权综合) / trademark(商标) / patent(专利) / project(项目申报) / policy(国家政策) / hot(热点案例)
 原则：每天至少 1 条；真实锚点事件精确入位；链接指向百度检索（可点击跳转真实来源）。
 """
 import json
@@ -14,7 +14,7 @@ START = date(2025, 1, 1)
 END = date.today()
 
 # 维度定义
-DIMS = ["ip", "trademark", "patent", "project", "hot"]
+DIMS = ["ip", "trademark", "patent", "project", "policy", "hot"]
 
 # 固定锚点：真实或基于真实公开事件的重大节点（日期精确）
 ANCHORS = {
@@ -35,7 +35,7 @@ ANCHORS = {
          "A new energy vehicle maker sues a rival for patent infringement, claiming over RMB 500 million"),
     ],
     "2025-03-05": [
-        ("ip", "政府工作报告强调加强知识产权保护，完善科技成果转化机制",
+        ("policy", "政府工作报告强调加强知识产权保护，完善科技成果转化机制",
          "Government Work Report stresses stronger IP protection and improvement of tech commercialization"),
     ],
     "2025-03-12": [
@@ -51,7 +51,7 @@ ANCHORS = {
          "The first batch of 2025 High-tech Enterprise (HTE) certification opens for application nationwide"),
     ],
     "2025-04-01": [
-        ("ip", "《知识产权领域中央与地方财政事权和支出责任划分改革方案》实施",
+        ("policy", "《知识产权领域中央与地方财政事权和支出责任划分改革方案》实施",
          "Reform plan on central-local fiscal powers and expenditures in IP takes effect"),
     ],
     "2025-04-15": [
@@ -71,7 +71,7 @@ ANCHORS = {
          "A multinational pharma firm's core compound patent is invalidated in China, sparking debate on patent strategy"),
     ],
     "2025-05-15": [
-        ("ip", "国家知识产权局等九部门印发《知识产权保护体系建设工程实施方案》",
+        ("policy", "国家知识产权局等九部门印发《知识产权保护体系建设工程实施方案》",
          "CNIPA and nine ministries issue the IP protection system construction implementation plan"),
     ],
     "2025-05-20": [
@@ -95,7 +95,7 @@ ANCHORS = {
          "The revised Trademark Law is adopted, effective Jan 1 2027, tightening rules against bad-faith filings"),
     ],
     "2025-07-01": [
-        ("ip", "《公平竞争审查条例》施行，细化知识产权领域公平竞争规则",
+        ("policy", "《公平竞争审查条例》施行，细化知识产权领域公平竞争规则",
          "Fair Competition Review Regulations take effect, refining IP-related competition rules"),
     ],
     "2025-07-11": [
@@ -111,7 +111,7 @@ ANCHORS = {
          "A chip designer's trade-secret case against a rival is listed among SPC typical cases"),
     ],
     "2025-08-15": [
-        ("ip", "《知识产权公共服务普惠工程实施方案》印发",
+        ("policy", "《知识产权公共服务普惠工程实施方案》印发",
          "Implementation plan on inclusive IP public services is issued"),
     ],
     "2025-09-01": [
@@ -123,7 +123,7 @@ ANCHORS = {
          "A university professor's service-invention ownership dispute is retried in favor of the research team"),
     ],
     "2025-09-22": [
-        ("ip", "《数据知识产权登记管理办法（试行）》发布",
+        ("policy", "《数据知识产权登记管理办法（试行）》发布",
          "Administrative Measures on Data IP Registration (Trial) are released"),
     ],
     "2025-09-30": [
@@ -147,7 +147,7 @@ ANCHORS = {
          "An e-commerce platform removes over 20,000 counterfeit-patent product links during Double 11"),
     ],
     "2025-11-25": [
-        ("ip", "《关于加强涉外知识产权纠纷应对工作的意见》印发",
+        ("policy", "《关于加强涉外知识产权纠纷应对工作的意见》印发",
          "Opinions on strengthening responses to foreign-related IP disputes are issued"),
     ],
     "2025-12-04": [
@@ -171,7 +171,7 @@ ANCHORS = {
          "SPC issues punitive-damages interpretation: up to 5x compensation for IP infringement"),
     ],
     "2026-02-20": [
-        ("ip", '《知识产权保护和运用"十五五"规划》征求意见稿公开征求意见',
+        ("policy", '《知识产权保护和运用"十五五"规划》征求意见稿公开征求意见',
          "Draft 15th Five-Year IP Protection and Utilization Plan opens for public comment"),
     ],
     "2026-03-23": [
@@ -195,7 +195,7 @@ ANCHORS = {
          "2026 Sci-Tech SME evaluation and入库 opens"),
     ],
     "2026-06-10": [
-        ("ip", '国务院印发《知识产权保护和运用"十五五"规划》——设定2026-2030路线图',
+        ("policy", '国务院印发《知识产权保护和运用"十五五"规划》——设定2026-2030路线图',
          "State Council issues the 15th Five-Year IP plan, setting the 2026-2030 roadmap"),
     ],
     "2026-07-31": [
@@ -207,7 +207,7 @@ ANCHORS = {
          "Implementing rules for the amended Patent Law Implementing Regulations are released"),
     ],
     "2026-08-15": [
-        ("ip", "国家知识产权局发布2026年上半年知识产权统计数据",
+        ("policy", "国家知识产权局发布2026年上半年知识产权统计数据",
          "CNIPA releases H1 2026 IP statistics"),
         ("hot", "最高法公布2026年上半年知识产权司法保护典型案例",
          "SPC releases H1 2026 typical IP judicial protection cases"),
@@ -222,6 +222,7 @@ SOURCES = {
     "trademark": [("国家知识产权局", "CNIPA"), ("商标局", "Trademark Office"), ("中国知识产权报", "China IP News"), ("新华社", "Xinhua")],
     "patent": [("国家知识产权局", "CNIPA"), ("世界知识产权组织", "WIPO"), ("中国知识产权报", "China IP News"), ("新华社", "Xinhua")],
     "project": [("工业和信息化部", "MIIT"), ("科技部", "MOST"), ("科学技术部", "MOST"), ("各省市科技厅", "Provincial S&T Dept."), ("国家税务总局", "STA")],
+    "policy": [("国家知识产权局", "CNIPA"), ("国务院", "State Council"), ("全国人大", "NPC"), ("中国政府网", "Gov.cn"), ("司法部", "Ministry of Justice")],
     "hot": [("最高人民法院", "Supreme People's Court"), ("中国裁判文书网", "China Judgments Online"), ("法治日报", "Legal Daily"), ("澎湃新闻", "The Paper"), ("财新网", "Caixin")],
 }
 
@@ -283,6 +284,13 @@ FILLERS = {
         ("{region}开展瞪羚企业、独角兽企业申报推荐工作", "{region} opens nominations for gazelle and unicorn enterprises"),
         ("{region}{amount}家企业获评省级企业技术中心", "{amount} firms in {region} are rated provincial enterprise tech centers"),
     ],
+    "policy": [
+        ("{region}出台知识产权强省建设实施方案，明确{amount}项重点任务", "{region} issues an IP strong-province plan with {amount} key tasks"),
+        ("《{field}产业知识产权保护和运用指引》公开征求意见", "Draft IP protection/use guidelines for the {field} sector open for comment"),
+        ("国家知识产权局发布第{amount}号公告，调整商标业务办理流程", "CNIPA issues Announcement No.{amount}, adjusting trademark procedures"),
+        ("{region}审议通过知识产权地方性法规，将于{month}月施行", "{region} adopts local IP regulations, effective in month {month}"),
+        ("《知识产权维权援助工作规范》修订，扩大援助覆盖范围", "IP rights-aid work norms revised, broadening coverage"),
+    ],
     "fund": [
         ("WIPO发布{report}，中国排名保持前列", "WIPO releases {report}, with China remaining near the top"),
         ("国家知识产权局：截至{month}月底发明专利有效量达{amt}万件", "CNIPA: valid invention patents reach {amt} million by end of month {month}"),
@@ -330,6 +338,11 @@ def summary_for(title, dim):
             f"{title}。专利是技术创新的法律护城河，建议围绕核心技术构建发明、实用新型、外观设计组合，并关注高价值专利培育与转化运用。",
             f"{title}. Patents are legal moats for innovation; build a portfolio of invention, utility-model and design patents and focus on high-value cultivation."
         )
+    if dim == "policy":
+        return (
+            f"{title}。该政策文件将影响知识产权创造、运用、保护、管理和服务的全链条，建议企业关注落地细则与申报窗口，提前做好合规与权属管理。",
+            f"{title}. The policy affects the full IP lifecycle of creation, use, protection and management; firms should watch implementing rules and filing windows and plan compliance early."
+        )
     if dim == "hot":
         return (
             f"{title}。该案凸显知识产权保护对市场竞争秩序的关键作用，企业应从立项、研发到上市全链条做好侵权风险排查与证据留存。",
@@ -364,11 +377,11 @@ def build_items():
         if cur.day in (1, 10, 15, 20, 25):
             target = 3
 
-        # 维度轮转，确保5类都有覆盖（project 在不同时段轮到）
-        dims_cycle = ["patent", "trademark", "ip", "project", "hot"]
+        # 维度轮转，确保6类都有覆盖
+        dims_cycle = ["patent", "trademark", "ip", "project", "policy", "hot"]
         dim_idx = (cur.toordinal()) % len(dims_cycle)
         attempts = 0
-        while len(day_items) < target and attempts < 30:
+        while len(day_items) < target and attempts < 40:
             attempts += 1
             dim = dims_cycle[dim_idx % len(dims_cycle)]
             dim_idx += 1
@@ -396,7 +409,7 @@ def build_items():
         items.extend(day_items)
         cur += timedelta(days=1)
 
-    dim_order = {"ip": 0, "trademark": 1, "patent": 2, "project": 3, "hot": 4}
+    dim_order = {"ip": 0, "trademark": 1, "patent": 2, "project": 3, "policy": 4, "hot": 5}
     items.sort(key=lambda x: (-date.fromisoformat(x["date"]).toordinal(), dim_order[x["dim"]]))
     return items
 

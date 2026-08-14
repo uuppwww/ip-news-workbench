@@ -46,13 +46,23 @@ def dedup(items):
 
 def classify(title):
     t = title.lower()
-    if any(k in t for k in ["案例", "侵权", "纠纷", "诉讼", "判赔", "胜诉", "起诉", "商业秘密", "盗版", "假冒", "抢注", "维权"]):
+    # 热点案例
+    if any(k in t for k in ["案例", "侵权", "纠纷", "诉讼", "判赔", "胜诉", "起诉", "商业秘密", "盗版", "假冒", "抢注", "维权", "获赔", "索赔"]):
         return "hot"
-    if any(k in t for k in ["政策", "印发", "发布", "实施", "修订", "通过", "规划", "意见", "办法", "条例", "细则", "指南"]):
+    # 企业荣誉/项目申报
+    if any(k in t for k in ["高新技术企业", "科技型中小企业", "科小", "专精特新", "小巨人", "瞪羚", "独角兽", "企业技术中心", "技术中心", "入库", "拟认定"]):
+        return "project"
+    # 商标
+    if any(k in t for k in ["商标", "地理标志证明商标", "马德里", "集体商标", "商标抢注", "商标审查", "商标注册", "品牌", "老字号"]):
+        return "trademark"
+    # 专利
+    if any(k in t for k in ["专利", "pct", "发明专利", "实用新型", "外观设计", "专利审查", "专利导航", "专利奖", "专利转化"]):
+        return "patent"
+    # 政策
+    if any(k in t for k in ["政策", "印发", "发布", "实施", "修订", "通过", "规划", "意见", "办法", "条例", "细则", "指南", "方案"]):
         return "policy"
-    if any(k in t for k in ["wipo", "pct", "国际", "全球", "地理标志", "出口", "进出口", "排名", "指数"]):
-        return "fund"
-    return "dynamic"
+    # 综合知识产权动态
+    return "ip"
 
 def summarize(title, dim):
     if dim == "hot":
@@ -61,9 +71,15 @@ def summarize(title, dim):
     elif dim == "policy":
         s = f"{title}，进一步完善知识产权保护与运用制度体系。"
         s_en = f"{title} further improves the IP protection and utilization institutional framework."
-    elif dim == "fund":
-        s = f"{title}，显示中国知识产权国际影响力持续提升。"
-        s_en = f"{title} shows China's international IP influence continues to grow."
+    elif dim == "trademark":
+        s = f"{title}，建议企业加强商标监测、注册与维权，防范恶意抢注与侵权风险。"
+        s_en = f"{title}; firms should strengthen trademark monitoring, registration and enforcement."
+    elif dim == "patent":
+        s = f"{title}，建议企业关注专利布局、审查动向与转化运用机会。"
+        s_en = f"{title}; firms should watch patent portfolio, examination and commercialization opportunities."
+    elif dim == "project":
+        s = f"{title}，企业荣誉资质有助于享受政策红利与品牌背书，建议提前准备申报材料。"
+        s_en = f"{title}; enterprise honors help access policy benefits and brand endorsement."
     else:
         s = f"{title}，反映知识产权工作持续推进。"
         s_en = f"{title} reflects continuous progress in IP work."
