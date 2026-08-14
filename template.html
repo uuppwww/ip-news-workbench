@@ -183,6 +183,41 @@
     body{background:#fff;}
     .stat,.lead,.summary,.banner{box-shadow:none;}
   }
+
+  /* 历史快照下拉 */
+  .archive-sel{
+    margin-left:14px;
+    background:rgba(255,255,255,.12);
+    color:#f4ece2;
+    border:1px solid rgba(244,236,226,.28);
+    border-radius:7px;
+    padding:6px 10px;
+    font-size:13px;
+    font-family:inherit;
+    cursor:pointer;
+    max-width:180px;
+  }
+  .archive-sel:focus{outline:2px solid rgba(244,236,226,.5);}
+  .archive-sel option{color:#1c1a17;background:#fbf7f0;}
+
+  /* 历史快照查看器 */
+  .archive-overlay{
+    position:fixed;inset:0;z-index:60;background:#fbf7f0;display:none;
+    flex-direction:column;
+  }
+  .archive-overlay.open{display:flex;}
+  .archive-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 18px;background:#241f1a;color:#f4ece2;
+    box-shadow:0 2px 10px rgba(0,0,0,.18);
+  }
+  .archive-label{font-size:14px;letter-spacing:.04em;}
+  .archive-close{
+    background:transparent;border:1px solid rgba(244,236,226,.4);color:#f4ece2;
+    width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1;
+  }
+  .archive-close:hover{background:rgba(244,236,226,.12);}
+  .archive-frame{flex:1;border:0;width:100%;background:#fff;}
 </style>
 </head>
 <body>
@@ -194,9 +229,21 @@
       <span class="sub" data-i18n="brandSub">IP & Trademark Intelligence</span>
     </div>
     <nav class="navlinks" id="navlinks"></nav>
+    <select class="archive-sel" id="archiveSel" title="历史快照">
+      <option value="">—</option>
+    </select>
     <button class="btn-lang" id="btnLang" data-i18n="langToggle">EN</button>
   </div>
 </header>
+
+<!-- 历史快照查看器（选历史日期时覆盖显示） -->
+<div class="archive-overlay" id="archiveOverlay">
+  <div class="archive-bar">
+    <span id="archiveLabel" class="archive-label"></span>
+    <button class="archive-close" id="archiveClose" title="关闭">✕</button>
+  </div>
+  <iframe class="archive-frame" id="archiveFrame"></iframe>
+</div>
 
 <main class="wrap">
   <div class="banner" id="banner"></div>
@@ -246,6 +293,8 @@ const DICT = {
     brandMark:"知产观察",
     brandSub:"IP & Trademark Intelligence",
     langToggle:"EN",
+    archiveTitle:"历史快照",
+    latestLabel:"最新",
     navAll:"全部",
     overviewTitle:"主题概览",
     overviewSub:"知识产权 · 商标专利 — 主题调研参考（2025–2026）",
@@ -298,6 +347,8 @@ const DICT = {
     brandMark:"IP Watch",
     brandSub:"IP & Trademark Intelligence",
     langToggle:"中文",
+    archiveTitle:"Archive",
+    latestLabel:"Latest",
     navAll:"All",
     overviewTitle:"Theme Overview",
     overviewSub:"Intellectual Property · Trademarks & Patents — Topic Research Reference (2025–2026)",
@@ -352,6 +403,7 @@ const DICT = {
    资讯数据（双语字段；真实来源，按日期由新到旧）
    ============================================================ */
 const ITEMS = __ITEMS_JSON__;
+const ARCHIVE = __ARCHIVE_JSON__;   // [{date, file, count}] 按日期倒序
 
 /* ============================================================
    渲染逻辑
@@ -479,6 +531,44 @@ function renderAll(){
   buildChips();
   buildStats();
   renderNews();
+  initArchive();
+}
+
+/* 历史快照：填充下拉 + 打开/关闭查看器 */
+let _archiveBound=false;
+function repoBase(){
+  let dir=location.pathname.replace(/\/[^\/]*$/,"/");   // 当前文件所在目录
+  if(dir.endsWith("/archive/")) dir=dir.replace(/\/archive\/$/,"/"); // 快照页回退到仓库根
+  return dir;
+}
+function initArchive(){
+  const sel=document.getElementById("archiveSel"); if(!sel) return;
+  sel.innerHTML='<option value="">'+t("archiveTitle")+'</option>';
+  (ARCHIVE||[]).forEach(a=>{
+    const o=document.createElement("option");
+    o.value=a.file;
+    o.textContent=a.date+(a.count?(" ("+a.count+")"):"");
+    sel.appendChild(o);
+  });
+  if(!_archiveBound){
+    sel.addEventListener("change",onArchiveChange);
+    document.getElementById("archiveClose").addEventListener("click",()=>{
+      document.getElementById("archiveOverlay").classList.remove("open");
+      document.getElementById("archiveFrame").src="about:blank";
+      sel.value="";
+    });
+    _archiveBound=true;
+  }
+}
+function onArchiveChange(){
+  const sel=this; const v=sel.value;
+  const overlay=document.getElementById("archiveOverlay");
+  const frame=document.getElementById("archiveFrame");
+  const label=document.getElementById("archiveLabel");
+  if(!v){ overlay.classList.remove("open"); frame.src="about:blank"; return; }
+  label.textContent=t("archiveTitle")+": "+v.replace(/\.html$/,"");
+  frame.src=repoBase()+"archive/"+v;
+  overlay.classList.add("open");
 }
 
 /* language toggle */
