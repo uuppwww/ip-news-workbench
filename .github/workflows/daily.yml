@@ -8,44 +8,34 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  build:
+  update:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
     steps:
       - uses: actions/checkout@v4
+
       - name: 安装 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: 安装依赖
         run: pip install -r requirements.txt
+
       - name: 拉取最新资讯（免密钥 RSS）
         env:
           SEARCH_ENGINE: rss
         run: python3 collect.py --top 10
+
       - name: 重生成单文件报告
         run: python3 generate_report.py
-      - name: 打包为 Pages 产物
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: 发布到 GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
+      - name: 提交更新后的报告
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ip_report.html ip_data.json
+          git diff --staged --quiet || git commit -m "daily: auto update ip_report"
+          git push
