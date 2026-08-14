@@ -1,8 +1,6 @@
 name: 每日知识产权资讯更新
 
 on:
-  push:
-    branches: [main]
   schedule:
     - cron: '7 8 * * *'
   workflow_dispatch:
@@ -15,27 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: 安装 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: 安装依赖
         run: pip install -r requirements.txt
-
       - name: 拉取最新资讯（免密钥 RSS）
         env:
           SEARCH_ENGINE: rss
         run: python3 collect.py --top 10
-
-      - name: 重生成单文件报告
-        run: python3 generate_report.py
-
-      - name: 提交更新后的报告
+      - name: 重生成单文件报告 + 归档历史快照
+        run: python3 generate_report.py --archive
+      - name: 提交更新与历史快照
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add ip_report.html ip_data.json
-          git diff --staged --quiet || git commit -m "daily: auto update ip_report"
+          git add ip_report.html ip_data.json archive/
+          git diff --staged --quiet || git commit -m "daily: auto update $(date +%Y-%m-%d)"
           git push
