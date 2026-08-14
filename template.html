@@ -21,428 +21,119 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
+  background: var(--bg); color: var(--text); line-height: 1.6;
 }
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* Header */
-.header {
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-.logo {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-.logo-zh {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--brand);
-  letter-spacing: 2px;
-  font-family: "Songti SC", "SimSun", serif;
-}
-.logo-en {
-  font-size: 12px;
-  color: var(--text-hint);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.nav a, .nav button {
-  font-size: 13px;
-  color: var(--text-sec);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
+.header { border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { display: flex; align-items: baseline; gap: 12px; }
+.logo-zh { font-size: 28px; font-weight: 700; color: var(--brand); letter-spacing: 2px; font-family: "Songti SC", "SimSun", serif; }
+.logo-en { font-size: 12px; color: var(--text-hint); letter-spacing: 1px; text-transform: uppercase; }
+.nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.nav a, .nav button { font-size: 13px; color: var(--text-sec); padding: 6px 10px; border-radius: 4px; border: none; background: transparent; cursor: pointer; }
 .nav a:hover, .nav button:hover { color: var(--brand); background: #faf4f4; }
-.nav a.active, .nav button.active { color: var(--brand); font-weight: 600; }
-.lang-btn {
-  border: 1px solid var(--border) !important;
-  font-weight: 600;
-  color: var(--text-sec) !important;
-}
+.nav a.active { color: var(--brand); font-weight: 600; }
+.lang-btn { border: 1px solid var(--border) !important; font-weight: 600; color: var(--text-sec) !important; }
 
 /* Company bar */
-.company-bar {
-  background: var(--bg-sec);
-  border-bottom: 1px solid var(--border);
-}
-.company-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 22px 24px;
-  text-align: center;
-}
-.company-name {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-}
-.company-contacts {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  color: var(--text-sec);
-  font-size: 14px;
-}
+.company-bar { background: var(--bg-sec); border-bottom: 1px solid var(--border); }
+.company-inner { max-width: 1100px; margin: 0 auto; padding: 22px 24px; text-align: center; }
+.company-name { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: 1px; margin-bottom: 12px; }
+.company-contacts { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; color: var(--text-sec); font-size: 14px; }
 .company-contacts span { white-space: nowrap; }
 .company-label { color: var(--text-hint); margin-right: 4px; }
 
 /* Container */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 28px 24px 60px;
-}
+.container { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
 
-/* Section title pattern */
-.sec-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.sec-bar {
-  width: 5px;
-  height: 24px;
-  background: var(--brand);
-  border-radius: 2px;
-}
-.sec-title h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
-}
-.sec-sub {
-  font-size: 13px;
-  color: var(--text-hint);
-  margin-left: auto;
-}
+/* Section title */
+.sec-title { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.sec-bar { width: 5px; height: 24px; background: var(--brand); border-radius: 2px; }
+.sec-title h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+.sec-sub { font-size: 13px; color: var(--text-hint); margin-left: auto; }
 
-/* History snapshot */
-.history-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px 22px;
-  margin-bottom: 28px;
-  box-shadow: var(--shadow);
-}
-.history-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.history-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text);
-}
-.history-note {
-  font-size: 12px;
-  color: var(--text-hint);
-}
-.date-pickers {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.date-pickers select {
-  padding: 7px 10px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: #fff;
-  font-size: 14px;
-  color: var(--text);
-  min-width: 76px;
-}
+/* Date picker */
+.date-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; margin-bottom: 26px; box-shadow: var(--shadow); }
+.date-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.date-hint { font-size: 13px; color: var(--text-sec); }
+.date-pickers { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.date-pickers select { padding: 7px 10px; border: 1px solid var(--line); border-radius: 5px; background: #fff; font-size: 14px; color: var(--text); min-width: 78px; }
 .date-pickers .sep { color: var(--text-hint); }
-.btn-today {
-  margin-left: 8px;
-  padding: 7px 14px;
-  border: 1px solid var(--brand);
-  color: var(--brand);
-  background: #fff;
-  border-radius: 5px;
-  font-size: 13px;
-  cursor: pointer;
-}
+.btn-today { margin-left: 8px; padding: 7px 14px; border: 1px solid var(--brand); color: var(--brand); background: #fff; border-radius: 5px; font-size: 13px; cursor: pointer; }
 .btn-today:hover { background: #fdf5f5; }
-.timeline {
-  position: relative;
-  padding-left: 18px;
-  border-left: 3px solid #b8b2a9;
-  margin-top: 14px;
-}
-.timeline:empty { display: none; }
-.timeline-item {
-  position: relative;
-  padding: 14px 0 14px 18px;
-  border-bottom: 1px dashed var(--border);
-}
-.timeline-item:last-child { border-bottom: none; }
-.timeline-dot {
-  position: absolute;
-  left: -25px;
-  top: 18px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #fff;
-  border: 3px solid #6b6b6b;
-  box-shadow: 0 0 0 2px var(--card);
-}
-.timeline-dot.policy { border-color: #8a1c1c; }
-.timeline-dot.dynamic { border-color: #2f5c8a; }
-.timeline-dot.hot { border-color: #c97918; }
-.timeline-dot.fund { border-color: #3a7a5e; }
-.timeline-meta {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
-}
-.timeline-date {
-  font-size: 12px;
-  color: var(--text-hint);
-  font-family: monospace;
-}
-.timeline-tag {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: #ede9e3;
-  color: var(--text-sec);
-}
-.timeline-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-.timeline-sum {
-  font-size: 13px;
-  color: var(--text-sec);
-  margin-bottom: 6px;
-}
-.timeline-src {
-  font-size: 12px;
-  color: var(--text-hint);
-}
 
-/* Overview */
-.overview-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 28px;
-  box-shadow: var(--shadow);
-}
-.overview-header {
-  margin-bottom: 18px;
-}
-.overview-header h2 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.overview-header .subtitle {
-  font-size: 13px;
-  color: var(--text-hint);
-}
-.overview-desc {
-  font-size: 14px;
-  color: var(--text-sec);
-  line-height: 1.8;
-  margin-bottom: 22px;
-  text-align: justify;
-}
-.overview-desc strong { color: var(--text); }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-.stat-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 18px 16px;
-}
-.stat-num {
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 6px;
-  font-variant-numeric: tabular-nums;
-}
+/* Today overview */
+.overview { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 26px; box-shadow: var(--shadow); }
+.overview-top { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.overview-date { font-size: 22px; font-weight: 700; color: var(--brand); }
+.overview-count { font-size: 14px; color: var(--text-sec); }
+.overview-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.ov-tag { font-size: 12px; padding: 3px 10px; border-radius: 12px; background: #f0ebe4; color: var(--text-sec); }
+.ov-tag.ip { background: #f5e5e5; color: #7a1b1b; }
+.ov-tag.trademark { background: #eaf0f5; color: #1e4a73; }
+.ov-tag.patent { background: #e8f0e9; color: #1f5e3f; }
+.ov-tag.project { background: #f3ecf5; color: #5b2a73; }
+.ov-tag.hot { background: #f5ece0; color: #8a5a18; }
+.overview-list { list-style: none; }
+.overview-list li { padding: 8px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; }
+.overview-list li:last-child { border-bottom: none; }
+.overview-list .dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 8px; }
+.overview-list .dot.ip { background: #8a1c1c; }
+.overview-list .dot.trademark { background: #2f5c8a; }
+.overview-list .dot.patent { background: #3a7a5e; }
+.overview-list .dot.project { background: #6b3a8a; }
+.overview-list .dot.hot { background: #c97918; }
+.overview-list a { font-size: 14px; color: var(--text); }
+.overview-list a:hover { color: var(--brand); }
+
+/* Key data */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 18px 16px; }
+.stat-num { font-size: 25px; font-weight: 700; color: var(--text); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
 .stat-num span.unit { font-size: 14px; font-weight: 400; color: var(--text-sec); margin-left: 2px; }
 .stat-label { font-size: 13px; color: var(--text-sec); margin-bottom: 2px; }
 .stat-note { font-size: 11px; color: var(--text-hint); }
 
-/* Data source line */
-.source-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-  font-size: 13px;
-  color: var(--text-sec);
-}
-.source-line strong { color: var(--text); margin-right: 4px; }
-.source-line .rt { color: var(--text-hint); }
+/* Chart */
+.chart-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 22px 24px; margin-bottom: 26px; box-shadow: var(--shadow); }
+.chart-canvas { width: 100%; height: 260px; display: block; }
 
-/* Filter */
-.filter-bar {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-}
-.filter-bar button {
-  padding: 7px 14px;
-  border: 1px solid var(--border);
-  background: #fff;
-  border-radius: 4px;
-  font-size: 13px;
-  color: var(--text-sec);
-  cursor: pointer;
-}
+/* Timeline */
+.timeline { position: relative; padding-left: 20px; border-left: 3px solid #b8b2a9; margin-top: 8px; }
+.timeline:empty { display: none; }
+.timeline-item { position: relative; padding: 14px 0 14px 20px; border-bottom: 1px dashed var(--border); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-dot { position: absolute; left: -29px; top: 18px; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #6b6b6b; box-shadow: 0 0 0 3px #fff; }
+.timeline-dot.ip { border-color: #8a1c1c; }
+.timeline-dot.trademark { border-color: #2f5c8a; }
+.timeline-dot.patent { border-color: #3a7a5e; }
+.timeline-dot.project { border-color: #6b3a8a; }
+.timeline-dot.hot { border-color: #c97918; }
+.timeline-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+.timeline-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #ede9e3; color: var(--text-sec); }
+.timeline-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.timeline-sum { font-size: 13px; color: var(--text-sec); margin-bottom: 6px; }
+.timeline-src { font-size: 12px; color: var(--text-hint); }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 20px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.filter-bar button { padding: 7px 14px; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-size: 13px; color: var(--text-sec); cursor: pointer; }
 .filter-bar button:hover { border-color: var(--brand); color: var(--brand); }
 .filter-bar button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
 
-/* News list */
-.news-group { margin-bottom: 28px; }
-.group-date {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.group-date::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brand);
-}
-.news-item {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.news-item:last-child { border-bottom: none; }
-.news-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-.news-date {
-  font-size: 12px;
-  color: var(--text-hint);
-  font-family: monospace;
-}
-.news-tag {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: #f0ebe4;
-  color: var(--text-sec);
-}
-.news-tag.policy { background: #f5e5e5; color: #7a1b1b; }
-.news-tag.dynamic { background: #e6eef5; color: #1e4a73; }
-.news-tag.hot { background: #f5ece0; color: #8a5a18; }
-.news-tag.fund { background: #e5f0e9; color: #1f5e3f; }
-.news-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-.news-title a { color: inherit; }
-.news-title a:hover { color: var(--brand); text-decoration: none; }
-.news-sum {
-  font-size: 14px;
-  color: var(--text-sec);
-  margin-bottom: 8px;
-  line-height: 1.7;
-}
-.news-src {
-  font-size: 12px;
-  color: var(--text-hint);
-}
-.empty {
-  text-align: center;
-  padding: 50px 0;
-  color: var(--text-hint);
-  font-size: 14px;
-}
+.empty { text-align: center; padding: 50px 0; color: var(--text-hint); font-size: 14px; }
 
 /* Footer */
-.footer {
-  border-top: 1px solid var(--border);
-  padding: 24px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-hint);
-  background: var(--bg-sec);
-}
+.footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 12px; color: var(--text-hint); background: var(--bg-sec); }
 
 @media (max-width: 720px) {
   .header-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .nav { justify-content: flex-start; }
   .company-contacts { gap: 12px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .overview-header h2 { font-size: 18px; }
 }
 </style>
 </head>
@@ -455,10 +146,11 @@ a:hover { text-decoration: underline; }
     </div>
     <nav class="nav">
       <a href="#" data-filter="all" class="active">全部</a>
-      <a href="#" data-filter="dynamic">知识产权、商标专利动态</a>
+      <a href="#" data-filter="ip">知识产权</a>
+      <a href="#" data-filter="trademark">商标</a>
+      <a href="#" data-filter="patent">专利</a>
+      <a href="#" data-filter="project">项目申报</a>
       <a href="#" data-filter="hot">热点</a>
-      <a href="#" data-filter="fund">行业基本面</a>
-      <a href="#" data-filter="policy">国家政策</a>
       <button class="lang-btn" id="btnEn">EN</button>
     </nav>
   </div>
@@ -476,13 +168,10 @@ a:hover { text-decoration: underline; }
 
 <div class="container">
 
-  <!-- History Snapshot -->
-  <div class="history-card">
-    <div class="history-head">
-      <div>
-        <div class="history-title" id="historyTitle">历史快照</div>
-        <div class="history-note" id="historyNote">选择年月日，查看当天资讯</div>
-      </div>
+  <!-- Date picker -->
+  <div class="date-card">
+    <div class="date-head">
+      <div class="date-hint" id="dateHint">选择日期，查看当日资讯</div>
       <div class="date-pickers">
         <select id="yearSel"></select>
         <span class="sep">年</span>
@@ -493,114 +182,94 @@ a:hover { text-decoration: underline; }
         <button class="btn-today" id="btnToday">回到今天</button>
       </div>
     </div>
-    <div class="timeline" id="timeline"></div>
   </div>
 
-  <!-- Overview -->
-  <div class="overview-card">
-    <div class="overview-header">
-      <h2><span class="sec-bar" style="display:inline-block;vertical-align:middle;margin-right:10px;height:22px;"></span><span id="overviewTitle">主题概览</span></h2>
-      <div class="subtitle" id="overviewSub">知识产权 · 商标专利 — 主题调研参考（2025–2026）</div>
+  <!-- Today overview -->
+  <div class="sec-title"><span class="sec-bar"></span><h2 id="ovTitle">今日要览</h2></div>
+  <div class="overview">
+    <div class="overview-top">
+      <span class="overview-date" id="ovDate"></span>
+      <span class="overview-count" id="ovCount"></span>
     </div>
-    <div class="overview-desc" id="overviewDesc">
-      本报告围绕<strong>知识产权、商标专利</strong>主题，对公开渠道检索到的资讯按「知识产权、商标专利动态」「热点」「行业基本面」「国家政策」四个维度归类整理。当前处于从“数量规模”向“质量效益”转型的关键期：顶层制度（「十五五」规划、商标法修订）密集落地，保护执法持续强化，海外纠纷常态化，商业秘密、数据知识产权等新课题被正式写入规划。以下条目按日期由新到旧排列，并注明来源与日期。
-    </div>
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-card"><div class="stat-num">631.8<span class="unit">万件</span></div><div class="stat-label">发明专利有效量</div><div class="stat-note">截至2025年底，同比 +11.1%</div></div>
-      <div class="stat-card"><div class="stat-num">5303.2<span class="unit">万件</span></div><div class="stat-label">有效注册商标量</div><div class="stat-note">截至2025年底，同比 +6.5%</div></div>
-      <div class="stat-card"><div class="stat-num">2940<span class="unit">亿元</span></div><div class="stat-label">知识产权服务业营收</div><div class="stat-note">2025年，同比 +9.2%</div></div>
-      <div class="stat-card"><div class="stat-num">7.37<span class="unit">万件</span></div><div class="stat-label">PCT国际申请</div><div class="stat-note">2025年，连续六年全球第一</div></div>
-      <div class="stat-card"><div class="stat-num">2053<span class="unit">件</span></div><div class="stat-label">地理标志产品</div><div class="stat-note">2025年底核准保护数量</div></div>
-      <div class="stat-card"><div class="stat-num">6000<span class="unit">亿元</span></div><div class="stat-label">知识产权质押贷款</div><div class="stat-note">2025年全年登记金额</div></div>
-    </div>
+    <div class="overview-tags" id="ovTags"></div>
+    <ul class="overview-list" id="ovList"></ul>
   </div>
 
-  <!-- Source line -->
-  <div class="source-line">
-    <div><strong id="srcLabel">数据来源</strong><span id="srcTags">知识产权、商标专利动态 / 热点 / 行业基本面 / 国家政策</span></div>
-    <div class="rt"><span id="dateLabel">日期</span> <span id="currentDate"></span> &nbsp;|&nbsp; <span id="countLabel">条</span> <span id="currentCount">0</span></div>
+  <!-- Key data -->
+  <div class="sec-title"><span class="sec-bar"></span><h2 id="keyTitle">关键数据</h2></div>
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="stat-num">631.8<span class="unit">万件</span></div><div class="stat-label">发明专利有效量</div><div class="stat-note">截至2025年底，同比 +11.1%</div></div>
+    <div class="stat-card"><div class="stat-num">4900<span class="unit">万件+</span></div><div class="stat-label">有效注册商标量</div><div class="stat-note">截至2025年底，审查周期压缩</div></div>
+    <div class="stat-card"><div class="stat-num">2940<span class="unit">亿元</span></div><div class="stat-label">知识产权服务业营收</div><div class="stat-note">2025年，同比 +9.2%</div></div>
+    <div class="stat-card"><div class="stat-num">7.37<span class="unit">万件</span></div><div class="stat-label">PCT国际申请</div><div class="stat-note">2025年，连续多年全球第一</div></div>
+    <div class="stat-card"><div class="stat-num">2053<span class="unit">件</span></div><div class="stat-label">地理标志产品</div><div class="stat-note">2025年底核准保护数量</div></div>
+    <div class="stat-card"><div class="stat-num">6000<span class="unit">亿元</span></div><div class="stat-label">知识产权质押贷款</div><div class="stat-note">2025年全年登记金额</div></div>
   </div>
 
-  <!-- Filter -->
-  <div class="filter-bar" id="filterBar">
-    <button data-filter="all" class="active" id="fAll">全部</button>
-    <button data-filter="dynamic" id="fDynamic">知识产权、商标专利动态</button>
-    <button data-filter="hot" id="fHot">热点</button>
-    <button data-filter="fund" id="fFund">行业基本面</button>
-    <button data-filter="policy" id="fPolicy">国家政策</button>
+  <!-- Chart -->
+  <div class="sec-title" style="margin-top:30px;"><span class="sec-bar"></span><h2 id="chartTitle">资讯分布</h2></div>
+  <div class="chart-card">
+    <canvas id="chart" class="chart-canvas"></canvas>
   </div>
 
-  <!-- News list -->
-  <div id="newsList"></div>
+  <!-- Timeline -->
+  <div class="sec-title" style="margin-top:30px;"><span class="sec-bar"></span><h2 id="tlTitle">时间线</h2></div>
+  <div class="timeline" id="timeline"></div>
 
 </div>
 
-<footer class="footer" id="footer">
-  本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。
-</footer>
+<footer class="footer" id="footer">本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。</footer>
 
 <script>
 const DICT = {
   zh: {
-    all: "全部", dynamic: "知识产权、商标专利动态", hot: "热点", fund: "行业基本面", policy: "国家政策",
-    historyTitle: "历史快照", historyNote: "选择年月日，查看当天资讯",
-    overviewTitle: "主题概览", overviewSub: "知识产权 · 商标专利 — 主题调研参考（2025–2026）",
-    overviewDesc: "本报告围绕<strong>知识产权、商标专利</strong>主题，对公开渠道检索到的资讯按「知识产权、商标专利动态」「热点」「行业基本面」「国家政策」四个维度归类整理。当前处于从“数量规模”向“质量效益”转型的关键期：顶层制度（「十五五」规划、商标法修订）密集落地，保护执法持续强化，海外纠纷常态化，商业秘密、数据知识产权等新课题被正式写入规划。以下条目按日期由新到旧排列，并注明来源与日期。",
-    srcLabel: "数据来源", srcTags: "知识产权、商标专利动态 / 热点 / 行业基本面 / 国家政策",
-    dateLabel: "日期", countLabel: "条", today: "回到今天",
+    all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", hot: "热点",
+    dateHint: "选择日期，查看当日资讯",
+    ovTitle: "今日要览", keyTitle: "关键数据", chartTitle: "资讯分布", tlTitle: "时间线",
+    today: "回到今天", empty: "该日期暂无资讯",
     footer: "本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。",
-    companyName: "苏州顺捷知识产权代理有限公司",
-    contact: "联系人：",
-    empty: "该日期暂无资讯"
+    companyName: "苏州顺捷知识产权代理有限公司", contact: "联系人：",
+    ovCount: "条"
   },
   en: {
-    all: "All", dynamic: "IP & Trademark Updates", hot: "Hot Cases", fund: "Industry Fundamentals", policy: "National Policy",
-    historyTitle: "Historical Snapshot", historyNote: "Pick a year/month/day to view news on that date",
-    overviewTitle: "Theme Overview", overviewSub: "IP & Trademark Intelligence Reference (2025–2026)",
-    overviewDesc: "This report organizes publicly available information on <strong>intellectual property and trademarks</strong> into four dimensions: IP & trademark updates, hot cases, industry fundamentals, and national policy. China’s IP system is shifting from quantity to quality: top-level institutions (15th Five-Year Plan, Trademark Law revision) are being rolled out, enforcement is strengthening, overseas disputes are becoming routine, and new topics such as trade secrets and data IP have been formally written into planning. Entries are listed from newest to oldest with source and date.",
-    srcLabel: "Data Sources", srcTags: "IP Updates / Hot Cases / Industry Fundamentals / National Policy",
-    dateLabel: "Date", countLabel: "Items", today: "Today",
-    footer: "This report is compiled from public online sources for reference only and does not constitute investment advice.",
-    companyName: "Suzhou Shunjie Intellectual Property Agency Co., Ltd.",
-    contact: "Contact: ",
-    empty: "No news for the selected date"
+    all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", hot: "Hot Cases",
+    dateHint: "Pick a date to view that day's news",
+    ovTitle: "Daily Brief", keyTitle: "Key Data", chartTitle: "Distribution", tlTitle: "Timeline",
+    today: "Today", empty: "No news for the selected date",
+    footer: "Compiled from public online sources for reference only; not investment advice.",
+    companyName: "Suzhou Shunjie Intellectual Property Agency Co., Ltd.", contact: "Contact: ",
+    ovCount: "items"
   }
 };
 const DIM_LABEL = {
-  zh: { all: "全部", dynamic: "知识产权、商标专利动态", hot: "热点", fund: "行业基本面", policy: "国家政策" },
-  en: { all: "All", dynamic: "IP & Trademark Updates", hot: "Hot Cases", fund: "Industry Fundamentals", policy: "National Policy" }
+  zh: { all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", hot: "热点" },
+  en: { all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", hot: "Hot" }
 };
+const DIM_COLOR = { ip: "#8a1c1c", trademark: "#2f5c8a", patent: "#3a7a5e", project: "#6b3a8a", hot: "#c97918" };
 
 const ITEMS = __ITEMS_JSON__;
 const HISTORY_DATES = __HISTORY_DATES__;
 let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "zh";
 let currentFilter = "all";
+let selectedDate = new Date().toISOString().slice(0, 10);
 
 function t(key) { return DICT[lang][key] || key; }
 function dimLabel(d) { return DIM_LABEL[lang][d] || d; }
 
 function applyStaticText() {
-  document.getElementById("historyTitle").textContent = t("historyTitle");
-  document.getElementById("historyNote").textContent = t("historyNote");
-  document.getElementById("overviewTitle").textContent = t("overviewTitle");
-  document.getElementById("overviewSub").textContent = t("overviewSub");
-  document.getElementById("overviewDesc").innerHTML = t("overviewDesc");
-  document.getElementById("srcLabel").textContent = t("srcLabel");
-  document.getElementById("srcTags").textContent = t("srcTags");
-  document.getElementById("dateLabel").textContent = t("dateLabel");
-  document.getElementById("countLabel").textContent = t("countLabel");
+  document.getElementById("dateHint").textContent = t("dateHint");
+  document.getElementById("ovTitle").textContent = t("ovTitle");
+  document.getElementById("keyTitle").textContent = t("keyTitle");
+  document.getElementById("chartTitle").textContent = t("chartTitle");
+  document.getElementById("tlTitle").textContent = t("tlTitle");
   document.getElementById("btnToday").textContent = t("today");
   document.getElementById("footer").textContent = t("footer");
   document.getElementById("companyName").textContent = t("companyName");
   document.querySelector(".company-contacts").innerHTML =
     `<span><span class="company-label">${t("contact")}</span>杨慧红 13962511841</span>` +
     `<span><span class="company-label">${t("contact")}</span>朱睿 18006254832</span>`;
-
-  // nav / filter labels
-  document.querySelectorAll('.nav a[data-filter], .filter-bar button[data-filter]').forEach(el => {
-    const f = el.dataset.filter;
-    el.textContent = dimLabel(f);
-  });
+  document.querySelectorAll('.nav a[data-filter]').forEach(el => { el.textContent = dimLabel(el.dataset.filter); });
+  document.querySelectorAll('.filter-bar button[data-filter]').forEach(el => { el.textContent = dimLabel(el.dataset.filter); });
   document.getElementById("btnEn").textContent = lang === "zh" ? "EN" : "中";
 }
 
@@ -618,7 +287,6 @@ function initHistory() {
   const daySel = document.getElementById("daySel");
   yearSel.innerHTML = "";
   years.forEach(y => yearSel.add(new Option(y + (lang === "zh" ? "年" : ""), y)));
-  for (let m=1; m<=12; m++) monthSel.add(new Option((lang === "zh" ? m + "月" : String(m).padStart(2,"0")), m));
 
   function daysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
   function refreshDays() {
@@ -627,11 +295,7 @@ function initHistory() {
     const curDay = +daySel.value;
     daySel.innerHTML = "";
     const available = new Set(dates.filter(d => d.getFullYear()===y && d.getMonth()+1===m).map(d => d.getDate()));
-    for (let d=1; d<=max; d++) {
-      if (!available.has(d)) continue;
-      daySel.add(new Option((lang === "zh" ? d + "日" : String(d).padStart(2,"0")), d));
-    }
-    // pick closest
+    for (let d=1; d<=max; d++) { if (!available.has(d)) continue; daySel.add(new Option((lang === "zh" ? d + "日" : String(d).padStart(2,"0")), d)); }
     const opts = [...daySel.options].map(o => +o.value);
     if (opts.length) daySel.value = String(opts.includes(curDay) ? curDay : opts[opts.length-1]);
   }
@@ -640,17 +304,14 @@ function initHistory() {
     const availableM = new Set(dates.filter(d => d.getFullYear()===y).map(d => d.getMonth()+1));
     const curM = +monthSel.value;
     monthSel.innerHTML = "";
-    for (let m=1; m<=12; m++) {
-      if (!availableM.has(m)) continue;
-      monthSel.add(new Option((lang === "zh" ? m + "月" : String(m).padStart(2,"0")), m));
-    }
+    for (let m=1; m<=12; m++) { if (!availableM.has(m)) continue; monthSel.add(new Option((lang === "zh" ? m + "月" : String(m).padStart(2,"0")), m)); }
     const opts = [...monthSel.options].map(o => +o.value);
     monthSel.value = String(opts.includes(curM) ? curM : Math.max(...opts));
   }
 
-  yearSel.addEventListener("change", () => { refreshMonths(); refreshDays(); renderHistory(); });
-  monthSel.addEventListener("change", () => { refreshDays(); renderHistory(); });
-  daySel.addEventListener("change", renderHistory);
+  yearSel.addEventListener("change", () => { refreshMonths(); refreshDays(); onDateChange(); });
+  monthSel.addEventListener("change", () => { refreshDays(); onDateChange(); });
+  daySel.addEventListener("change", onDateChange);
   document.getElementById("btnToday").addEventListener("click", () => {
     const today = new Date();
     if (years.includes(today.getFullYear())) yearSel.value = String(today.getFullYear());
@@ -658,108 +319,110 @@ function initHistory() {
     if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
     refreshDays();
     if ([...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
-    renderHistory();
+    onDateChange();
   });
 
-  // initial = today
   const today = new Date();
   if (years.includes(today.getFullYear())) yearSel.value = String(today.getFullYear());
   refreshMonths();
   if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
   refreshDays();
   if ([...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
+  syncSelectedDate();
 }
 
-function renderHistory() {
-  const y = +document.getElementById("yearSel").value;
-  const m = +document.getElementById("monthSel").value;
-  const d = +document.getElementById("daySel").value;
-  const iso = `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-  const list = ITEMS.filter(it => it.date === iso && (currentFilter === "all" || it.dim === currentFilter));
-  const timeline = document.getElementById("timeline");
-  if (!list.length) {
-    timeline.innerHTML = `<div class="empty">${t("empty")}</div>`;
-    return;
+function syncSelectedDate() {
+  const y = document.getElementById("yearSel").value;
+  const m = document.getElementById("monthSel").value;
+  const d = document.getElementById("daySel").value;
+  selectedDate = `${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+}
+function onDateChange() { syncSelectedDate(); renderDay(); }
+
+function dayItems() {
+  return ITEMS.filter(it => it.date === selectedDate && (currentFilter === "all" || it.dim === currentFilter));
+}
+
+function renderDay() {
+  const list = dayItems();
+  // overview
+  document.getElementById("ovDate").textContent = formatDate(selectedDate);
+  document.getElementById("ovCount").textContent = `${list.length} ${t("ovCount")}`;
+  const tags = {};
+  list.forEach(it => tags[it.dim] = (tags[it.dim]||0)+1);
+  document.getElementById("ovTags").innerHTML = Object.keys(tags).map(d =>
+    `<span class="ov-tag ${d}">${dimLabel(d)} ${tags[d]}</span>`).join("");
+  const ovList = document.getElementById("ovList");
+  if (!list.length) { ovList.innerHTML = `<li class="empty" style="padding:20px 0;">${t("empty")}</li>`; }
+  else {
+    ovList.innerHTML = list.map(it => {
+      const title = it["title" + (lang==="zh"?"Zh":"En")] || it.titleZh;
+      return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a></li>`;
+    }).join("");
   }
+  // timeline
+  const timeline = document.getElementById("timeline");
+  if (!list.length) { timeline.innerHTML = `<div class="empty">${t("empty")}</div>`; return; }
   timeline.innerHTML = list.map(it => {
-    const title = it["title" + (lang==="zh"?"Zh":"En")] || it.titleZh;
-    const sum = it["sum" + (lang==="zh"?"Zh":"En")] || it.sumZh;
-    const src = it["src" + (lang==="zh"?"Zh":"En")] || it.srcZh;
-    return `<div class="timeline-item">
-      <div class="timeline-dot ${it.dim}"></div>
-      <div class="timeline-meta">
-        <span class="timeline-date">${formatDate(it.date)}</span>
-        <span class="timeline-tag">${dimLabel(it.dim)}</span>
-      </div>
+    const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
+    const sum = it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh;
+    const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
+    return `<div class="timeline-item"><div class="timeline-dot ${it.dim}"></div>
+      <div class="timeline-meta"><span class="timeline-tag">${dimLabel(it.dim)}</span></div>
       <div class="timeline-title"><a href="${it.url}" target="_blank">${title}</a></div>
       <div class="timeline-sum">${sum}</div>
-      <div class="timeline-src">${t("srcLabel")}: ${src}</div>
-    </div>`;
+      <div class="timeline-src">${lang === "zh" ? "来源" : "Source"}: ${src}</div></div>`;
   }).join("");
 }
 
-function renderNews() {
-  const container = document.getElementById("newsList");
-  let list = ITEMS.filter(it => currentFilter === "all" || it.dim === currentFilter);
-  // group by date desc
-  const groups = {};
-  list.forEach(it => { groups[it.date] = groups[it.date] || []; groups[it.date].push(it); });
-  const dates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
-  if (!dates.length) {
-    container.innerHTML = `<div class="empty">${t("empty")}</div>`;
-    document.getElementById("currentCount").textContent = "0";
-    return;
-  }
-  document.getElementById("currentCount").textContent = list.length;
-  document.getElementById("currentDate").textContent = dates[0];
-  container.innerHTML = dates.map(date => {
-    const items = groups[date].sort((a,b) => (a.dim||"").localeCompare(b.dim||""));
-    return `<div class="news-group">
-      <div class="group-date">${formatDate(date)}</div>
-      ${items.map(it => {
-        const title = it["title" + (lang==="zh"?"Zh":"En")] || it.titleZh;
-        const sum = it["sum" + (lang==="zh"?"Zh":"En")] || it.sumZh;
-        const src = it["src" + (lang==="zh"?"Zh":"En")] || it.srcZh;
-        return `<div class="news-item">
-          <div class="news-meta">
-            <span class="news-date">${it.date}</span>
-            <span class="news-tag ${it.dim}">${dimLabel(it.dim)}</span>
-          </div>
-          <div class="news-title"><a href="${it.url}" target="_blank">${title}</a></div>
-          <div class="news-sum">${sum}</div>
-          <div class="news-src">${t("srcLabel")}: ${src}</div>
-        </div>`;
-      }).join("")}
-    </div>`;
-  }).join("");
+function drawChart() {
+  const counts = {};
+  DIM_LABEL.zh && Object.keys(DIM_LABEL.zh).forEach(d => { if (d!=="all") counts[d] = 0; });
+  ITEMS.forEach(it => { if (counts[it.dim] !== undefined) counts[it.dim]++; });
+  const canvas = document.getElementById("chart");
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.clientWidth, H = canvas.clientHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+  const dims = ["ip","trademark","patent","project","hot"];
+  const max = Math.max(...dims.map(d => counts[d]), 1);
+  const padL = 40, padB = 36, padT = 16;
+  const bw = (W - padL - 16) / dims.length;
+  // axis
+  ctx.strokeStyle = "#ddd"; ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, H-padB); ctx.lineTo(W-8, H-padB); ctx.stroke();
+  dims.forEach((d, i) => {
+    const v = counts[d];
+    const bh = (v / max) * (H - padB - padT);
+    const x = padL + i*bw + bw*0.18;
+    const y = H - padB - bh;
+    ctx.fillStyle = DIM_COLOR[d];
+    ctx.fillRect(x, y, bw*0.64, bh);
+    ctx.fillStyle = "#1a1a1a"; ctx.font = "12px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText(String(v), x + bw*0.32, y - 6);
+    ctx.fillStyle = "#555"; ctx.fillText(dimLabel(d), x + bw*0.32, H - padB + 18);
+  });
 }
 
 function setFilter(f) {
   currentFilter = f;
-  document.querySelectorAll('[data-filter]').forEach(el => {
-    el.classList.toggle('active', el.dataset.filter === f);
-  });
-  renderNews();
-  renderHistory();
+  document.querySelectorAll('[data-filter]').forEach(el => el.classList.toggle('active', el.dataset.filter === f));
+  renderDay();
 }
-
 function setLang(l) {
-  lang = l;
-  applyStaticText();
-  initHistory();
-  renderHistory();
-  renderNews();
+  lang = l; applyStaticText(); initHistory(); renderDay(); drawChart();
 }
 
 document.querySelectorAll('.nav a[data-filter], .filter-bar button[data-filter]').forEach(el => {
   el.addEventListener('click', e => { e.preventDefault(); setFilter(el.dataset.filter); });
 });
 document.getElementById("btnEn").addEventListener("click", () => setLang(lang === "zh" ? "en" : "zh"));
+window.addEventListener("resize", drawChart);
 
 applyStaticText();
 initHistory();
-renderHistory();
-renderNews();
+renderDay();
+drawChart();
 </script>
 </body>
 </html>
