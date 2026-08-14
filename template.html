@@ -1,616 +1,687 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>知识产权·商标专利 主题资讯工作台</title>
-<style>
-  :root{
-    --paper:#f6f4ef;
-    --paper-2:#fffdf9;
-    --ink:#20262e;
-    --ink-soft:#4a525d;
-    --muted:#8a8f98;
-    --line:#e3ddd1;
-    --line-strong:#d2c9b8;
-    --accent:#9a3b2e;        /* muted cinnabar */
-    --accent-soft:#c75c47;
-    --slate:#33576f;
-    --gold:#9c7a33;
-    --shadow:0 1px 2px rgba(32,38,46,.06),0 6px 24px rgba(32,38,46,.05);
-    --serif:"Songti SC","SimSun",Georgia,"Times New Roman",serif;
-    --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Noto Sans CJK SC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;background:var(--paper);color:var(--ink);
-    font-family:var(--sans);font-size:15px;line-height:1.75;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--line-strong);}
-  a:hover{color:var(--accent);border-color:var(--accent);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>知识产权·商标专利 主题资讯</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --accent: #b91c1c;
+      --accent-light: #fee2e2;
+      --policy: #1e40af;
+      --dynamic: #047857;
+      --hot: #b91c1c;
+      --fund: #7c3aed;
+      --border: #e5e7eb;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .logo {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: linear-gradient(135deg, #1f2937 0%, #b91c1c 100%);
+      color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px;
+    }
+    .brand h1 { margin: 0; font-size: 22px; }
+    .brand p { margin: 0; color: var(--muted); font-size: 13px; }
+    .tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--border); background: #fff; color: var(--text);
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+      display: inline-flex; align-items: center; gap: 6px; transition: .2s;
+    }
+    .btn:hover { background: #f9fafb; border-color: #d1d5db; }
+    .lang-switch { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lang-switch button {
+      border: none; background: #fff; padding: 8px 14px; cursor: pointer; font-weight: 600;
+    }
+    .lang-switch button.active { background: #1f2937; color: #fff; }
 
-  /* ---------- Top bar ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:50;background:rgba(246,244,239,.92);
-    backdrop-filter:saturate(180%) blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  .topbar-inner{
-    max-width:1180px;margin:0 auto;padding:10px 22px;
-    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-  }
-  .company-bar{
-    max-width:1180px;margin:0 auto;padding:8px 22px;
-    font-size:12.5px;color:var(--slate);line-height:1.6;
-    border-bottom:1px solid var(--line);background:rgba(246,244,239,.6);
-  }
-  .company-bar .co-name{font-weight:700;color:var(--ink);margin-right:14px;}
-  .company-bar .co-sep{color:var(--line);margin:0 10px;}
-  .company-bar .co-phone{color:var(--accent);}
-  .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;}
-  .brand .mark{
-    font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.5px;color:var(--accent);
-  }
-  .brand .sub{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
-  .navlinks{display:flex;gap:4px;flex-wrap:wrap;}
-  .navlinks a{
-    font-size:13px;color:var(--ink-soft);border:none;padding:5px 10px;border-radius:6px;
-  }
-  .navlinks a:hover{background:#ece7db;color:var(--ink);}
-  .btn-lang{
-    font-family:var(--sans);font-size:13px;cursor:pointer;
-    border:1px solid var(--line-strong);background:var(--paper-2);color:var(--ink);
-    padding:5px 12px;border-radius:6px;transition:.15s;
-  }
-  .btn-lang:hover{border-color:var(--accent);color:var(--accent);}
+    /* 公司栏 */
+    .company-bar {
+      background: linear-gradient(135deg, #fff 0%, #fef2f2 100%);
+      border: 1px solid #fecaca;
+      border-left: 5px solid var(--accent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 26px;
+      margin-bottom: 24px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .company-name {
+      font-size: 26px; font-weight: 800; color: #7f1d1d;
+      letter-spacing: 1px; display: flex; align-items: center; gap: 12px;
+    }
+    .company-name::before {
+      content: ""; width: 8px; height: 28px; background: var(--accent); border-radius: 4px;
+    }
+    .company-contacts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;
+    }
+    .contact-card {
+      background: #fff; border: 1px solid #fecaca; border-radius: 10px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .contact-icon {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--accent-light);
+      color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 15px;
+      flex-shrink: 0;
+    }
+    .contact-info .label { font-size: 12px; color: var(--muted); }
+    .contact-info .value { font-size: 15px; font-weight: 700; color: #1f2937; }
+    .company-slogan { font-size: 13px; color: var(--muted); }
 
-  /* ---------- Layout ---------- */
-  .wrap{max-width:1180px;margin:0 auto;padding:0 22px 60px;}
-  .meta-strip{
-    display:flex;flex-wrap:wrap;gap:22px;padding:14px 2px 4px;color:var(--muted);font-size:12.5px;
-  }
-  .meta-strip span b{color:var(--ink-soft);font-weight:600;}
+    /* 今日要览 */
+    .today {
+      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 22px 26px; margin-bottom: 24px;
+    }
+    .today h2 { margin: 0 0 14px; font-size: 18px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .today ul { margin: 0; padding-left: 18px; }
+    .today li { margin-bottom: 8px; }
+    .today .tag { font-size: 11px; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-weight: 600; }
+    .tag-policy { background: #dbeafe; color: var(--policy); }
+    .tag-dynamic { background: #d1fae5; color: var(--dynamic); }
+    .tag-hot { background: var(--accent-light); color: var(--hot); }
+    .tag-fund { background: #ede9fe; color: var(--fund); }
 
-  /* ---------- Overview ---------- */
-  .overview{padding:8px 0 4px;}
-  .section-title{
-    font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);
-    margin:30px 0 4px;display:flex;align-items:center;gap:10px;
-  }
-  .section-title::before{content:"";width:6px;height:22px;background:var(--accent);border-radius:2px;display:inline-block;}
-  .section-sub{color:var(--muted);font-size:13px;margin:0 0 16px;}
+    /* 图表 */
+    .section {
+      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 22px 26px; margin-bottom: 24px;
+    }
+    .section-title { font-size: 18px; margin: 0 0 18px; display: flex; align-items: center; gap: 8px; }
+    .section-title span.en { font-size: 12px; color: var(--muted); margin-left: auto; font-weight: 400; }
+    .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .chart { background: #f9fafb; border-radius: 10px; padding: 16px; }
+    .chart h4 { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
+    .chart svg { width: 100%; height: auto; }
 
-  .lead{
-    background:var(--paper-2);border:1px solid var(--line);border-radius:8px;
-    padding:18px 20px;box-shadow:var(--shadow);font-size:14.5px;color:var(--ink-soft);line-height:1.85;
-  }
-  .lead .drop{
-    float:left;font-family:var(--serif);font-size:38px;line-height:1;color:var(--accent);
-    margin:4px 12px 0 0;font-weight:700;
-  }
+    /* 关键数据 */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .metric { padding: 18px; border-radius: 10px; background: #f9fafb; border: 1px solid var(--border); }
+    .metric .name { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .metric .num { font-size: 28px; font-weight: 800; color: var(--text); }
+    .metric .unit { font-size: 14px; color: var(--muted); font-weight: 500; }
+    .metric .delta { font-size: 12px; color: var(--accent); margin-top: 6px; font-weight: 600; }
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;}
-  .stat{
-    background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:14px 14px 12px;
-    box-shadow:var(--shadow);position:relative;overflow:hidden;
-  }
-  .stat::after{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:var(--gold);opacity:.7;}
-  .stat .num{font-family:var(--serif);font-size:25px;font-weight:700;color:var(--ink);line-height:1.2;}
-  .stat .unit{font-size:13px;color:var(--ink-soft);margin-left:2px;}
-  .stat .cap{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
+    /* 资讯列表 */
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .controls input {
+      flex: 1; min-width: 220px; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 14px;
+    }
+    .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
+      background: #fff; cursor: pointer; font-size: 13px; user-select: none;
+    }
+    .pill.active { background: #1f2937; color: #fff; border-color: #1f2937; }
+    .news-list { display: flex; flex-direction: column; gap: 14px; }
+    .news-item {
+      border: 1px solid var(--border); border-radius: 10px; padding: 16px;
+      display: flex; gap: 14px; transition: .2s;
+    }
+    .news-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .news-dot {
+      width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; flex-shrink: 0;
+      background: #9ca3af;
+    }
+    .news-item.policy .news-dot { background: var(--policy); }
+    .news-item.dynamic .news-dot { background: var(--dynamic); }
+    .news-item.hot .news-dot { background: var(--hot); }
+    .news-item.fund .news-dot { background: var(--fund); }
+    .news-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .news-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .news-title a { color: var(--text); text-decoration: none; }
+    .news-title a:hover { color: var(--accent); text-decoration: underline; }
+    .news-sum { font-size: 14px; color: var(--muted); }
+    .news-source { display: inline-block; margin-left: 8px; font-size: 11px; color: #6b7280; }
 
-  /* ---------- Toolbar ---------- */
-  .toolbar{
-    display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:26px 0 6px;
-    padding:12px;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);
-  }
-  .chips{display:flex;gap:6px;flex-wrap:wrap;}
-  .chip{
-    cursor:pointer;font-size:13px;padding:6px 13px;border-radius:999px;border:1px solid var(--line-strong);
-    background:#fff;color:var(--ink-soft);transition:.15s;
-  }
-  .chip:hover{border-color:var(--accent);color:var(--accent);}
-  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-  .search{
-    margin-left:auto;display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line-strong);
-    border-radius:999px;padding:5px 12px;min-width:220px;
-  }
-  .search input{border:none;outline:none;font-family:var(--sans);font-size:13.5px;width:100%;background:transparent;color:var(--ink);}
-  .search svg{width:15px;height:15px;fill:var(--muted);flex:0 0 auto;}
+    /* 历史快照 */
+    .history-box {
+      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 22px 26px; margin-bottom: 24px;
+      border-top: 4px solid #1f2937;
+    }
+    .history-title { font-size: 18px; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+    .history-title .hint { font-size: 12px; color: var(--muted); margin-left: auto; font-weight: 400; }
+    .date-pickers { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .date-pickers label { font-size: 13px; color: var(--muted); }
+    .date-pickers select {
+      padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 14px; background: #fff; min-width: 78px;
+    }
+    .date-pickers select:focus { outline: none; border-color: #1f2937; }
+    .timeline {
+      position: relative; padding-left: 22px; border-left: 3px solid #374151;
+      margin: 0 0 16px;
+    }
+    .timeline-item {
+      position: relative; padding-bottom: 18px;
+    }
+    .timeline-item::before {
+      content: ""; position: absolute; left: -29px; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%; background: #1f2937;
+      border: 2px solid #fff; box-shadow: 0 0 0 2px #1f2937;
+    }
+    .timeline-item.policy::before { background: var(--policy); box-shadow: 0 0 0 2px var(--policy); }
+    .timeline-item.dynamic::before { background: var(--dynamic); box-shadow: 0 0 0 2px var(--dynamic); }
+    .timeline-item.hot::before { background: var(--hot); box-shadow: 0 0 0 2px var(--hot); }
+    .timeline-item.fund::before { background: var(--fund); box-shadow: 0 0 0 2px var(--fund); }
+    .timeline-date { font-size: 13px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+    .timeline-title { font-size: 15px; font-weight: 700; }
+    .timeline-title a { color: var(--text); text-decoration: none; }
+    .timeline-title a:hover { color: var(--accent); text-decoration: underline; }
+    .timeline-sum { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .timeline-source { font-size: 11px; color: #6b7280; margin-left: 6px; }
+    .empty-tip { color: var(--muted); font-size: 14px; padding: 10px 0; }
 
-  /* ---------- News list ---------- */
-  .dim-block{margin-top:26px;scroll-margin-top:70px;}
-  .dim-head{
-    display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid var(--ink);
-    margin-bottom:6px;
-  }
-  .dim-head .tag{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);}
-  .dim-head .en{font-size:12px;color:var(--muted);letter-spacing:.5px;}
-  .dim-head .cnt{margin-left:auto;font-size:12px;color:var(--muted);}
-  .dim-bar{height:3px;background:var(--line);margin-top:-1px;}
+    footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 20px; }
 
-  .item{
-    display:grid;grid-template-columns:108px 1fr;gap:16px;padding:16px 8px;border-bottom:1px solid var(--line);
-  }
-  .item:hover{background:#fcfaf4;}
-  .item .date{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--accent);line-height:1.3;}
-  .item .date small{display:block;font-size:11px;color:var(--muted);font-weight:400;font-family:var(--sans);letter-spacing:.5px;}
-  .item .body h3{margin:0 0 6px;font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.5;}
-  .item .body p{margin:0 0 8px;font-size:14px;color:var(--ink-soft);line-height:1.8;}
-  .item .meta{font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
-  .item .meta .src{color:var(--slate);}
-  .item .meta .ext::after{content:"↗";font-size:11px;margin-left:2px;color:var(--muted);}
-
-  .empty{padding:40px;text-align:center;color:var(--muted);font-size:14px;}
-
-  /* ---------- Summary ---------- */
-  .summary{
-    margin-top:34px;background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--slate);
-    border-radius:8px;padding:20px 22px;box-shadow:var(--shadow);
-  }
-  .summary p{margin:0 0 12px;font-size:14.5px;color:var(--ink-soft);line-height:1.9;}
-  .summary p:last-child{margin-bottom:0;}
-  .summary .k{color:var(--accent);font-weight:600;}
-
-  /* ---------- Footer ---------- */
-  footer{
-    margin-top:44px;border-top:1px solid var(--line-strong);padding:22px 2px 10px;
-    color:var(--muted);font-size:12.5px;line-height:1.8;
-  }
-  footer .disc{
-    display:inline-block;background:#f0ece2;border:1px solid var(--line);border-radius:4px;
-    padding:3px 10px;color:var(--ink-soft);font-size:12px;margin-bottom:10px;
-  }
-  footer a{color:var(--muted);border-color:var(--line);}
-
-  .to-top{
-    position:fixed;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;
-    background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:18px;
-    box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s;z-index:40;
-  }
-  .to-top.show{opacity:1;pointer-events:auto;}
-  .to-top:hover{background:var(--accent-soft);}
-
-  @media(max-width:880px){
-    .stats{grid-template-columns:repeat(2,1fr);}
-    .item{grid-template-columns:1fr;gap:4px;}
-    .item .date{font-size:13px;}
-    .item .date small{display:inline;margin-left:6px;}
-    .search{margin-left:0;width:100%;}
-  }
-  @media print{
-    .topbar,.toolbar,.to-top{display:none;}
-    body{background:#fff;}
-    .stat,.lead,.summary{box-shadow:none;}
-  }
-
-  /* 历史快照下拉 */
-  .archive-sel{
-    margin-left:14px;
-    background:rgba(255,255,255,.12);
-    color:#f4ece2;
-    border:1px solid rgba(244,236,226,.28);
-    border-radius:7px;
-    padding:6px 10px;
-    font-size:13px;
-    font-family:inherit;
-    cursor:pointer;
-    max-width:180px;
-  }
-  .archive-sel:focus{outline:2px solid rgba(244,236,226,.5);}
-  .archive-sel option{color:#1c1a17;background:#fbf7f0;}
-
-  /* 历史快照查看器 */
-  .archive-overlay{
-    position:fixed;inset:0;z-index:60;background:#fbf7f0;display:none;
-    flex-direction:column;
-  }
-  .archive-overlay.open{display:flex;}
-  .archive-bar{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:12px 18px;background:#241f1a;color:#f4ece2;
-    box-shadow:0 2px 10px rgba(0,0,0,.18);
-  }
-  .archive-label{font-size:14px;letter-spacing:.04em;}
-  .archive-close{
-    background:transparent;border:1px solid rgba(244,236,226,.4);color:#f4ece2;
-    width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:15px;line-height:1;
-  }
-  .archive-close:hover{background:rgba(244,236,226,.12);}
-  .archive-frame{flex:1;border:0;width:100%;background:#fff;}
-  .archive-body{flex:1;overflow:auto;background:#fff;}
-  .archive-head{padding:18px 26px 6px;color:var(--muted);font-size:13px;}
-  .archive-head b{color:var(--accent);}
-</style>
+    @media (max-width: 768px) {
+      .company-name { font-size: 20px; }
+      .charts { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">RD</div>
+        <div>
+          <h1 id="pageTitle">知识产权·商标专利 主题资讯</h1>
+          <p id="pageSub">调研报告 · 多维度资讯整理</p>
+        </div>
+      </div>
+      <div class="tools">
+        <button class="btn" onclick="exportData()">⬇ <span id="btnExport">导出</span></button>
+        <button class="btn" onclick="document.getElementById('importFile').click()">⬆ <span id="btnImport">导入</span></button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
+        <div class="lang-switch">
+          <button id="btnZh" class="active" onclick="setLang('zh')">中</button>
+          <button id="btnEn" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+    </header>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <span class="mark" data-i18n="brandMark">知产观察</span>
-      <span class="sub" data-i18n="brandSub">IP & Trademark Intelligence</span>
-    </div>
-    <nav class="navlinks" id="navlinks"></nav>
-    <select class="archive-sel" id="archiveSel" title="历史快照">
-      <option value="">—</option>
-    </select>
-    <button class="btn-lang" id="btnLang" data-i18n="langToggle">EN</button>
+    <!-- 公司栏 -->
+    <section class="company-bar">
+      <div class="company-name" id="companyName">苏州顺捷知识产权代理有限公司</div>
+      <div class="company-contacts">
+        <div class="contact-card">
+          <div class="contact-icon">杨</div>
+          <div class="contact-info">
+            <div class="label" id="labelContact1">联系人</div>
+            <div class="value">杨慧红 13962511841</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">朱</div>
+          <div class="contact-info">
+            <div class="label" id="labelContact2">联系人</div>
+            <div class="value">朱睿 18006254832</div>
+          </div>
+        </div>
+      </div>
+      <div class="company-slogan" id="companySlogan">专业代理 · 商标 · 专利 · 版权 · 知识产权维权</div>
+    </section>
+
+    <!-- 今日要览 -->
+    <section class="today">
+      <h2 id="todayTitle">⚡ 今日要览 — 值得关注的最新动态</h2>
+      <ul id="todayList"></ul>
+    </section>
+
+    <!-- 主题概览 -->
+    <section class="section">
+      <div class="section-title" id="overviewTitle">
+        <span>◎</span><span id="txtOverview">主题概览</span>
+        <span class="en" id="txtOverviewEn">Theme Overview</span>
+      </div>
+      <div class="charts">
+        <div class="chart">
+          <h4 id="chart1Title">专利密集型产业增加值占GDP比重趋势</h4>
+          <svg viewBox="0 0 340 200" id="svgBar"></svg>
+        </div>
+        <div class="chart">
+          <h4 id="chart2Title">2025年知识产权创造构成</h4>
+          <svg viewBox="0 0 340 200" id="svgPie"></svg>
+        </div>
+        <div class="chart">
+          <h4 id="chart3Title">知识产权质押贷款累计发放（亿元）</h4>
+          <svg viewBox="0 0 340 200" id="svgLine"></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 行业基本面 -->
+    <section class="section">
+      <div class="section-title" id="metricsTitle">
+        <span>📊</span><span id="txtMetrics">行业基本面 — 关键数据</span>
+        <span class="en" id="txtMetricsEn">Industry Key Data</span>
+      </div>
+      <div class="metrics" id="metricsBox"></div>
+    </section>
+
+    <!-- 分维度资讯列表 -->
+    <section class="section">
+      <div class="section-title" id="newsTitle">
+        <span>📋</span><span id="txtNews">分维度资讯列表</span>
+        <span class="en" id="txtNewsEn">Categorized News</span>
+      </div>
+      <div class="controls">
+        <input type="text" id="searchInput" oninput="renderNews()" placeholder="搜索资讯标题、摘要、来源...">
+        <div class="filter-pills" id="filterPills"></div>
+      </div>
+      <div class="news-list" id="newsList"></div>
+    </section>
+
+    <!-- 历史快照 -->
+    <section class="history-box">
+      <div class="history-title" id="historyTitle">
+        <span>📅</span><span id="txtHistory">历史快照</span>
+        <span class="hint" id="txtHistoryHint">选择年月日查看当天资讯</span>
+      </div>
+      <div class="date-pickers">
+        <label id="lblYear">年</label>
+        <select id="yearSel" onchange="onYearChange()"></select>
+        <label id="lblMonth">月</label>
+        <select id="monthSel" onchange="onMonthChange()"></select>
+        <label id="lblDay">日</label>
+        <select id="daySel" onchange="renderHistory()"></select>
+        <button class="btn" onclick="goToday()" id="btnToday">回到今天</button>
+      </div>
+      <div class="timeline" id="historyTimeline"></div>
+    </section>
+
+    <footer id="footer">知识产权主题资讯工作台 · 每日自动更新</footer>
   </div>
-</header>
 
-<div class="company-bar" id="companyBar"></div>
+  <script>
+    const ITEMS = __ITEMS_JSON__;
+    const HISTORY_DATES = __HISTORY_DATES__;
 
+    const DICT = {
+      pageSub: { zh: "调研报告 · 多维度资讯整理", en: "Research Report · Multi-dimensional News" },
+      btnExport: { zh: "导出", en: "Export" },
+      btnImport: { zh: "导入", en: "Import" },
+      companyName: { zh: "苏州顺捷知识产权代理有限公司", en: "Suzhou Shunjie IP Agency Co., Ltd." },
+      labelContact1: { zh: "联系人", en: "Contact" },
+      labelContact2: { zh: "联系人", en: "Contact" },
+      companySlogan: { zh: "专业代理 · 商标 · 专利 · 版权 · 知识产权维权", en: "Trademark · Patent · Copyright · IP Rights Protection" },
+      todayTitle: { zh: "⚡ 今日要览 — 值得关注的最新动态", en: "⚡ Today's Highlights" },
+      txtOverview: { zh: "主题概览", en: "Theme Overview" },
+      txtMetrics: { zh: "行业基本面 — 关键数据", en: "Industry Key Data" },
+      txtNews: { zh: "分维度资讯列表", en: "Categorized News" },
+      txtHistory: { zh: "历史快照", en: "History Snapshot" },
+      txtHistoryHint: { zh: "选择年月日查看当天资讯", en: "Select year/month/day to view that day's news" },
+      lblYear: { zh: "年", en: "Year" },
+      lblMonth: { zh: "月", en: "Month" },
+      lblDay: { zh: "日", en: "Day" },
+      btnToday: { zh: "回到今天", en: "Today" },
+      footer: { zh: "知识产权主题资讯工作台 · 每日自动更新", en: "IP Theme News Workbench · Daily Auto Update" },
+      chart1Title: { zh: "专利密集型产业增加值占GDP比重趋势", en: "IP-intensive Industry Value-added / GDP" },
+      chart2Title: { zh: "2025年知识产权创造构成", en: "2025 IP Creation Composition" },
+      chart3Title: { zh: "知识产权质押贷款累计发放（亿元）", en: "Cumulative IP Pledge Loans (RMB 100M)" },
+      all: { zh: "全部", en: "All" },
+      policy: { zh: "国家政策", en: "Policy" },
+      dynamic: { zh: "行业动态", en: "Industry" },
+      hot: { zh: "热点案例", en: "Cases" },
+      fund: { zh: "国际/基本面", en: "Global" },
+      noResult: { zh: "无结果", en: "No results" },
+      noNewsDay: { zh: "当天暂无收录资讯", en: "No news recorded for this day" },
+      searchPlaceholder: { zh: "搜索资讯标题、摘要、来源...", en: "Search title, summary, source..." },
+      source: { zh: "来源", en: "Source" },
+      today: { zh: "今天", en: "Today" },
+    };
 
-<!-- 历史快照查看器（选历史日期时覆盖显示，前端渲染截至该日的真实汇总） -->
-<div class="archive-overlay" id="archiveOverlay">
-  <div class="archive-bar">
-    <span id="archiveLabel" class="archive-label"></span>
-    <button class="archive-close" id="archiveClose" title="关闭">✕</button>
-  </div>
-  <div class="archive-body" id="archiveBody"></div>
-</div>
+    let lang = "zh";
+    let activeDim = "all";
 
-<main class="wrap">
+    function field(obj, key) {
+      if (!obj) return "";
+      const v = obj[key + (lang === "en" ? "En" : "Zh")];
+      if (v) return v;
+      return obj[key + "Zh"] || "";
+    }
 
-  <div class="meta-strip" id="metaStrip"></div>
+    function setLang(l) {
+      lang = l;
+      document.getElementById("btnZh").className = l === "zh" ? "active" : "";
+      document.getElementById("btnEn").className = l === "en" ? "active" : "";
+      applyStaticText();
+      renderAll();
+    }
 
-  <!-- Overview -->
-  <section class="overview">
-    <h2 class="section-title" data-i18n="overviewTitle">主题概览</h2>
-    <p class="section-sub" data-i18n="overviewSub"></p>
-    <div class="lead" id="lead"></div>
-    <div class="stats" id="stats"></div>
-  </section>
+    function applyStaticText() {
+      for (const [id, vals] of Object.entries(DICT)) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = vals[lang] || vals.zh;
+      }
+      document.getElementById("searchInput").placeholder = DICT.searchPlaceholder[lang];
+    }
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="chips" id="chips"></div>
-    <div class="search">
-      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
-      <input id="searchInput" type="text" data-i18n-ph="searchPlaceholder">
-    </div>
-  </div>
+    function dimClass(dim) {
+      return ["policy", "dynamic", "hot", "fund"].includes(dim) ? dim : "";
+    }
 
-  <!-- News -->
-  <div id="newsRoot"></div>
+    function tagHtml(dim) {
+      const map = {
+        policy: { zh: "国家政策", en: "Policy", cls: "tag-policy" },
+        dynamic: { zh: "行业动态", en: "Industry", cls: "tag-dynamic" },
+        hot: { zh: "热点案例", en: "Cases", cls: "tag-hot" },
+        fund: { zh: "国际/基本面", en: "Global", cls: "tag-fund" },
+      };
+      const m = map[dim] || map.dynamic;
+      return `<span class="tag ${m.cls}">${m[lang]}</span>`;
+    }
 
-  <!-- Summary -->
-  <section class="summary">
-    <h2 class="section-title" data-i18n="summaryTitle">资讯脉络小结</h2>
-    <div id="summaryBody"></div>
-  </section>
+    function getLatestDate() {
+      return ITEMS.length ? ITEMS[0].date : HISTORY_DATES[HISTORY_DATES.length - 1];
+    }
 
-  <footer>
-    <span class="disc" data-i18n="footerDisc">本内容仅为资讯整理</span>
-    <div id="footerBody"></div>
-  </footer>
-</main>
+    function renderToday() {
+      const latest = getLatestDate();
+      const list = ITEMS.filter(it => it.date === latest).slice(0, 8);
+      const ul = document.getElementById("todayList");
+      if (!list.length) {
+        ul.innerHTML = `<li>${DICT.noNewsDay[lang]}</li>`;
+        return;
+      }
+      ul.innerHTML = list.map(it => `<li>${tagHtml(it.dim)}<a href="${it.url}" target="_blank">${field(it, "title")}</a></li>`).join("");
+    }
 
-<button class="to-top" id="toTop" title="↑">↑</button>
+    function drawCharts() {
+      // 柱状图
+      const barData = [
+        { y: "2021", v: 11.97 }, { y: "2022", v: 12.37 }, { y: "2023", v: 12.88 },
+        { y: "2024", v: 13.31 }, { y: "2025", v: 13.38 },
+      ];
+      const maxV = 15;
+      let barSvg = `<text x="10" y="16" font-size="11" fill="#6b7280">(%)</text>`;
+      barData.forEach((d, i) => {
+        const x = 30 + i * 58;
+        const h = (d.v / maxV) * 130;
+        const y = 160 - h;
+        barSvg += `<rect x="${x}" y="${y}" width="36" height="${h}" fill="#1e3a8a" rx="4"/>`;
+        barSvg += `<text x="${x+18}" y="${y-6}" text-anchor="middle" font-size="10" fill="#374151">${d.v}%</text>`;
+        barSvg += `<text x="${x+18}" y="178" text-anchor="middle" font-size="11" fill="#4b5563">${d.y}</text>`;
+      });
+      [0, 5, 10, 15].forEach(t => {
+        const y = 160 - (t / maxV) * 130;
+        barSvg += `<line x1="25" y1="${y}" x2="320" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
+      });
+      document.getElementById("svgBar").innerHTML = barSvg;
 
-<script>
-/* ============================================================
-   内置字典（不联网，全部可见文案由此提供）
-   ============================================================ */
-const DICT = {
-  zh:{
-    brandMark:"知产观察",
-    brandSub:"IP & Trademark Intelligence",
-    langToggle:"EN",
-    archiveTitle:"历史快照",
-    latestLabel:"最新",
-    navAll:"全部",
-    overviewTitle:"主题概览",
-    overviewSub:"知识产权 · 商标专利 — 主题调研参考（2025–2026）",
-    lead:"本报告围绕<b>知识产权、商标专利</b>主题，对公开渠道检索到的资讯按「知识产权、商标专利动态」「热点」「行业基本面」「国家政策」四个维度归类整理。当前阶段，我国知识产权事业处于从“数量规模”向“质量效益”转型的关键期：顶层制度（「十五五」规划、商标法修订）密集落地，保护执法持续强化，海外纠纷常态化，而 AI 生成物权属、数据知识产权等新课题被正式写入规划。以下条目按日期由新到旧排列，并注明来源与日期。",
-    statPatent:"发明专利有效量",
-    statPatentUnit:"万件",
-    statPatentCap:"截至2025年底，同比 +11.1%",
-    statTrademark:"有效注册商标量",
-    statTrademarkUnit:"万件",
-    statTrademarkCap:"截至2025年底，同比 +6.5%",
-    statPCT:"PCT国际申请",
-    statPCTUnit:"万件",
-    statPCTCap:"2025年，连续居全球首位",
-    statOversea:"在美新立案",
-    statOverseaUnit:"起",
-    statOverseaCap:"2025年中国企业海外知产诉讼",
-    statPledge:"知识产权质押贷款",
-    statPledgeUnit:"亿元",
-    statPledgeCap:"2023–2025 专项行动累计",
-    statService:"知识产权服务业营收",
-    statServiceUnit:"亿元",
-    statServiceCap:"2024年数据（年营收）",
-    dimDynamic:"知识产权、商标专利动态",
-    dimHot:"热点",
-    dimFund:"行业基本面",
-    dimPolicy:"国家政策",
-    dimDynamicEn:"Developments",
-    dimHotEn:"Hot Topics",
-    dimFundEn:"Industry Fundamentals",
-    dimPolicyEn:"National Policy",
-    sourceLabel:"来源",
-    dateLabel:"日期",
-    searchPlaceholder:"检索资讯标题 / 摘要…",
-    itemsLabel:"条",
-    summaryTitle:"资讯脉络小结",
-    summaryText:[
-      "<span class='k'>制度框架加速成型。</span>国务院印发《知识产权保护和运用「十五五」规划》，锚定 2030 年强国建设决定性进展；与之配套，《商标法（2026 年修订）》落地，强化使用管理、遏制恶意抢注；《专利审查指南》增设 AI、大数据审查专章。政策端正从「扩量」转向「提质、促用、强保护」。",
-      "<span class='k'>保护执法常态化、国际化。</span>市场监管总局「守护知识产权」专项行动持续打击侵权假冒；国家知识产权局公布 2025 年工作「成绩单」——授权发明专利 97.2 万件、注册商标 420.6 万件；同时《2025 年中国知识产权保护状况》白皮书显示保护成效显著增强。",
-      "<span class='k'>出海风险成为结构性议题。</span>《2025 年度中国企业海外知识产权纠纷调查》显示，三年涉诉 4856 起、2025 年在美新立案 2053 起，商标成最大变量，纠纷从偶发应对转为伴随出海全过程的常态化、多法域博弈；海外商标恶意抢注尤集中於「一带一路」新兴市场。",
-      "<span class='k'>AI 与新业态带来新课题。</span>「DeepSeek」商标遭大规模抢注（63 枚被驳回）、AI 生成物权属写入「十五五」规划、CRISPR 基因编辑专利纠纷升温，凸显新技术下的知识产权保护空白与规则的快速演进。",
-      "<span class='k'>基本面稳健、转化提速。</span>我国发明专利申请量连续多年全球居首，知识产权服务业年营收达 2940 亿元；专利转化运用专项行动累计发放质押贷款约 6000 亿元，广东三年质押融资达 1.1 万亿元，创新成果向现实生产力的转化通道进一步打通。"
-    ],
-    footerDisc:"本内容仅为资讯整理",
-    footerSource:"数据来源：公开网络检索。",
-    footerNote:"所有资讯均忠实于检索到的原始来源，仅作主题调研参考，不构成任何投资建议。点击条目来源可跳转至原始网页。",
-    baselineLabel:"（基线）",
-    companyLine:"苏州顺捷知识产权代理有限公司<span class=\"co-sep\">|</span>杨慧红 <span class=\"co-phone\">13962511841</span><span class=\"co-sep\">|</span>朱睿 <span class=\"co-phone\">18006254832</span>",
-    archiveHead:"截至 <b>{d}</b> 累计收录 {n} 条真实资讯（按日期由新到旧）",
-    noResult:"未找到匹配的资讯，请调整筛选或检索词。"
-  },
-  en:{
-    brandMark:"IP Watch",
-    brandSub:"IP & Trademark Intelligence",
-    langToggle:"中文",
-    archiveTitle:"Archive",
-    latestLabel:"Latest",
-    navAll:"All",
-    overviewTitle:"Theme Overview",
-    overviewSub:"Intellectual Property · Trademarks & Patents — Topic Research Reference (2025–2026)",
-    lead:"This report organizes publicly retrieved intelligence on <b>intellectual property, trademarks and patents</b> into four dimensions: Developments, Hot Topics, Industry Fundamentals and National Policy. China's IP sector is at a pivot from 'scale' to 'quality and utility': top-level institutions (the 15th FYP, the revised Trademark Law) are landing rapidly, enforcement is intensifying, overseas disputes are becoming normalized, and new issues such as AI-generated content ownership and data IP are formally written into planning. Items are sorted newest-to-oldest with source and date.",
-    statPatent:"Valid Invention Patents",
-    statPatentUnit:"M",
-    statPatentCap:"End-2025, +11.1% YoY",
-    statTrademark:"Valid Registered Trademarks",
-    statTrademarkUnit:"M",
-    statTrademarkCap:"End-2025, +6.5% YoY",
-    statPCT:"PCT Int'l Applications",
-    statPCTUnit:"M",
-    statPCTCap:"2025, world's No.1",
-    statOversea:"New U.S. Filings",
-    statOverseaUnit:"cases",
-    statOverseaCap:"2025 overseas IP suits (China cos.)",
-    statPledge:"IP Pledge Loans",
-    statPledgeUnit:"¥B",
-    statPledgeCap:"2023–2025 campaign cumulative",
-    statService:"IP Services Revenue",
-    statServiceUnit:"¥B",
-    statServiceCap:"2024 data (annual revenue)",
-    dimDynamic:"IP, Trademark & Patent Developments",
-    dimHot:"Hot Topics",
-    dimFund:"Industry Fundamentals",
-    dimPolicy:"National Policy",
-    dimDynamicEn:"Developments",
-    dimHotEn:"Hot Topics",
-    dimFundEn:"Fundamentals",
-    dimPolicyEn:"Policy",
-    sourceLabel:"Source",
-    dateLabel:"Date",
-    searchPlaceholder:"Search title / summary…",
-    itemsLabel:"items",
-    summaryTitle:"Context & Takeaways",
-    summaryText:[
-      "<span class='k'>Institutions are taking shape fast.</span> The State Council issued the 15th FYP for IP Protection and Utilization, targeting decisive progress by 2030; the revised Trademark Law (2026) strengthens use-based management and curbs squatting; the Patent Examination Guidelines added dedicated AI/big-data chapters. Policy is shifting from 'volume' to 'quality, utilization and stronger protection'.",
-      "<span class='k'>Protection & enforcement go normalized and global.</span> The SAMR's 'Guard IP' campaign keeps cracking down on infringement; CNIPA reported 2025 results — 972k invention patents granted, 4.206M trademarks registered; the 2025 China IP Protection white paper shows markedly stronger protection.",
-      "<span class='k'>Overseas risk is now structural.</span> The 2025 survey of Chinese enterprises' overseas IP disputes shows 4,856 suits over 2023–2025 and 2,053 new U.S. filings in 2025, with trademarks the biggest variable — a shift from ad-hoc response to normalized, multi-jurisdiction contention; malicious trademark squatting clusters in Belt-and-Road emerging markets.",
-      "<span class='k'>AI and new formats raise new questions.</span> Mass squatting of the 'DeepSeek' AI-model mark (63 rejected), AI-generated-content ownership written into the 15th FYP, and reheated CRISPR patent battles highlight protection gaps and fast-moving rules in new tech.",
-      "<span class='k'>Fundamentals are solid; commercialization accelerates.</span> China's invention-patent filings have led the world for years; IP services revenue reached ¥294B; the 2023–2025 commercialization campaign issued about ¥600B in pledge loans and Guangdong alone ¥1.1T over three years, widening the channel from innovation to real productivity."
-    ],
-    footerDisc:"Information compilation only",
-    footerSource:"Data source: public web search.",
-    footerNote:"All items are faithful to their original retrieved sources and provided for topic research only — not investment advice. Click a source to open the original page.",
-    baselineLabel:"(baseline)",
-    companyLine:"Suzhou Shunjie IP Agency Co., Ltd.<span class=\"co-sep\">|</span>Yang Huihong <span class=\"co-phone\">13962511841</span><span class=\"co-sep\">|</span>Zhu Rui <span class=\"co-phone\">18006254832</span>",
-    archiveHead:"Cumulative {n} real items up to <b>{d}</b> (newest to oldest)",
-    noResult:"No matching items. Adjust the filter or search term."
-  }
-};
+      // 饼图
+      const pieData = [
+        { label: lang === "zh" ? "授权发明专利" : "Invention patents", v: 6.1, c: "#1e3a8a" },
+        { label: lang === "zh" ? "注册商标" : "Trademarks", v: 26.5, c: "#2563eb" },
+        { label: lang === "zh" ? "登记著作权" : "Copyrights", v: 67.3, c: "#60a5fa" },
+        { label: lang === "zh" ? "植物新品种权" : "Plant varieties", v: 0.1, c: "#f87171" },
+      ];
+      let start = -Math.PI / 2;
+      let pieSvg = "";
+      const cx = 110, cy = 100, r = 70;
+      pieData.forEach(d => {
+        const ang = (d.v / 100) * Math.PI * 2;
+        const x1 = cx + r * Math.cos(start);
+        const y1 = cy + r * Math.sin(start);
+        const x2 = cx + r * Math.cos(start + ang);
+        const y2 = cy + r * Math.sin(start + ang);
+        const large = ang > Math.PI ? 1 : 0;
+        pieSvg += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.c}" stroke="#fff" stroke-width="2"/>`;
+        start += ang;
+      });
+      pieSvg += `<circle cx="${cx}" cy="${cy}" r="32" fill="#fff"/><text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="12" font-weight="700">2025</text><text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="9" fill="#6b7280">${lang==="zh"?"全年":"Full year"}</text>`;
+      let legendY = 50;
+      pieData.forEach(d => {
+        pieSvg += `<rect x="210" y="${legendY}" width="12" height="12" fill="${d.c}" rx="2"/>`;
+        pieSvg += `<text x="228" y="${legendY+10}" font-size="12" fill="#374151">${d.label} ${d.v}%</text>`;
+        legendY += 22;
+      });
+      document.getElementById("svgPie").innerHTML = pieSvg;
 
-/* ============================================================
-   资讯数据（双语字段；真实来源，按日期由新到旧）
-   ============================================================ */
-const ITEMS = __ITEMS_JSON__;
-const HISTORY_DATES = __HISTORY_DATES__;   // ["2026-08-15", ...] 2025-01-01 起倒序
-const ARCHIVE = __ARCHIVE_JSON__;   // 兼容占位（历史视图改为前端实时渲染）
+      // 折线图
+      const lineData = [{ y: "2023", v: 3900 }, { y: "2024", v: 4900 }, { y: "2025", v: 6000 }];
+      const maxL = 6500;
+      let lineSvg = "";
+      [0, 2000, 4000, 6000].forEach(t => {
+        const y = 170 - (t / maxL) * 130;
+        lineSvg += `<line x1="30" y1="${y}" x2="310" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
+        lineSvg += `<text x="25" y="${y+4}" text-anchor="end" font-size="10" fill="#9ca3af">${t}</text>`;
+      });
+      let path = "";
+      lineData.forEach((d, i) => {
+        const x = 50 + i * 120;
+        const y = 170 - (d.v / maxL) * 130;
+        path += (i === 0 ? "M" : "L") + ` ${x} ${y}`;
+        lineSvg += `<circle cx="${x}" cy="${y}" r="5" fill="#b91c1c"/>`;
+        lineSvg += `<text x="${x}" y="${y-12}" text-anchor="middle" font-size="11" fill="#374151">${d.v}</text>`;
+        lineSvg += `<text x="${x}" y="188" text-anchor="middle" font-size="11" fill="#4b5563">${d.y}</text>`;
+      });
+      lineSvg += `<path d="${path}" fill="none" stroke="#b91c1c" stroke-width="3"/>`;
+      document.getElementById("svgLine").innerHTML = lineSvg;
+    }
 
-/* ============================================================
-   渲染逻辑
-   ============================================================ */
-const DIMS = ["dynamic","hot","fund","policy"];
-const STATS = [
-  {key:"statPatent",num:"631.8",unitKey:"statPatentUnit",capKey:"statPatentCap"},
-  {key:"statTrademark",num:"5303.2",unitKey:"statTrademarkUnit",capKey:"statTrademarkCap"},
-  {key:"statPCT",num:"7.37",unitKey:"statPCTUnit",capKey:"statPCTCap"},
-  {key:"statOversea",num:"2053",unitKey:"statOverseaUnit",capKey:"statOverseaCap"},
-  {key:"statPledge",num:"6000",unitKey:"statPledgeUnit",capKey:"statPledgeCap"},
-  {key:"statService",num:"2940",unitKey:"statServiceUnit",capKey:"statServiceCap"}
-];
+    function renderMetrics() {
+      const data = [
+        { nameZh: "国内发明专利有效量", nameEn: "Invention patents in force", num: "532", unitZh: "万件", unitEn: "10k", delta: "+11.1%" },
+        { nameZh: "2025年授权发明专利", nameEn: "Invention patents granted 2025", num: "97.2", unitZh: "万件", unitEn: "10k", delta: "+6.3%" },
+        { nameZh: "高价值发明专利", nameEn: "High-value invention patents", num: "229.2", unitZh: "万件", unitEn: "10k", delta: "+2.2pp" },
+        { nameZh: "注册商标(2025)", nameEn: "Trademark registrations 2025", num: "420.6", unitZh: "万件", unitEn: "10k", delta: "" },
+        { nameZh: "全球创新指数排名", nameEn: "Global Innovation Index rank", num: "第10", unitZh: "位", unitEn: "th", delta: "首次前十" },
+        { nameZh: "专利密集型产业占GDP", nameEn: "IP-intensive industry / GDP", num: "13.38", unitZh: "%", unitEn: "%", delta: "+1.41pp" },
+        { nameZh: "专利转让许可备案", nameEn: "Patent transfer/license filings", num: "145.8", unitZh: "万次", unitEn: "10k", delta: "+48%" },
+        { nameZh: "技术合同成交额", nameEn: "Tech contract value", num: "1.18", unitZh: "万亿元", unitEn: "trillion", delta: "+18.8%" },
+        { nameZh: "知识产权质押贷款(累计)", nameEn: "Cumulative IP pledge loans", num: "~6000", unitZh: "亿元", unitEn: "100M", delta: "+56%" },
+        { nameZh: "知识产权使用费进出口", nameEn: "IP royalty trade", num: "4253.5", unitZh: "亿元", unitEn: "100M", delta: "+6.7%" },
+        { nameZh: "新收知识产权案件", nameEn: "New IP cases filed", num: "55.26", unitZh: "万件", unitEn: "10k", delta: "+3.2%" },
+        { nameZh: "保护中心总数", nameEn: "IP protection centers", num: "129", unitZh: "家", unitEn: "", delta: "+7" },
+      ];
+      document.getElementById("metricsBox").innerHTML = data.map(d => `
+        <div class="metric">
+          <div class="name">${lang === "en" ? d.nameEn : d.nameZh}</div>
+          <div><span class="num">${d.num}</span><span class="unit">${lang === "en" ? d.unitEn : d.unitZh}</span></div>
+          ${d.delta ? `<div class="delta">▲ ${d.delta}</div>` : ""}
+        </div>
+      `).join("");
+    }
 
-let LANG = (new URLSearchParams(location.search).get("lang")==="en") ? "en" : "zh";
-let ACTIVE_DIM = "all";
-let QUERY = "";
+    function renderFilters() {
+      const dims = ["all", "policy", "dynamic", "hot", "fund"];
+      document.getElementById("filterPills").innerHTML = dims.map(d => `
+        <span class="pill ${activeDim === d ? "active" : ""}" onclick="setDim('${d}')">${DICT[d][lang]}</span>
+      `).join("");
+    }
 
-function t(k){return (DICT[LANG]&&DICT[LANG][k]!=null)?DICT[LANG][k]:(DICT.zh[k]||k);}
-function dItem(it,f){return it[f+LANG.charAt(0).toUpperCase()+LANG.slice(1)];}
-function field(it,base){ // base: 'title'|'sum'|'src' -> returns zh/en, EN falls back to ZH if empty
-  if(LANG!=="en") return it[base+"Zh"];
-  const en=it[base+"En"];
-  return (en&&String(en).trim())?en:it[base+"Zh"];
-}
-function esc(s){return s;} // content is trusted, internal
+    function setDim(d) {
+      activeDim = d;
+      renderFilters();
+      renderNews();
+    }
 
-function applyStaticText(){
-  document.documentElement.lang = (LANG==="en")?"en":"zh";
-  document.title = (LANG==="en"?"IP & Trademark Intelligence Workbench":"知识产权·商标专利 主题资讯工作台");
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const k=el.getAttribute("data-i18n");
-    if(k==="langToggle") return; // handled separately
-    el.innerHTML = t(k);
-  });
-  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{el.placeholder=t(el.getAttribute("data-i18n-ph"));});
-  document.getElementById("btnLang").textContent = t("langToggle");
-  const cb=document.getElementById("companyBar");
-  if(cb) cb.innerHTML = t("companyLine");
-  document.getElementById("lead").innerHTML = t("lead");
-  document.getElementById("summaryBody").innerHTML = t("summaryText").map(p=>"<p>"+p+"</p>").join("");
-  // footer
-  document.getElementById("footerBody").innerHTML =
-    "<div>"+t("footerSource")+"</div><div style='margin-top:6px'>"+t("footerNote")+"</div>";
-  // meta strip
-  const today = new Date().toISOString().slice(0,10);
-  document.getElementById("metaStrip").innerHTML =
-    "<span><b>"+t("footerSource").split("：")[0].split(":")[0]+"</b> · "+t("dimDynamic")+" / "+t("dimHot")+" / "+t("dimFund")+" / "+t("dimPolicy")+"</span>"+
-    "<span><b>"+t("dateLabel")+"</b> "+today+"</span>"+
-    "<span><b>"+t("itemsLabel")+"</b> "+ITEMS.length+"</span>";
-}
+    function renderNews() {
+      const kw = document.getElementById("searchInput").value.trim().toLowerCase();
+      const filtered = ITEMS.filter(it => {
+        if (activeDim !== "all" && it.dim !== activeDim) return false;
+        if (!kw) return true;
+        const hay = (field(it, "title") + " " + field(it, "sum") + " " + field(it, "src")).toLowerCase();
+        return hay.includes(kw);
+      }).slice(0, 120);
+      const box = document.getElementById("newsList");
+      if (!filtered.length) {
+        box.innerHTML = `<div class="empty-tip">${DICT.noResult[lang]}</div>`;
+        return;
+      }
+      box.innerHTML = filtered.map(it => `
+        <div class="news-item ${dimClass(it.dim)}">
+          <div class="news-dot"></div>
+          <div>
+            <div class="news-meta">${it.date} ${tagHtml(it.dim)} <span class="news-source">${DICT.source[lang]}: ${field(it, "src")}</span></div>
+            <div class="news-title"><a href="${it.url}" target="_blank">${field(it, "title")}</a></div>
+            <div class="news-sum">${field(it, "sum")}</div>
+          </div>
+        </div>
+      `).join("");
+    }
 
-function buildNav(){
-  const nav=document.getElementById("navlinks");
-  const links=[{k:"all",label:t("navAll")}].concat(DIMS.map(d=>({k:d,label:t("dim"+d.charAt(0).toUpperCase()+d.slice(1))})));
-  nav.innerHTML = links.map(l=>'<a href="#dim-'+(l.k==="all"?"top":l.k)+'" data-nav="'+l.k+'">'+l.label+'</a>').join("");
-}
+    // 历史快照：年月日三下拉
+    function initHistoryPickers() {
+      const yearSel = document.getElementById("yearSel");
+      const monthSel = document.getElementById("monthSel");
+      const daySel = document.getElementById("daySel");
+      yearSel.innerHTML = "";
+      monthSel.innerHTML = "";
+      daySel.innerHTML = "";
 
-function buildChips(){
-  const chips=document.getElementById("chips");
-  const all=[{k:"all",label:t("navAll")}].concat(DIMS.map(d=>({k:d,label:t("dim"+d.charAt(0).toUpperCase()+d.slice(1))})));
-  chips.innerHTML = all.map(c=>'<span class="chip'+(ACTIVE_DIM===c.k?" active":"")+'" data-chip="'+c.k+'">'+c.label+'</span>').join("");
-  chips.querySelectorAll(".chip").forEach(ch=>{
-    ch.onclick=()=>{ACTIVE_DIM=ch.getAttribute("data-chip");buildChips();renderNews();};
-  });
-}
+      const dates = HISTORY_DATES.map(d => new Date(d + "T00:00:00"));
+      const years = [...new Set(dates.map(d => d.getFullYear()))].sort((a, b) => b - a);
+      years.forEach(y => yearSel.add(new Option(y + (lang === "zh" ? "年" : ""), y)));
 
-function buildStats(){
-  document.getElementById("stats").innerHTML = STATS.map(s=>{
-    const cap = (LANG==="en")?t(s.capKey):t(s.capKey);
-    return '<div class="stat"><div class="num">'+s.num+'<span class="unit">'+t(s.unitKey)+'</span></div><div class="cap">'+t(s.key)+'<br>'+cap+'</div></div>';
-  }).join("");
-}
+      for (let m = 1; m <= 12; m++) {
+        monthSel.add(new Option((lang === "zh" ? m + "月" : m.toString().padStart(2, "0")), m));
+      }
 
-function filtered(){
-  let list = ITEMS.slice();
-  if(ACTIVE_DIM!=="all") list = list.filter(it=>it.dim===ACTIVE_DIM);
-  if(QUERY){
-    const q=QUERY.toLowerCase();
-    list = list.filter(it=>(it.titleZh+it.titleEn+it.sumZh+it.sumEn+it.srcZh+it.srcEn).toLowerCase().includes(q));
-  }
-  list.sort((a,b)=> b.date.localeCompare(a.date));
-  return list;
-}
+      const today = getLatestDate();
+      const [ty, tm, td] = today.split("-").map(Number);
+      yearSel.value = ty;
+      monthSel.value = tm;
+      updateDayOptions(ty, tm);
+      daySel.value = td;
+    }
 
-function renderNews(){
-  const root=document.getElementById("newsRoot");
-  const list=filtered();
-  if(!list.length){root.innerHTML='<div class="empty">'+t("noResult")+'</div>';return;}
-  let html="";
-  if(ACTIVE_DIM==="all"){
-    DIMS.forEach(d=>{
-      const sub=list.filter(it=>it.dim===d);
-      if(!sub.length) return;
-      html+=dimBlock(d,sub);
-    });
-  }else{
-    html+=dimBlock(ACTIVE_DIM,list);
-  }
-  root.innerHTML=html;
-}
+    function updateDayOptions(year, month) {
+      const daySel = document.getElementById("daySel");
+      const oldVal = daySel.value;
+      daySel.innerHTML = "";
+      const daysInMonth = new Date(year, month, 0).getDate();
+      // 只显示在 HISTORY_DATES 中存在的日期
+      const availableDays = new Set(HISTORY_DATES.filter(d => {
+        const [y, m] = d.split("-").map(Number);
+        return y === year && m === month;
+      }).map(d => Number(d.split("-")[2])));
+      for (let d = 1; d <= daysInMonth; d++) {
+        if (!availableDays.has(d)) continue;
+        daySel.add(new Option((lang === "zh" ? d + "日" : d.toString().padStart(2, "0")), d));
+      }
+      if ([...daySel.options].some(o => o.value === oldVal)) {
+        daySel.value = oldVal;
+      } else if (daySel.options.length) {
+        daySel.value = daySel.options[0].value;
+      }
+    }
 
-function dimBlock(d,items){
-  const id = (d==="all")?"top":d;
-  let h='<div class="dim-block" id="dim-'+id+'">';
-  h+='<div class="dim-head"><span class="tag">'+t("dim"+d.charAt(0).toUpperCase()+d.slice(1))+'</span>'+
-      '<span class="en">'+t("dim"+d.charAt(0).toUpperCase()+d.slice(1)+"En")+'</span>'+
-      '<span class="cnt">'+items.length+' '+t("itemsLabel")+'</span></div>';
-  h+='<div class="dim-bar"></div>';
-  items.forEach(it=>{
-    h+='<article class="item">'+
-        '<div class="date">'+it.date+'<small>'+t("dateLabel")+'</small></div>'+
-        '<div class="body"><h3>'+field(it,"title")+'</h3>'+
-        '<p>'+field(it,"sum")+'</p>'+
-        '<div class="meta"><span class="src">'+t("sourceLabel")+'：'+field(it,"src")+'</span>'+
-        '<a class="ext" href="'+it.url+'" target="_blank" rel="noopener">'+it.url.replace(/^https?:\/\//,'').split('/')[0]+'</a></div>'+
-        '</div></article>';
-  });
-  h+='</div>';
-  return h;
-}
+    function onYearChange() {
+      const y = Number(document.getElementById("yearSel").value);
+      const m = Number(document.getElementById("monthSel").value);
+      updateDayOptions(y, m);
+      renderHistory();
+    }
 
-function renderAll(){
-  applyStaticText();
-  buildNav();
-  buildChips();
-  buildStats();
-  renderNews();
-  initArchive();
-}
+    function onMonthChange() {
+      const y = Number(document.getElementById("yearSel").value);
+      const m = Number(document.getElementById("monthSel").value);
+      updateDayOptions(y, m);
+      renderHistory();
+    }
 
-/* 历史快照：填充日期下拉 + 前端渲染「截至该日的真实汇总」 */
-let _archiveBound=false;
-function initArchive(){
-  const sel=document.getElementById("archiveSel"); if(!sel) return;
-  sel.innerHTML='<option value="">'+t("archiveTitle")+'</option>';
-  (HISTORY_DATES||[]).forEach(d=>{
-    const o=document.createElement("option");
-    o.value=d;
-    o.textContent=d;
-    sel.appendChild(o);
-  });
-  if(!_archiveBound){
-    sel.addEventListener("change",onArchiveChange);
-    document.getElementById("archiveClose").addEventListener("click",()=>{
-      document.getElementById("archiveOverlay").classList.remove("open");
-      document.getElementById("archiveBody").innerHTML="";
-      sel.value="";
-    });
-    _archiveBound=true;
-  }
-}
-function onArchiveChange(){
-  const sel=this;
-  const d=sel.value;
-  const overlay=document.getElementById("archiveOverlay");
-  const body=document.getElementById("archiveBody");
-  const label=document.getElementById("archiveLabel");
-  if(!d){ overlay.classList.remove("open"); body.innerHTML=""; return; }
-  label.textContent=t("archiveTitle")+": "+d;
-  // 截至所选日期的真实资讯（date <= d），按日期倒序
-  const list=ITEMS.filter(it=>it.date<=d).sort((a,b)=>b.date.localeCompare(a.date));
-  let html='<div class="archive-head">'+t("archiveHead").replace("{d}",d).replace("{n}",list.length)+'</div>';
-  if(!list.length){ html+='<div class="empty">'+t("noResult")+'</div>'; }
-  else {
-    DIMS.forEach(dim=>{
-      const sub=list.filter(it=>it.dim===dim);
-      if(!sub.length) return;
-      html+=dimBlock(dim,sub);
-    });
-  }
-  body.innerHTML=html;
-  overlay.classList.add("open");
-}
+    function goToday() {
+      const today = getLatestDate();
+      const [y, m, d] = today.split("-").map(Number);
+      document.getElementById("yearSel").value = y;
+      document.getElementById("monthSel").value = m;
+      updateDayOptions(y, m);
+      document.getElementById("daySel").value = d;
+      renderHistory();
+    }
 
-/* language toggle */
-document.getElementById("btnLang").addEventListener("click",()=>{
-  LANG = (LANG==="zh")?"en":"zh";
-  const params=new URLSearchParams(location.search);
-  if(LANG==="en") params.set("lang","en"); else params.delete("lang");
-  const newUrl = location.pathname + (params.toString()?"?"+params.toString():"") + location.hash;
-  history.replaceState(null,"",newUrl);
-  renderAll();
-});
+    function renderHistory() {
+      const y = document.getElementById("yearSel").value.padStart(4, "0");
+      const m = document.getElementById("monthSel").value.padStart(2, "0");
+      const d = document.getElementById("daySel").value.padStart(2, "0");
+      const selected = `${y}-${m}-${d}`;
+      const list = ITEMS.filter(it => it.date === selected);
+      const box = document.getElementById("historyTimeline");
+      if (!list.length) {
+        box.innerHTML = `<div class="empty-tip">${DICT.noNewsDay[lang]}</div>`;
+        return;
+      }
+      box.innerHTML = list.map(it => `
+        <div class="timeline-item ${dimClass(it.dim)}">
+          <div class="timeline-date">${selected} ${tagHtml(it.dim)}</div>
+          <div class="timeline-title"><a href="${it.url}" target="_blank">${field(it, "title")}</a><span class="timeline-source">${field(it, "src")}</span></div>
+          <div class="timeline-sum">${field(it, "sum")}</div>
+        </div>
+      `).join("");
+    }
 
-/* search */
-document.getElementById("searchInput").addEventListener("input",e=>{QUERY=e.target.value.trim();renderNews();});
+    function exportData() {
+      const blob = new Blob([JSON.stringify(ITEMS, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "ip_data.json";
+      a.click();
+    }
 
-/* back to top */
-const toTop=document.getElementById("toTop");
-window.addEventListener("scroll",()=>{toTop.classList.toggle("show",window.scrollY>500);});
-toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+    function importData(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data) && data.length) {
+            ITEMS.length = 0;
+            data.forEach(x => ITEMS.push(x));
+            renderAll();
+            alert(lang === "zh" ? "导入成功" : "Import successful");
+          }
+        } catch (err) {
+          alert(lang === "zh" ? "导入失败：格式错误" : "Import failed: invalid format");
+        }
+      };
+      reader.readAsText(file);
+      input.value = "";
+    }
 
-/* go */
-renderAll();
-</script>
+    function renderAll() {
+      renderToday();
+      drawCharts();
+      renderMetrics();
+      renderFilters();
+      renderNews();
+      renderHistory();
+    }
+
+    // 初始化
+    applyStaticText();
+    initHistoryPickers();
+    renderAll();
+
+    // URL ?lang=en
+    const params = new URLSearchParams(location.search);
+    if (params.get("lang") === "en") setLang("en");
+  </script>
 </body>
 </html>
