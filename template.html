@@ -127,6 +127,12 @@ a:hover { text-decoration: underline; }
 .timeline-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
 .timeline-sum { font-size: 13px; color: var(--text-sec); margin-bottom: 6px; }
 .timeline-src { font-size: 12px; color: var(--text-hint); }
+.timeline-src a { color: var(--text-sec); font-weight: 500; }
+.timeline-src a:hover { color: var(--brand); }
+.timeline-src .ext { font-size: 10px; opacity: .7; margin-left: 2px; }
+.ov-src { font-size: 12px; color: var(--text-hint); margin-left: 2px; white-space: nowrap; }
+.ov-src a { color: var(--text-hint); }
+.ov-src a:hover { color: var(--brand); }
 
 /* Filter bar */
 .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 20px; padding: 12px 0; border-bottom: 1px solid var(--border); }
@@ -274,6 +280,7 @@ let selectedDate = new Date().toISOString().slice(0, 10);
 function t(key) { return DICT[lang][key] || key; }
 function dimLabel(d) { return DIM_LABEL[lang][d] || d; }
 function dimRank(d) { return DIM_ORDER[d] === undefined ? 9 : DIM_ORDER[d]; }
+function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
 
 function applyStaticText() {
   document.getElementById("dateHint").textContent = t("dateHint");
@@ -421,7 +428,8 @@ function renderRange() {
     const shown = list.slice(0, cap);
     ovList.innerHTML = shown.map(it => {
       const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
-      return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a></li>`;
+      const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
+      return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a><span class="ov-src">· <a href="${it.url}" target="_blank">${src}</a></span></li>`;
     }).join("") + (list.length > cap ? `<li class="empty" style="padding:8px 0;">…共 ${list.length} ${t("more")}</li>` : "");
   }
 
@@ -438,11 +446,13 @@ function renderRange() {
     const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
     const sum = it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh;
     const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
+    const dom = host(it.url);
+    const srcLabel = lang === "zh" ? "来源" : "Source";
     html += `<div class="timeline-item"><div class="timeline-dot ${it.dim}"></div>
       <div class="timeline-meta"><span class="timeline-tag">${dimLabel(it.dim)}</span></div>
       <div class="timeline-title"><a href="${it.url}" target="_blank">${title}</a></div>
       <div class="timeline-sum">${sum}</div>
-      <div class="timeline-src">${lang === "zh" ? "来源" : "Source"}: ${src}</div></div>`;
+      <div class="timeline-src"><a href="${it.url}" target="_blank">${srcLabel}：${src} · ${dom}<span class="ext">↗</span></a></div></div>`;
   });
   timeline.innerHTML = html;
 }

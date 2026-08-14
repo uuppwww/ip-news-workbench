@@ -3,12 +3,11 @@
 """
 生成 2025-01-01 ~ today 的每日知识产权主题资讯数据。
 维度：ip(知识产权综合) / trademark(商标) / patent(专利) / project(项目申报) / policy(国家政策) / hot(热点案例)
-原则：每天至少 1 条；真实锚点事件精确入位；链接指向百度检索（可点击跳转真实来源）。
+原则：每天至少 1 条；真实锚点事件精确入位；链接直达权威来源官网（非搜索引擎）。
 """
 import json
 import random
 from datetime import date, timedelta
-from urllib.parse import quote
 
 START = date(2025, 1, 1)
 END = date.today()
@@ -226,9 +225,33 @@ SOURCES = {
     "hot": [("最高人民法院", "Supreme People's Court"), ("中国裁判文书网", "China Judgments Online"), ("法治日报", "Legal Daily"), ("澎湃新闻", "The Paper"), ("财新网", "Caixin")],
 }
 
-# 真实可点击的链接：跳转百度检索，便于找到原文来源
-def url_for(title):
-    return "https://www.baidu.com/s?wd=" + quote(title)
+# 权威来源官网直达（非搜索引擎）：点击资讯直接到达发布机构原始站点
+SRC_URL = {
+    "国家知识产权局": "https://www.cnipa.gov.cn/",
+    "商标局": "https://sbj.cnipa.gov.cn/",
+    "国务院": "https://www.gov.cn/",
+    "中国政府网": "https://www.gov.cn/",
+    "新华社": "https://www.news.cn/",
+    "经济日报": "https://www.ce.cn/",
+    "中国知识产权报": "http://www.cipnews.com.cn/",
+    "世界知识产权组织": "https://www.wipo.int/",
+    "工业和信息化部": "https://www.miit.gov.cn/",
+    "科技部": "https://www.most.gov.cn/",
+    "科学技术部": "https://www.most.gov.cn/",
+    "各省市科技厅": "https://www.most.gov.cn/",
+    "国家税务总局": "https://www.chinatax.gov.cn/",
+    "全国人大": "http://www.npc.gov.cn/",
+    "司法部": "https://www.moj.gov.cn/",
+    "最高人民法院": "https://www.court.gov.cn/",
+    "中国裁判文书网": "https://wenshu.court.gov.cn/",
+    "法治日报": "http://www.legaldaily.com.cn/",
+    "澎湃新闻": "https://www.thepaper.cn/",
+    "财新网": "https://www.caixin.com/",
+}
+DEFAULT_URL = "https://www.cnipa.gov.cn/"
+
+def url_for(src_zh):
+    return SRC_URL.get(src_zh, DEFAULT_URL)
 
 # hot 案例标题池：基于真实案件类型的具体事件
 HOT_TITLES = [
@@ -355,7 +378,6 @@ def summary_for(title, dim):
 
 def build_items():
     items = []
-    seen_urls = set()
     seen_titles = set()
     cur = START
     while cur <= END:
@@ -364,7 +386,7 @@ def build_items():
         if key in ANCHORS:
             for dim, tzh, ten in ANCHORS[key]:
                 src = pick_source(dim)
-                url = url_for(tzh)
+                url = url_for(src[0])
                 szh, sen = summary_for(tzh, dim)
                 day_items.append({"dim": dim, "date": key, "url": url,
                                   "srcZh": src[0], "srcEn": src[1],
@@ -395,10 +417,9 @@ def build_items():
                 if tzh in seen_titles:
                     continue
             src = pick_source(dim)
-            url = url_for(tzh)
-            if url in seen_urls or tzh in seen_titles:
+            url = url_for(src[0])
+            if tzh in seen_titles:
                 continue
-            seen_urls.add(url)
             seen_titles.add(tzh)
             szh, sen = summary_for(tzh, dim)
             day_items.append({"dim": dim, "date": key, "url": url,

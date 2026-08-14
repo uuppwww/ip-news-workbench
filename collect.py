@@ -109,12 +109,14 @@ def fetch_rss():
                     continue
                 dim = classify(title)
                 szh, sen = summarize(title, dim)
+                # 来源取自真实文章域名，明确标出出处
+                host = (urlparse(link).hostname or "").replace("www.", "")
                 items.append({
                     "dim": dim,
                     "date": today,
                     "url": link,
-                    "srcZh": "网络资讯",
-                    "srcEn": "Web News",
+                    "srcZh": host or "网络资讯",
+                    "srcEn": host or "Web News",
                     "titleZh": title,
                     "titleEn": translate_title(title),
                     "sumZh": szh,
