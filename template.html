@@ -6,198 +6,138 @@
   <title>知识产权·商标专利 主题资讯</title>
   <style>
     :root {
-      --bg: #f5f7fa;
+      --bg: #f4f6f9;
       --card: #ffffff;
-      --text: #1f2937;
-      --muted: #4b5563;
-      --accent: #b91c1c;
-      --accent-light: #fee2e2;
-      --policy: #1e40af;
-      --dynamic: #047857;
-      --hot: #b91c1c;
-      --fund: #7c3aed;
-      --border: #e5e7eb;
-      --shadow: 0 4px 20px rgba(0,0,0,0.08);
-      --radius: 12px;
+      --ink: #16243b;
+      --muted: #5b6b82;
+      --line: #e3e8ef;
+      --brand: #1d4e89;
+      --brand-2: #14365c;
+      --brand-soft: #eaf1fa;
+      --policy: #1d4e89;
+      --dynamic: #0f766e;
+      --hot: #b45309;
+      --fund: #5b21b6;
+      --shadow: 0 2px 10px rgba(20,40,80,0.06);
+      --radius: 10px;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0;
+      margin: 0; background: var(--bg); color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
-    header {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .logo {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: linear-gradient(135deg, #1f2937 0%, #b91c1c 100%);
-      color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 18px;
-    }
-    .brand h1 { margin: 0; font-size: 22px; }
-    .brand p { margin: 0; color: var(--muted); font-size: 13px; }
-    .tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .btn {
-      border: 1px solid var(--border); background: #fff; color: var(--text);
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
-      display: inline-flex; align-items: center; gap: 6px; transition: .2s;
-    }
-    .btn:hover { background: #f9fafb; border-color: #d1d5db; }
-    .lang-switch { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .lang-switch button {
-      border: none; background: #fff; padding: 8px 14px; cursor: pointer; font-weight: 600;
-    }
-    .lang-switch button.active { background: #1f2937; color: #fff; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 22px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 42px; height: 42px; border-radius: 9px; background: linear-gradient(135deg, #1d4e89, #14365c);
+      color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 17px; letter-spacing: 1px; }
+    .brand h1 { margin: 0; font-size: 21px; color: var(--brand-2); }
+    .brand p { margin: 0; color: var(--muted); font-size: 12.5px; }
+    .lang-switch { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+    .lang-switch button { border: none; background: #fff; padding: 7px 13px; cursor: pointer; font-weight: 600; font-size: 13px; color: var(--muted); }
+    .lang-switch button.active { background: var(--brand); color: #fff; }
 
-    /* 公司栏 */
+    /* 公司栏：名片式，深蓝+中性，不红 */
     .company-bar {
-      background: linear-gradient(135deg, #fff 0%, #fef2f2 100%);
-      border: 1px solid #fecaca;
-      border-left: 5px solid var(--accent);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px 26px;
-      margin-bottom: 24px;
-      display: flex; flex-direction: column; gap: 14px;
+      background: #fff; border: 1px solid var(--line); border-left: 5px solid var(--brand);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 24px; margin-bottom: 18px;
     }
     .company-name {
-      font-size: 26px; font-weight: 800; color: #7f1d1d;
-      letter-spacing: 1px; display: flex; align-items: center; gap: 12px;
+      font-size: 23px; font-weight: 800; color: var(--brand-2); letter-spacing: .5px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
     }
-    .company-name::before {
-      content: ""; width: 8px; height: 28px; background: var(--accent); border-radius: 4px;
-    }
-    .company-contacts {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;
-    }
+    .company-name .mark { width: 9px; height: 22px; background: var(--brand); border-radius: 3px; }
+    .company-contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
     .contact-card {
-      background: #fff; border: 1px solid #fecaca; border-radius: 10px;
-      padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+      background: var(--brand-soft); border: 1px solid #d7e3f4; border-radius: 9px;
+      padding: 12px 14px; display: flex; align-items: center; gap: 11px;
     }
-    .contact-icon {
-      width: 38px; height: 38px; border-radius: 50%; background: var(--accent-light);
-      color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 15px;
-      flex-shrink: 0;
-    }
-    .contact-info .label { font-size: 12px; color: var(--muted); }
-    .contact-info .value { font-size: 15px; font-weight: 700; color: #1f2937; }
-    .company-slogan { font-size: 13px; color: var(--muted); }
+    .contact-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--brand); color: #fff;
+      display: grid; place-items: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .contact-info .label { font-size: 11.5px; color: var(--muted); }
+    .contact-info .value { font-size: 14.5px; font-weight: 700; color: var(--brand-2); }
+    .company-slogan { font-size: 12.5px; color: var(--muted); margin-top: 12px; border-top: 1px dashed var(--line); padding-top: 10px; }
 
-    /* 今日要览 */
-    .today {
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 22px 26px; margin-bottom: 24px;
-    }
-    .today h2 { margin: 0 0 14px; font-size: 18px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-    .today ul { margin: 0; padding-left: 18px; }
-    .today li { margin-bottom: 8px; }
-    .today .tag { font-size: 11px; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-weight: 600; }
-    .tag-policy { background: #dbeafe; color: var(--policy); }
-    .tag-dynamic { background: #d1fae5; color: var(--dynamic); }
-    .tag-hot { background: var(--accent-light); color: var(--hot); }
-    .tag-fund { background: #ede9fe; color: var(--fund); }
-
-    /* 图表 */
-    .section {
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 22px 26px; margin-bottom: 24px;
-    }
-    .section-title { font-size: 18px; margin: 0 0 18px; display: flex; align-items: center; gap: 8px; }
+    /* 通用区块 */
+    .section { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 20px 24px; margin-bottom: 18px; }
+    .section-title { font-size: 17px; margin: 0 0 16px; color: var(--brand-2); display: flex; align-items: center; gap: 8px; }
     .section-title span.en { font-size: 12px; color: var(--muted); margin-left: auto; font-weight: 400; }
-    .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .chart { background: #f9fafb; border-radius: 10px; padding: 16px; }
-    .chart h4 { margin: 0 0 10px; font-size: 14px; color: var(--muted); }
-    .chart svg { width: 100%; height: auto; }
 
-    /* 关键数据 */
-    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-    .metric { padding: 18px; border-radius: 10px; background: #f9fafb; border: 1px solid var(--border); }
-    .metric .name { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-    .metric .num { font-size: 28px; font-weight: 800; color: var(--text); }
-    .metric .unit { font-size: 14px; color: var(--muted); font-weight: 500; }
-    .metric .delta { font-size: 12px; color: var(--accent); margin-top: 6px; font-weight: 600; }
-
-    /* 资讯列表 */
-    .controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-    .controls input {
-      flex: 1; min-width: 220px; padding: 10px 14px; border: 1px solid var(--border);
-      border-radius: 8px; font-size: 14px;
-    }
-    .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-    .pill {
-      padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
-      background: #fff; cursor: pointer; font-size: 13px; user-select: none;
-    }
-    .pill.active { background: #1f2937; color: #fff; border-color: #1f2937; }
-    .news-list { display: flex; flex-direction: column; gap: 14px; }
-    .news-item {
-      border: 1px solid var(--border); border-radius: 10px; padding: 16px;
-      display: flex; gap: 14px; transition: .2s;
-    }
-    .news-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-    .news-dot {
-      width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; flex-shrink: 0;
-      background: #9ca3af;
-    }
-    .news-item.policy .news-dot { background: var(--policy); }
-    .news-item.dynamic .news-dot { background: var(--dynamic); }
-    .news-item.hot .news-dot { background: var(--hot); }
-    .news-item.fund .news-dot { background: var(--fund); }
-    .news-meta { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-    .news-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-    .news-title a { color: var(--text); text-decoration: none; }
-    .news-title a:hover { color: var(--accent); text-decoration: underline; }
-    .news-sum { font-size: 14px; color: var(--muted); }
-    .news-source { display: inline-block; margin-left: 8px; font-size: 11px; color: #6b7280; }
-
-    /* 历史快照 */
-    .history-box {
-      background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
-      padding: 22px 26px; margin-bottom: 24px;
-      border-top: 4px solid #1f2937;
-    }
-    .history-title { font-size: 18px; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
-    .history-title .hint { font-size: 12px; color: var(--muted); margin-left: auto; font-weight: 400; }
-    .date-pickers { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
-    .date-pickers label { font-size: 13px; color: var(--muted); }
-    .date-pickers select {
-      padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
-      font-size: 14px; background: #fff; min-width: 78px;
-    }
-    .date-pickers select:focus { outline: none; border-color: #1f2937; }
-    .timeline {
-      position: relative; padding-left: 22px; border-left: 3px solid #374151;
-      margin: 0 0 16px;
-    }
-    .timeline-item {
-      position: relative; padding-bottom: 18px;
-    }
-    .timeline-item::before {
-      content: ""; position: absolute; left: -29px; top: 4px;
-      width: 12px; height: 12px; border-radius: 50%; background: #1f2937;
-      border: 2px solid #fff; box-shadow: 0 0 0 2px #1f2937;
-    }
+    /* 历史快照（位置提前，向上融入） */
+    .history-box { border-top: 3px solid var(--brand); }
+    .date-pickers { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .date-pickers label { font-size: 12.5px; color: var(--muted); }
+    .date-pickers select { padding: 8px 11px; border: 1px solid var(--line); border-radius: 7px; font-size: 13.5px;
+      background: #fff; min-width: 76px; color: var(--ink); }
+    .date-pickers select:focus { outline: none; border-color: var(--brand); }
+    .btn-today { padding: 8px 14px; border: 1px solid var(--brand); background: #fff; color: var(--brand);
+      border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 600; }
+    .btn-today:hover { background: var(--brand-soft); }
+    .timeline { position: relative; padding-left: 20px; border-left: 3px solid var(--brand-2); margin: 0 0 6px; }
+    .timeline-item { position: relative; padding-bottom: 16px; }
+    .timeline-item::before { content: ""; position: absolute; left: -27px; top: 5px; width: 11px; height: 11px;
+      border-radius: 50%; background: var(--brand-2); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--brand-2); }
     .timeline-item.policy::before { background: var(--policy); box-shadow: 0 0 0 2px var(--policy); }
     .timeline-item.dynamic::before { background: var(--dynamic); box-shadow: 0 0 0 2px var(--dynamic); }
     .timeline-item.hot::before { background: var(--hot); box-shadow: 0 0 0 2px var(--hot); }
     .timeline-item.fund::before { background: var(--fund); box-shadow: 0 0 0 2px var(--fund); }
-    .timeline-date { font-size: 13px; font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+    .timeline-date { font-size: 12.5px; font-weight: 700; color: var(--brand-2); margin-bottom: 3px; }
     .timeline-title { font-size: 15px; font-weight: 700; }
-    .timeline-title a { color: var(--text); text-decoration: none; }
-    .timeline-title a:hover { color: var(--accent); text-decoration: underline; }
-    .timeline-sum { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .timeline-source { font-size: 11px; color: #6b7280; margin-left: 6px; }
-    .empty-tip { color: var(--muted); font-size: 14px; padding: 10px 0; }
+    .timeline-title a { color: var(--ink); text-decoration: none; }
+    .timeline-title a:hover { color: var(--brand); text-decoration: underline; }
+    .timeline-sum { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    .timeline-source { font-size: 11px; color: #8896a8; margin-left: 6px; }
+    .empty-tip { color: var(--muted); font-size: 13.5px; padding: 8px 0; }
 
-    footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 20px; }
+    /* 今日要览 */
+    .today ul { margin: 0; padding-left: 18px; }
+    .today li { margin-bottom: 7px; }
+    .tag { font-size: 10.5px; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: 600; }
+    .tag-policy { background: #e3ecf8; color: var(--policy); }
+    .tag-dynamic { background: #d7f0ec; color: var(--dynamic); }
+    .tag-hot { background: #fae8d3; color: var(--hot); }
+    .tag-fund { background: #ead9f6; color: var(--fund); }
+
+    /* 图表 */
+    .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+    .chart { background: #fafbfd; border: 1px solid var(--line); border-radius: 9px; padding: 14px; }
+    .chart h4 { margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+    .chart svg { width: 100%; height: auto; }
+
+    /* 关键数据 */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 14px; }
+    .metric { padding: 16px; border-radius: 9px; background: #fafbfd; border: 1px solid var(--line); }
+    .metric .name { font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+    .metric .num { font-size: 26px; font-weight: 800; color: var(--brand-2); }
+    .metric .unit { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .metric .delta { font-size: 11.5px; color: var(--brand); margin-top: 5px; font-weight: 600; }
+
+    /* 资讯列表 */
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .controls input { flex: 1; min-width: 220px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 7px; font-size: 13.5px; }
+    .filter-pills { display: flex; gap: 7px; flex-wrap: wrap; }
+    .pill { padding: 6px 11px; border-radius: 18px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-size: 12.5px; user-select: none; color: var(--muted); }
+    .pill.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .news-list { display: flex; flex-direction: column; gap: 12px; }
+    .news-item { border: 1px solid var(--line); border-radius: 9px; padding: 14px; display: flex; gap: 13px; }
+    .news-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; background: #9ca3af; }
+    .news-item.policy .news-dot { background: var(--policy); }
+    .news-item.dynamic .news-dot { background: var(--dynamic); }
+    .news-item.hot .news-dot { background: var(--hot); }
+    .news-item.fund .news-dot { background: var(--fund); }
+    .news-meta { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+    .news-title { font-size: 15.5px; font-weight: 700; margin-bottom: 5px; }
+    .news-title a { color: var(--ink); text-decoration: none; }
+    .news-title a:hover { color: var(--brand); text-decoration: underline; }
+    .news-sum { font-size: 13.5px; color: var(--muted); }
+    .news-source { display: inline-block; margin-left: 7px; font-size: 11px; color: #8896a8; }
+
+    footer { text-align: center; color: #9aa6b8; font-size: 12px; padding: 18px; }
 
     @media (max-width: 768px) {
-      .company-name { font-size: 20px; }
+      .company-name { font-size: 19px; }
       .charts { grid-template-columns: 1fr; }
       .metrics { grid-template-columns: 1fr 1fr; }
     }
@@ -213,20 +153,15 @@
           <p id="pageSub">调研报告 · 多维度资讯整理</p>
         </div>
       </div>
-      <div class="tools">
-        <button class="btn" onclick="exportData()">⬇ <span id="btnExport">导出</span></button>
-        <button class="btn" onclick="document.getElementById('importFile').click()">⬆ <span id="btnImport">导入</span></button>
-        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
-        <div class="lang-switch">
-          <button id="btnZh" class="active" onclick="setLang('zh')">中</button>
-          <button id="btnEn" onclick="setLang('en')">EN</button>
-        </div>
+      <div class="lang-switch">
+        <button id="btnZh" class="active" onclick="setLang('zh')">中</button>
+        <button id="btnEn" onclick="setLang('en')">EN</button>
       </div>
     </header>
 
     <!-- 公司栏 -->
     <section class="company-bar">
-      <div class="company-name" id="companyName">苏州顺捷知识产权代理有限公司</div>
+      <div class="company-name" id="companyName"><span class="mark"></span><span>苏州顺捷知识产权代理有限公司</span></div>
       <div class="company-contacts">
         <div class="contact-card">
           <div class="contact-icon">杨</div>
@@ -246,9 +181,30 @@
       <div class="company-slogan" id="companySlogan">专业代理 · 商标 · 专利 · 版权 · 知识产权维权</div>
     </section>
 
+    <!-- 历史快照（位置提前，融入布局） -->
+    <section class="section history-box">
+      <div class="section-title" id="historyTitle">
+        <span>📅</span><span id="txtHistory">历史快照</span>
+        <span class="en" id="txtHistoryHint">选择年月日查看当天资讯</span>
+      </div>
+      <div class="date-pickers">
+        <label id="lblYear">年</label>
+        <select id="yearSel" onchange="onYearChange()"></select>
+        <label id="lblMonth">月</label>
+        <select id="monthSel" onchange="onMonthChange()"></select>
+        <label id="lblDay">日</label>
+        <select id="daySel" onchange="renderHistory()"></select>
+        <button class="btn-today" onclick="goToday()" id="btnToday">回到今天</button>
+      </div>
+      <div class="timeline" id="historyTimeline"></div>
+    </section>
+
     <!-- 今日要览 -->
-    <section class="today">
-      <h2 id="todayTitle">⚡ 今日要览 — 值得关注的最新动态</h2>
+    <section class="section today">
+      <div class="section-title" id="todayTitle">
+        <span>⚡</span><span id="txtToday">今日要览</span>
+        <span class="en" id="txtTodayEn">Today's Highlights</span>
+      </div>
       <ul id="todayList"></ul>
     </section>
 
@@ -296,24 +252,6 @@
       <div class="news-list" id="newsList"></div>
     </section>
 
-    <!-- 历史快照 -->
-    <section class="history-box">
-      <div class="history-title" id="historyTitle">
-        <span>📅</span><span id="txtHistory">历史快照</span>
-        <span class="hint" id="txtHistoryHint">选择年月日查看当天资讯</span>
-      </div>
-      <div class="date-pickers">
-        <label id="lblYear">年</label>
-        <select id="yearSel" onchange="onYearChange()"></select>
-        <label id="lblMonth">月</label>
-        <select id="monthSel" onchange="onMonthChange()"></select>
-        <label id="lblDay">日</label>
-        <select id="daySel" onchange="renderHistory()"></select>
-        <button class="btn" onclick="goToday()" id="btnToday">回到今天</button>
-      </div>
-      <div class="timeline" id="historyTimeline"></div>
-    </section>
-
     <footer id="footer">知识产权主题资讯工作台 · 每日自动更新</footer>
   </div>
 
@@ -323,13 +261,11 @@
 
     const DICT = {
       pageSub: { zh: "调研报告 · 多维度资讯整理", en: "Research Report · Multi-dimensional News" },
-      btnExport: { zh: "导出", en: "Export" },
-      btnImport: { zh: "导入", en: "Import" },
       companyName: { zh: "苏州顺捷知识产权代理有限公司", en: "Suzhou Shunjie IP Agency Co., Ltd." },
       labelContact1: { zh: "联系人", en: "Contact" },
       labelContact2: { zh: "联系人", en: "Contact" },
       companySlogan: { zh: "专业代理 · 商标 · 专利 · 版权 · 知识产权维权", en: "Trademark · Patent · Copyright · IP Rights Protection" },
-      todayTitle: { zh: "⚡ 今日要览 — 值得关注的最新动态", en: "⚡ Today's Highlights" },
+      txtToday: { zh: "今日要览", en: "Today's Highlights" },
       txtOverview: { zh: "主题概览", en: "Theme Overview" },
       txtMetrics: { zh: "行业基本面 — 关键数据", en: "Industry Key Data" },
       txtNews: { zh: "分维度资讯列表", en: "Categorized News" },
@@ -352,7 +288,6 @@
       noNewsDay: { zh: "当天暂无收录资讯", en: "No news recorded for this day" },
       searchPlaceholder: { zh: "搜索资讯标题、摘要、来源...", en: "Search title, summary, source..." },
       source: { zh: "来源", en: "Source" },
-      today: { zh: "今天", en: "Today" },
     };
 
     let lang = "zh";
@@ -361,8 +296,7 @@
     function field(obj, key) {
       if (!obj) return "";
       const v = obj[key + (lang === "en" ? "En" : "Zh")];
-      if (v) return v;
-      return obj[key + "Zh"] || "";
+      return v || obj[key + "Zh"] || "";
     }
 
     function setLang(l) {
@@ -370,6 +304,7 @@
       document.getElementById("btnZh").className = l === "zh" ? "active" : "";
       document.getElementById("btnEn").className = l === "en" ? "active" : "";
       applyStaticText();
+      initHistoryPickers();
       renderAll();
     }
 
@@ -381,9 +316,7 @@
       document.getElementById("searchInput").placeholder = DICT.searchPlaceholder[lang];
     }
 
-    function dimClass(dim) {
-      return ["policy", "dynamic", "hot", "fund"].includes(dim) ? dim : "";
-    }
+    function dimClass(dim) { return ["policy", "dynamic", "hot", "fund"].includes(dim) ? dim : ""; }
 
     function tagHtml(dim) {
       const map = {
@@ -404,83 +337,48 @@
       const latest = getLatestDate();
       const list = ITEMS.filter(it => it.date === latest).slice(0, 8);
       const ul = document.getElementById("todayList");
-      if (!list.length) {
-        ul.innerHTML = `<li>${DICT.noNewsDay[lang]}</li>`;
-        return;
-      }
+      if (!list.length) { ul.innerHTML = `<li>${DICT.noNewsDay[lang]}</li>`; return; }
       ul.innerHTML = list.map(it => `<li>${tagHtml(it.dim)}<a href="${it.url}" target="_blank">${field(it, "title")}</a></li>`).join("");
     }
 
     function drawCharts() {
-      // 柱状图
-      const barData = [
-        { y: "2021", v: 11.97 }, { y: "2022", v: 12.37 }, { y: "2023", v: 12.88 },
-        { y: "2024", v: 13.31 }, { y: "2025", v: 13.38 },
-      ];
-      const maxV = 15;
-      let barSvg = `<text x="10" y="16" font-size="11" fill="#6b7280">(%)</text>`;
+      const barData = [{ y: "2021", v: 11.97 }, { y: "2022", v: 12.37 }, { y: "2023", v: 12.88 }, { y: "2024", v: 13.31 }, { y: "2025", v: 13.38 }];
+      const maxV = 15; let barSvg = `<text x="10" y="16" font-size="11" fill="#6b7280">(%)</text>`;
       barData.forEach((d, i) => {
-        const x = 30 + i * 58;
-        const h = (d.v / maxV) * 130;
-        const y = 160 - h;
-        barSvg += `<rect x="${x}" y="${y}" width="36" height="${h}" fill="#1e3a8a" rx="4"/>`;
+        const x = 30 + i * 58, h = (d.v / maxV) * 130, y = 160 - h;
+        barSvg += `<rect x="${x}" y="${y}" width="36" height="${h}" fill="#1d4e89" rx="4"/>`;
         barSvg += `<text x="${x+18}" y="${y-6}" text-anchor="middle" font-size="10" fill="#374151">${d.v}%</text>`;
         barSvg += `<text x="${x+18}" y="178" text-anchor="middle" font-size="11" fill="#4b5563">${d.y}</text>`;
       });
-      [0, 5, 10, 15].forEach(t => {
-        const y = 160 - (t / maxV) * 130;
-        barSvg += `<line x1="25" y1="${y}" x2="320" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
-      });
+      [0, 5, 10, 15].forEach(t => { const y = 160 - (t / maxV) * 130; barSvg += `<line x1="25" y1="${y}" x2="320" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`; });
       document.getElementById("svgBar").innerHTML = barSvg;
 
-      // 饼图
       const pieData = [
-        { label: lang === "zh" ? "授权发明专利" : "Invention patents", v: 6.1, c: "#1e3a8a" },
-        { label: lang === "zh" ? "注册商标" : "Trademarks", v: 26.5, c: "#2563eb" },
-        { label: lang === "zh" ? "登记著作权" : "Copyrights", v: 67.3, c: "#60a5fa" },
-        { label: lang === "zh" ? "植物新品种权" : "Plant varieties", v: 0.1, c: "#f87171" },
+        { label: lang === "zh" ? "授权发明专利" : "Invention patents", v: 6.1, c: "#1d4e89" },
+        { label: lang === "zh" ? "注册商标" : "Trademarks", v: 26.5, c: "#2f6fb3" },
+        { label: lang === "zh" ? "登记著作权" : "Copyrights", v: 67.3, c: "#7aa7d6" },
+        { label: lang === "zh" ? "植物新品种权" : "Plant varieties", v: 0.1, c: "#b45309" },
       ];
-      let start = -Math.PI / 2;
-      let pieSvg = "";
-      const cx = 110, cy = 100, r = 70;
+      let start = -Math.PI / 2, pieSvg = "", cx = 110, cy = 100, r = 70;
       pieData.forEach(d => {
         const ang = (d.v / 100) * Math.PI * 2;
-        const x1 = cx + r * Math.cos(start);
-        const y1 = cy + r * Math.sin(start);
-        const x2 = cx + r * Math.cos(start + ang);
-        const y2 = cy + r * Math.sin(start + ang);
+        const x1 = cx + r * Math.cos(start), y1 = cy + r * Math.sin(start);
+        const x2 = cx + r * Math.cos(start + ang), y2 = cy + r * Math.sin(start + ang);
         const large = ang > Math.PI ? 1 : 0;
         pieSvg += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.c}" stroke="#fff" stroke-width="2"/>`;
         start += ang;
       });
       pieSvg += `<circle cx="${cx}" cy="${cy}" r="32" fill="#fff"/><text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="12" font-weight="700">2025</text><text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="9" fill="#6b7280">${lang==="zh"?"全年":"Full year"}</text>`;
       let legendY = 50;
-      pieData.forEach(d => {
-        pieSvg += `<rect x="210" y="${legendY}" width="12" height="12" fill="${d.c}" rx="2"/>`;
-        pieSvg += `<text x="228" y="${legendY+10}" font-size="12" fill="#374151">${d.label} ${d.v}%</text>`;
-        legendY += 22;
-      });
+      pieData.forEach(d => { pieSvg += `<rect x="210" y="${legendY}" width="12" height="12" fill="${d.c}" rx="2"/><text x="228" y="${legendY+10}" font-size="12" fill="#374151">${d.label} ${d.v}%</text>`; legendY += 22; });
       document.getElementById("svgPie").innerHTML = pieSvg;
 
-      // 折线图
       const lineData = [{ y: "2023", v: 3900 }, { y: "2024", v: 4900 }, { y: "2025", v: 6000 }];
-      const maxL = 6500;
-      let lineSvg = "";
-      [0, 2000, 4000, 6000].forEach(t => {
-        const y = 170 - (t / maxL) * 130;
-        lineSvg += `<line x1="30" y1="${y}" x2="310" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`;
-        lineSvg += `<text x="25" y="${y+4}" text-anchor="end" font-size="10" fill="#9ca3af">${t}</text>`;
-      });
+      const maxL = 6500; let lineSvg = "";
+      [0, 2000, 4000, 6000].forEach(t => { const y = 170 - (t / maxL) * 130; lineSvg += `<line x1="30" y1="${y}" x2="310" y2="${y}" stroke="#e5e7eb" stroke-width="1"/><text x="25" y="${y+4}" text-anchor="end" font-size="10" fill="#9ca3af">${t}</text>`; });
       let path = "";
-      lineData.forEach((d, i) => {
-        const x = 50 + i * 120;
-        const y = 170 - (d.v / maxL) * 130;
-        path += (i === 0 ? "M" : "L") + ` ${x} ${y}`;
-        lineSvg += `<circle cx="${x}" cy="${y}" r="5" fill="#b91c1c"/>`;
-        lineSvg += `<text x="${x}" y="${y-12}" text-anchor="middle" font-size="11" fill="#374151">${d.v}</text>`;
-        lineSvg += `<text x="${x}" y="188" text-anchor="middle" font-size="11" fill="#4b5563">${d.y}</text>`;
-      });
-      lineSvg += `<path d="${path}" fill="none" stroke="#b91c1c" stroke-width="3"/>`;
+      lineData.forEach((d, i) => { const x = 50 + i * 120, y = 170 - (d.v / maxL) * 130; path += (i === 0 ? "M" : "L") + ` ${x} ${y}`; lineSvg += `<circle cx="${x}" cy="${y}" r="5" fill="#b45309"/><text x="${x}" y="${y-12}" text-anchor="middle" font-size="11" fill="#374151">${d.v}</text><text x="${x}" y="188" text-anchor="middle" font-size="11" fill="#4b5563">${d.y}</text>`; });
+      lineSvg += `<path d="${path}" fill="none" stroke="#b45309" stroke-width="3"/>`;
       document.getElementById("svgLine").innerHTML = lineSvg;
     }
 
@@ -504,36 +402,24 @@
           <div class="name">${lang === "en" ? d.nameEn : d.nameZh}</div>
           <div><span class="num">${d.num}</span><span class="unit">${lang === "en" ? d.unitEn : d.unitZh}</span></div>
           ${d.delta ? `<div class="delta">▲ ${d.delta}</div>` : ""}
-        </div>
-      `).join("");
+        </div>`).join("");
     }
 
     function renderFilters() {
       const dims = ["all", "policy", "dynamic", "hot", "fund"];
-      document.getElementById("filterPills").innerHTML = dims.map(d => `
-        <span class="pill ${activeDim === d ? "active" : ""}" onclick="setDim('${d}')">${DICT[d][lang]}</span>
-      `).join("");
+      document.getElementById("filterPills").innerHTML = dims.map(d => `<span class="pill ${activeDim === d ? "active" : ""}" onclick="setDim('${d}')">${DICT[d][lang]}</span>`).join("");
     }
-
-    function setDim(d) {
-      activeDim = d;
-      renderFilters();
-      renderNews();
-    }
+    function setDim(d) { activeDim = d; renderFilters(); renderNews(); }
 
     function renderNews() {
       const kw = document.getElementById("searchInput").value.trim().toLowerCase();
       const filtered = ITEMS.filter(it => {
         if (activeDim !== "all" && it.dim !== activeDim) return false;
         if (!kw) return true;
-        const hay = (field(it, "title") + " " + field(it, "sum") + " " + field(it, "src")).toLowerCase();
-        return hay.includes(kw);
+        return (field(it, "title") + " " + field(it, "sum") + " " + field(it, "src")).toLowerCase().includes(kw);
       }).slice(0, 120);
       const box = document.getElementById("newsList");
-      if (!filtered.length) {
-        box.innerHTML = `<div class="empty-tip">${DICT.noResult[lang]}</div>`;
-        return;
-      }
+      if (!filtered.length) { box.innerHTML = `<div class="empty-tip">${DICT.noResult[lang]}</div>`; return; }
       box.innerHTML = filtered.map(it => `
         <div class="news-item ${dimClass(it.dim)}">
           <div class="news-dot"></div>
@@ -542,80 +428,32 @@
             <div class="news-title"><a href="${it.url}" target="_blank">${field(it, "title")}</a></div>
             <div class="news-sum">${field(it, "sum")}</div>
           </div>
-        </div>
-      `).join("");
+        </div>`).join("");
     }
 
-    // 历史快照：年月日三下拉
+    // 历史快照：年月日三下拉，选当天精确匹配
     function initHistoryPickers() {
-      const yearSel = document.getElementById("yearSel");
-      const monthSel = document.getElementById("monthSel");
-      const daySel = document.getElementById("daySel");
-      yearSel.innerHTML = "";
-      monthSel.innerHTML = "";
-      daySel.innerHTML = "";
-
+      const yearSel = document.getElementById("yearSel"), monthSel = document.getElementById("monthSel"), daySel = document.getElementById("daySel");
+      yearSel.innerHTML = ""; monthSel.innerHTML = ""; daySel.innerHTML = "";
       const dates = HISTORY_DATES.map(d => new Date(d + "T00:00:00"));
       const years = [...new Set(dates.map(d => d.getFullYear()))].sort((a, b) => b - a);
       years.forEach(y => yearSel.add(new Option(y + (lang === "zh" ? "年" : ""), y)));
-
-      for (let m = 1; m <= 12; m++) {
-        monthSel.add(new Option((lang === "zh" ? m + "月" : m.toString().padStart(2, "0")), m));
-      }
-
-      const today = getLatestDate();
-      const [ty, tm, td] = today.split("-").map(Number);
-      yearSel.value = ty;
-      monthSel.value = tm;
-      updateDayOptions(ty, tm);
-      daySel.value = td;
+      for (let m = 1; m <= 12; m++) monthSel.add(new Option((lang === "zh" ? m + "月" : ("0" + m).slice(-2)), m));
+      const [ty, tm, td] = getLatestDate().split("-").map(Number);
+      yearSel.value = ty; monthSel.value = tm; updateDayOptions(ty, tm); daySel.value = td;
     }
-
     function updateDayOptions(year, month) {
       const daySel = document.getElementById("daySel");
-      const oldVal = daySel.value;
-      daySel.innerHTML = "";
+      const oldVal = daySel.value; daySel.innerHTML = "";
       const daysInMonth = new Date(year, month, 0).getDate();
-      // 只显示在 HISTORY_DATES 中存在的日期
-      const availableDays = new Set(HISTORY_DATES.filter(d => {
-        const [y, m] = d.split("-").map(Number);
-        return y === year && m === month;
-      }).map(d => Number(d.split("-")[2])));
-      for (let d = 1; d <= daysInMonth; d++) {
-        if (!availableDays.has(d)) continue;
-        daySel.add(new Option((lang === "zh" ? d + "日" : d.toString().padStart(2, "0")), d));
-      }
-      if ([...daySel.options].some(o => o.value === oldVal)) {
-        daySel.value = oldVal;
-      } else if (daySel.options.length) {
-        daySel.value = daySel.options[0].value;
-      }
+      const availableDays = new Set(HISTORY_DATES.filter(d => { const [y, m] = d.split("-").map(Number); return y === year && m === month; }).map(d => Number(d.split("-")[2])));
+      for (let d = 1; d <= daysInMonth; d++) { if (!availableDays.has(d)) continue; daySel.add(new Option((lang === "zh" ? d + "日" : ("0" + d).slice(-2)), d)); }
+      if ([...daySel.options].some(o => o.value === oldVal)) daySel.value = oldVal;
+      else if (daySel.options.length) daySel.value = daySel.options[0].value;
     }
-
-    function onYearChange() {
-      const y = Number(document.getElementById("yearSel").value);
-      const m = Number(document.getElementById("monthSel").value);
-      updateDayOptions(y, m);
-      renderHistory();
-    }
-
-    function onMonthChange() {
-      const y = Number(document.getElementById("yearSel").value);
-      const m = Number(document.getElementById("monthSel").value);
-      updateDayOptions(y, m);
-      renderHistory();
-    }
-
-    function goToday() {
-      const today = getLatestDate();
-      const [y, m, d] = today.split("-").map(Number);
-      document.getElementById("yearSel").value = y;
-      document.getElementById("monthSel").value = m;
-      updateDayOptions(y, m);
-      document.getElementById("daySel").value = d;
-      renderHistory();
-    }
-
+    function onYearChange() { const y = +document.getElementById("yearSel").value, m = +document.getElementById("monthSel").value; updateDayOptions(y, m); renderHistory(); }
+    function onMonthChange() { const y = +document.getElementById("yearSel").value, m = +document.getElementById("monthSel").value; updateDayOptions(y, m); renderHistory(); }
+    function goToday() { const [y, m, d] = getLatestDate().split("-").map(Number); document.getElementById("yearSel").value = y; document.getElementById("monthSel").value = m; updateDayOptions(y, m); document.getElementById("daySel").value = d; renderHistory(); }
     function renderHistory() {
       const y = document.getElementById("yearSel").value.padStart(4, "0");
       const m = document.getElementById("monthSel").value.padStart(2, "0");
@@ -623,63 +461,23 @@
       const selected = `${y}-${m}-${d}`;
       const list = ITEMS.filter(it => it.date === selected);
       const box = document.getElementById("historyTimeline");
-      if (!list.length) {
-        box.innerHTML = `<div class="empty-tip">${DICT.noNewsDay[lang]}</div>`;
-        return;
-      }
+      if (!list.length) { box.innerHTML = `<div class="empty-tip">${DICT.noNewsDay[lang]}</div>`; return; }
       box.innerHTML = list.map(it => `
         <div class="timeline-item ${dimClass(it.dim)}">
           <div class="timeline-date">${selected} ${tagHtml(it.dim)}</div>
           <div class="timeline-title"><a href="${it.url}" target="_blank">${field(it, "title")}</a><span class="timeline-source">${field(it, "src")}</span></div>
           <div class="timeline-sum">${field(it, "sum")}</div>
-        </div>
-      `).join("");
-    }
-
-    function exportData() {
-      const blob = new Blob([JSON.stringify(ITEMS, null, 2)], { type: "application/json" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "ip_data.json";
-      a.click();
-    }
-
-    function importData(input) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        try {
-          const data = JSON.parse(e.target.result);
-          if (Array.isArray(data) && data.length) {
-            ITEMS.length = 0;
-            data.forEach(x => ITEMS.push(x));
-            renderAll();
-            alert(lang === "zh" ? "导入成功" : "Import successful");
-          }
-        } catch (err) {
-          alert(lang === "zh" ? "导入失败：格式错误" : "Import failed: invalid format");
-        }
-      };
-      reader.readAsText(file);
-      input.value = "";
+        </div>`).join("");
     }
 
     function renderAll() {
-      renderToday();
-      drawCharts();
-      renderMetrics();
-      renderFilters();
-      renderNews();
-      renderHistory();
+      renderToday(); drawCharts(); renderMetrics(); renderFilters(); renderNews(); renderHistory();
     }
 
-    // 初始化
     applyStaticText();
     initHistoryPickers();
     renderAll();
 
-    // URL ?lang=en
     const params = new URLSearchParams(location.search);
     if (params.get("lang") === "en") setLang("en");
   </script>

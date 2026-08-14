@@ -187,6 +187,14 @@ ANCHORS = {
         ("policy", "新修订《专利法实施细则》配套办法发布，优化复审无效程序",
          "Implementing rules for amended Patent Law Implementing Regulations released, optimizing reexamination and invalidation procedures"),
     ],
+    "2026-08-15": [
+        ("policy", "国家知识产权局发布2026年上半年知识产权统计数据",
+         "CNIPA releases IP statistics for H1 2026"),
+        ("hot", "最高法公布2026年上半年知识产权司法保护典型案例",
+         "SPC releases H1 2026 typical IP judicial protection cases"),
+        ("dynamic", "全国知识产权保护规范化市场培育工作推进会召开",
+         "National IP protection standardization market promotion meeting held"),
+    ],
 }
 
 # 新闻源

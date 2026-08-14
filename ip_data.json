@@ -1,36 +1,36 @@
 [
   {
-    "dim": "fund",
+    "dim": "policy",
     "date": "2026-08-15",
-    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=广东技术合同成交额同比增长24",
-    "srcZh": "商务部",
-    "srcEn": "MOFCOM",
-    "titleZh": "广东技术合同成交额同比增长24%",
-    "titleEn": "广东 tech contract value rises 24% year-on-year",
-    "sumZh": "广东技术合同成交额同比增长24%，显示中国知识产权创造、保护和运用水平稳步提升。",
-    "sumEn": "广东技术合同成交额同比增长24% shows China's IP creation, protection, and utilization levels are steadily improving."
+    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=国家知识产权局发布2026年上半年知识产",
+    "srcZh": "新华社",
+    "srcEn": "Xinhua",
+    "titleZh": "国家知识产权局发布2026年上半年知识产权统计数据",
+    "titleEn": "CNIPA releases IP statistics for H1 2026",
+    "sumZh": "国家知识产权局发布2026年上半年知识产权统计数据，进一步完善知识产权保护与运用制度体系，为创新主体和市场主体提供更有力的法治保障。",
+    "sumEn": "国家知识产权局发布2026年上半年知识产权统计数据 further improves the IP protection and utilization institutional framework, providing stronger legal safeguards for innovators and businesses."
   },
   {
-    "dim": "fund",
+    "dim": "dynamic",
     "date": "2026-08-15",
-    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=江苏技术合同成交额同比增长27",
-    "srcZh": "商务部",
-    "srcEn": "MOFCOM",
-    "titleZh": "江苏技术合同成交额同比增长27%",
-    "titleEn": "江苏 tech contract value rises 27% year-on-year",
-    "sumZh": "江苏技术合同成交额同比增长27%，显示中国知识产权创造、保护和运用水平稳步提升。",
-    "sumEn": "江苏技术合同成交额同比增长27% shows China's IP creation, protection, and utilization levels are steadily improving."
+    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=全国知识产权保护规范化市场培育工作推进会",
+    "srcZh": "新华社",
+    "srcEn": "Xinhua",
+    "titleZh": "全国知识产权保护规范化市场培育工作推进会召开",
+    "titleEn": "National IP protection standardization market promotion meeting held",
+    "sumZh": "全国知识产权保护规范化市场培育工作推进会召开，反映知识产权工作持续推进，创新活力不断释放。",
+    "sumEn": "全国知识产权保护规范化市场培育工作推进会召开 reflects continuous progress in IP work and the release of innovation vitality."
   },
   {
-    "dim": "fund",
+    "dim": "hot",
     "date": "2026-08-15",
-    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=北京技术合同成交额同比增长15",
-    "srcZh": "商务部",
-    "srcEn": "MOFCOM",
-    "titleZh": "北京技术合同成交额同比增长15%",
-    "titleEn": "北京 tech contract value rises 15% year-on-year",
-    "sumZh": "北京技术合同成交额同比增长15%，显示中国知识产权创造、保护和运用水平稳步提升。",
-    "sumEn": "北京技术合同成交额同比增长15% shows China's IP creation, protection, and utilization levels are steadily improving."
+    "url": "https://www.cnipa.gov.cn/art/search.shtml?col=1&qt=最高法公布2026年上半年知识产权司法保",
+    "srcZh": "澎湃新闻",
+    "srcEn": "The Paper",
+    "titleZh": "最高法公布2026年上半年知识产权司法保护典型案例",
+    "titleEn": "SPC releases H1 2026 typical IP judicial protection cases",
+    "sumZh": "最高法公布2026年上半年知识产权司法保护典型案例，该案引发业界对知识产权保护与市场竞争规则的广泛关注。",
+    "sumEn": "最高法公布2026年上半年知识产权司法保护典型案例; the case has drawn wide industry attention to IP protection and market competition rules."
   },
   {
     "dim": "policy",
