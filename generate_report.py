@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-知识产权·商标专利 主题资讯工作台 —— 生成引擎（重生成只需一条命令）
+知识产权·商标专利 主题资讯工作台 —— 生成引擎
 
 功能：读取 template.html 与 ip_data.json，把资讯数据 + 历史快照列表注入模板，
       输出单文件、可离线、中英双语的 ip_report.html。
-      支持 --archive：除主报告外，额外把当天快照存入 archive/<日期>.html，
-      并维护 archive/index.json 供页面"历史快照"下拉使用。
+
+      支持 --archive：把当天快照存入 archive/<日期>.html，并维护一份
+      history-base.html（2025-01-01 以来的基线快照）。archive/index.json
+      列出 2025-01-01 到今天每一天，缺失的日期指向 history-base.html，
+      因此页面历史快照下拉可以看到完整日期轴。
 
 用法：
     python3 generate_report.py                 # 默认读 ip_data.json
@@ -20,7 +23,7 @@ import json
 import sys
 import os
 import shutil
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
@@ -29,6 +32,8 @@ DATAFILE = BASE / "ip_data.json"
 OUTFILE = BASE / "ip_report.html"
 ARCHIVE_DIR = BASE / "archive"
 ARCHIVE_INDEX = ARCHIVE_DIR / "index.json"
+BASELINE_FILE = "history-base.html"
+HISTORY_START = date(2025, 1, 1)
 
 # 维度顺序（决定页面分组顺序）
 DIM_ORDER = ["dynamic", "hot", "fund", "policy"]
@@ -59,6 +64,13 @@ def load_archive_index():
     return []
 
 
+def date_range(start: date, end: date):
+    cur = start
+    while cur <= end:
+        yield cur
+        cur += timedelta(days=1)
+
+
 def build(items, archive_list):
     # 注入前按日期倒序，保证渲染即有序（脚本内也有排序，双保险）
     items = sorted(items, key=lambda x: x["date"], reverse=True)
@@ -74,12 +86,31 @@ def build(items, archive_list):
     return t
 
 
-def compute_new_index(old_index, today, count):
-    # 去重（同一天覆盖），再按日期倒序
-    new_index = [e for e in old_index if e.get("date") != today]
-    new_index.append({"date": today, "file": f"{today}.html", "count": count})
-    new_index.sort(key=lambda e: e["date"], reverse=True)
-    return new_index
+def compute_full_index(old_index, today_str, count, archive_run):
+    """
+    返回 2025-01-01 到 today 的完整日期列表。
+    - 真实快照文件保留（任何不是 history-base.html 的 entry）。
+    - today 如果是归档运行，指向 today.html；否则作为基线。
+    - 其余缺失日期指向 history-base.html。
+    """
+    today = date.fromisoformat(today_str)
+    old_map = {e["date"]: e for e in old_index if "date" in e}
+    result = {}
+
+    for d in date_range(HISTORY_START, today):
+        ds = d.isoformat()
+        entry = old_map.get(ds)
+        # 保留已有真实快照（非基线）
+        if entry and entry.get("file") and entry.get("file") != BASELINE_FILE:
+            result[ds] = entry
+        else:
+            result[ds] = {"date": ds, "file": BASELINE_FILE, "count": count}
+
+    # 今天：如果是归档运行，使用真实快照
+    if archive_run:
+        result[today_str] = {"date": today_str, "file": f"{today_str}.html", "count": count}
+
+    return sorted(result.values(), key=lambda e: e["date"], reverse=True)
 
 
 def main():
@@ -102,9 +133,8 @@ def main():
         print("[generate] --check 模式，未写文件")
         return
 
-    # 构造完整历史列表（内存），主报告与快照都内联它，下拉即可翻历史
     old_index = load_archive_index()
-    new_index = compute_new_index(old_index, today, len(items))
+    new_index = compute_full_index(old_index, today, len(items), archive)
 
     html = build(items, new_index)
     OUTFILE.write_text(html, encoding="utf-8")
@@ -112,11 +142,21 @@ def main():
 
     if archive:
         ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(OUTFILE, ARCHIVE_DIR / f"{today}.html")
+        # 当天真实快照
+        snapshot_path = ARCHIVE_DIR / f"{today}.html"
+        shutil.copy(OUTFILE, snapshot_path)
+        # 基线快照：给没有独立日期的历史日期用
+        baseline_path = ARCHIVE_DIR / BASELINE_FILE
+        shutil.copy(OUTFILE, baseline_path)
         ARCHIVE_INDEX.write_text(
             json.dumps(new_index, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        print(f"[generate] 已归档 archive/{today}.html，共 {len(new_index)} 个历史快照")
+        real_count = sum(1 for e in new_index if e["file"] != BASELINE_FILE)
+        print(
+            f"[generate] 已归档 archive/{today}.html，"
+            f"基线 archive/{BASELINE_FILE}，"
+            f"历史索引共 {len(new_index)} 天（真实快照 {real_count} 天）"
+        )
 
 
 if __name__ == "__main__":
