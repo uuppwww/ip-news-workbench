@@ -1,38 +1,101 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-每日采集知识产权/商标/专利/版权资讯，合并追加到 ip_data.json，按 URL 去重。
-支持环境变量 SEARCH_ENGINE=rss 或 websearch（本脚本优先 RSS，失败则回退）。
+每日采集知识产权主题真实资讯，合并追加到 ip_data.json，按 URL 去重。
+
+双通道采集（2026-08 起）：
+1) 搜索型 RSS —— Google News 按各维度关键词搜索，标题直接命中，
+   稳定产出「热点 / 科普 / 观点」等各维度条目（GitHub Actions 海外环境可用，失败静默跳过）。
+2) 权威媒体 RSS —— 人民网 / 新华网 / 中国新闻网 / 钛媒体 / 新浪科技 各频道，
+   国内外均稳定可用，作为兜底。
+
+字段 date 采用文章「真实发布日期」；precise=True 表示链接可点击（原文或搜索跳转）。
 """
 import json
 import os
 import re
 import sys
 import xml.etree.ElementTree as ET
-from datetime import date, timedelta
+from datetime import datetime, date, timezone
+from email.utils import parsedate_to_datetime
 from urllib.parse import quote, urlparse
 
 import requests
 
 DATA_FILE = "ip_data.json"
-QUERIES = [
-    "知识产权 商标 专利",
-    "专利侵权 案例",
-    "商标抢注 热点",
-    "商业秘密 纠纷",
-    "国家知识产权局 政策",
-    "著作权 侵权 案例",
+
+# ---- 通道2：权威媒体 RSS（稳定兜底，已实测可用）----
+FEEDS = [
+    ("人民网·时政", "http://www.people.com.cn/rss/politics.xml"),
+    ("人民网·财经", "http://www.people.com.cn/rss/finance.xml"),
+    ("人民网·法治", "http://www.people.com.cn/rss/legal.xml"),
+    ("新华网·时政", "http://www.xinhuanet.com/politics/news_politics.xml"),
+    ("新华网·财经", "http://www.xinhuanet.com/fortune/news_finance.xml"),
+    ("新华网·科技", "http://www.xinhuanet.com/tech/news_tech.xml"),
+    ("中国新闻网", "https://www.chinanews.com.cn/rss/scroll-news.xml"),
+    ("钛媒体", "https://www.tmtpost.com/rss.xml"),
+    ("新浪科技", "https://rss.sina.com.cn/tech/rollnews.xml"),
 ]
+
+# ---- 通道1：搜索型 RSS（Google News）—— 重点强化 热点/科普/观点 ----
+GOOGLE_QUERIES = [
+    ("知识产权 侵权 判赔", "hot"),
+    ("专利侵权 判决", "hot"),
+    ("商标 抢注 维权", "hot"),
+    ("商业秘密 纠纷 案例", "hot"),
+    ("知识产权 科普 知识", "edu"),
+    ("专利 知识 科普", "edu"),
+    ("商标注册 知识 流程", "edu"),
+    ("知识产权 趋势 专家", "view"),
+    ("知识产权 观点 预测", "view"),
+    ("知识产权 政策 发布", "policy"),
+    ("高新技术企业 专精特新", "project"),
+    ("专利 发明 申请", "patent"),
+    ("商标 品牌 保护", "trademark"),
+]
+
+# 知识产权「强」关键词（标题命中其一即保留；避免普通时政/财经新闻混入）
+KEYWORDS = [
+    "知识产权", "商标", "专利", "著作权", "版权", "地理标志", "商业秘密",
+    "高新技术企业", "科技型中小企业", "专精特新", "小巨人", "专利奖",
+    "数据知识产权", "pct", "外观设计", "实用新型", "发明专利", "惩罚性赔偿",
+    "侵权", "知产", "商标注册", "品牌保护", "技术合同", "科技成果转化",
+    "集成电路布图", "马德里", "著作权法", "专利法", "商标法",
+    # 热点 / 维权 / 竞争法
+    "不正当竞争", "反垄断", "恶意抢注", "商标无效", "专利无效", "判赔",
+    "盗版", "假冒", "山寨", "维权", "打假", "知识产权纠纷", "垄断",
+    # 科普 / 观点（与 IP 强相关组合）
+    "知识产权强国", "专利布局", "品牌战略",
+]
+
+# 维度判定（优先级从高到低；edu/view 提前，让“专利科普/专家观点”正确归类）
+DIM_RULES = [
+    ("hot", ["侵权", "纠纷", "诉讼", "判赔", "胜诉", "起诉", "商业秘密", "盗版", "假冒", "抢注", "维权", "获赔", "索赔", "惩罚性赔偿", "判例", "判决", "裁定", "不正当竞争", "反垄断", "恶意抢注", "商标无效", "专利无效", "打假", "山寨", "垄断", "禁令"]),
+    ("project", ["高新技术企业", "科技型中小企业", "科小", "专精特新", "小巨人", "瞪羚", "独角兽", "企业技术中心", "入库", "拟认定", "专利奖", "单项冠军", "示范企业", "优势企业"]),
+    ("edu", ["科普", "解读", "图解", "什么是", "一文读懂", "如何", "干货", "流程", "步骤", "要点", "实务", "问答", "知识点", "常识", "扫盲", "小知识"]),
+    ("view", ["观点", "访谈", "展望", "趋势", "预测", "专家", "教授", "学者", "署名文章", "观察", "研判", "前瞻", "报告", "白皮书", "盘点", "年度", "风口", "机遇", "挑战", "评论", "时评", "快评"]),
+    ("trademark", ["商标", "马德里", "集体商标", "地理标志证明商标", "商标审查", "商标注册", "品牌", "老字号", "商标权"]),
+    ("patent", ["专利", "pct", "发明专利", "实用新型", "外观设计", "专利审查", "专利导航", "专利转化", "专利布局", "集成电路布图"]),
+    ("policy", ["政策", "印发", "发布", "实施", "修订", "通过", "规划", "意见", "办法", "条例", "细则", "指南", "方案", "强国建设", "工作要点", "专项行动"]),
+]
+
+UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"}
+
 
 def load_existing():
     if not os.path.exists(DATA_FILE):
         return []
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
 
 def save_items(items):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(items, f, ensure_ascii=False, indent=2)
+        json.dump(items, f, ensure_ascii=False, indent=1)
+
 
 def dedup(items):
     seen = set()
@@ -44,105 +107,166 @@ def dedup(items):
             out.append(it)
     return out
 
+
 def classify(title):
     t = title.lower()
-    # 热点案例
-    if any(k in t for k in ["案例", "侵权", "纠纷", "诉讼", "判赔", "胜诉", "起诉", "商业秘密", "盗版", "假冒", "抢注", "维权", "获赔", "索赔"]):
-        return "hot"
-    # 企业荣誉/项目申报
-    if any(k in t for k in ["高新技术企业", "科技型中小企业", "科小", "专精特新", "小巨人", "瞪羚", "独角兽", "企业技术中心", "技术中心", "入库", "拟认定"]):
-        return "project"
-    # 商标
-    if any(k in t for k in ["商标", "地理标志证明商标", "马德里", "集体商标", "商标抢注", "商标审查", "商标注册", "品牌", "老字号"]):
-        return "trademark"
-    # 专利
-    if any(k in t for k in ["专利", "pct", "发明专利", "实用新型", "外观设计", "专利审查", "专利导航", "专利奖", "专利转化"]):
-        return "patent"
-    # 政策
-    if any(k in t for k in ["政策", "印发", "发布", "实施", "修订", "通过", "规划", "意见", "办法", "条例", "细则", "指南", "方案"]):
-        return "policy"
-    # 综合知识产权动态
+    for dim, kws in DIM_RULES:
+        if any(k.lower() in t for k in kws):
+            return dim
     return "ip"
 
-def summarize(title, dim):
-    if dim == "hot":
-        s = f"{title}，该案引发业界对知识产权保护与市场竞争规则的广泛关注。"
-        s_en = f"{title}; the case has drawn wide industry attention to IP protection and market competition rules."
-    elif dim == "policy":
-        s = f"{title}，进一步完善知识产权保护与运用制度体系。"
-        s_en = f"{title} further improves the IP protection and utilization institutional framework."
-    elif dim == "trademark":
-        s = f"{title}，建议企业加强商标监测、注册与维权，防范恶意抢注与侵权风险。"
-        s_en = f"{title}; firms should strengthen trademark monitoring, registration and enforcement."
-    elif dim == "patent":
-        s = f"{title}，建议企业关注专利布局、审查动向与转化运用机会。"
-        s_en = f"{title}; firms should watch patent portfolio, examination and commercialization opportunities."
-    elif dim == "project":
-        s = f"{title}，企业荣誉资质有助于享受政策红利与品牌背书，建议提前准备申报材料。"
-        s_en = f"{title}; enterprise honors help access policy benefits and brand endorsement."
-    else:
-        s = f"{title}，反映知识产权工作持续推进。"
-        s_en = f"{title} reflects continuous progress in IP work."
-    return s, s_en
 
-def translate_title(title):
-    # 占位翻译：实际运行时可接入翻译 API；此处保持标题原样并附简单英文说明
-    return title + " (IP News)"
+def strip_html(s):
+    s = re.sub(r"<[^>]+>", " ", s or "")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
 
-def fetch_rss():
-    items = []
-    today = date.today().isoformat()
-    for q in QUERIES:
+
+def parse_date(pub, fallback):
+    if pub:
         try:
-            url = f"https://www.bing.com/news/search?q={quote(q)}&format=rss"
-            r = requests.get(url, timeout=20, headers={"User-Agent": "Mozilla/5.0"})
-            r.raise_for_status()
-            root = ET.fromstring(r.content)
-            channel = root.find("channel")
-            if channel is None:
-                continue
-            for node in channel.findall("item")[:3]:
-                title = (node.findtext("title") or "").strip()
-                link = (node.findtext("link") or "").strip()
-                pub = (node.findtext("pubDate") or "").strip()
-                if not title or not link:
-                    continue
-                dim = classify(title)
-                szh, sen = summarize(title, dim)
-                # 来源取自真实文章域名，明确标出出处
-                host = (urlparse(link).hostname or "").replace("www.", "")
-                items.append({
-                    "dim": dim,
-                    "date": today,
-                    "url": link,
-                    "srcZh": host or "网络资讯",
-                    "srcEn": host or "Web News",
-                    "titleZh": title,
-                    "titleEn": translate_title(title),
-                    "sumZh": szh,
-                    "sumEn": sen,
-                    "precise": True,
-                })
-        except Exception as e:
-            print(f"RSS fetch failed for {q}: {e}")
+            dt = parsedate_to_datetime(pub)
+            if dt:
+                if dt.tzinfo is not None:
+                    dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
+                return dt.date().isoformat()
+        except Exception:
+            pass
+    return fallback
+
+
+def hits_keyword(text):
+    t = text.lower()
+    return any(k.lower() in t for k in KEYWORDS)
+
+
+def within_days(d, days=30, today=None):
+    try:
+        item_date = datetime.strptime(d, "%Y-%m-%d").date()
+        return (today - item_date).days <= days
+    except Exception:
+        return True
+
+
+def fetch_feed(name, url):
+    """通道2：权威媒体 RSS，标题命中强关键词才保留。"""
+    items = []
+    try:
+        r = requests.get(url, timeout=25, headers=UA)
+        r.raise_for_status()
+        root = ET.fromstring(r.content)
+    except Exception as e:
+        print(f"feed failed [{name}]: {e}")
+        return items
+
+    today = date.today()
+    nodes = root.findall(".//item")
+    for node in nodes:
+        title = (node.findtext("title") or "").strip()
+        link = (node.findtext("link") or "").strip()
+        pub = (node.findtext("pubDate") or "").strip()
+        desc = (node.findtext("description") or "")
+        if not title or not link:
+            continue
+        if not hits_keyword(title):
+            continue
+        d = parse_date(pub, today.isoformat())
+        if not within_days(d, 30, today):
+            continue
+        dim = classify(title)
+        clean_desc = strip_html(desc)
+        host = (urlparse(link).hostname or "").replace("www.", "")
+        items.append({
+            "dim": dim,
+            "date": d,
+            "url": link,
+            "srcZh": name,
+            "srcEn": host or name,
+            "titleZh": title,
+            "titleEn": title,
+            "sumZh": clean_desc[:90] if clean_desc else f"{title}。",
+            "sumEn": f"{title} (collected from {name}).",
+            "precise": True,
+        })
     return items
 
-def collect(top=10):
-    """采集并合并。返回新采集条目数。"""
-    new_items = fetch_rss()
+
+def fetch_google(query, qdim, limit=8):
+    """通道1：Google News 搜索 RSS，标题命中；来源取自 <source>。"""
+    items = []
+    url = "https://news.google.com/rss/search?q=" + quote(query) + "&hl=zh-CN&gl=CN&ceid=CN:zh-Hans"
+    try:
+        r = requests.get(url, timeout=25, headers=UA)
+        r.raise_for_status()
+        root = ET.fromstring(r.content)
+    except Exception as e:
+        print(f"google search failed [{query}]: {e}")
+        return items
+
+    today = date.today()
+    nodes = root.findall(".//item")
+    got = 0
+    for node in nodes:
+        title = (node.findtext("title") or "").strip()
+        link = (node.findtext("link") or "").strip()
+        pub = (node.findtext("pubDate") or "").strip()
+        if not title or not link:
+            continue
+        if not hits_keyword(title):
+            continue
+        # 来源名与域名取自 <source url="...">媒体名</source>
+        src_name, src_host = "", ""
+        src = node.find("source")
+        if src is not None:
+            src_name = (src.text or "").strip()
+            src_host = (urlparse(src.get("url") or "").hostname or "").replace("www.", "")
+        d = parse_date(pub, today.isoformat())
+        if not within_days(d, 45, today):
+            continue
+        # 优先用查询自带维度，除非标题能更精确归类
+        dim = classify(title)
+        if dim == "ip":
+            dim = qdim
+        desc = (node.findtext("description") or "")
+        clean_desc = strip_html(desc)
+        items.append({
+            "dim": dim,
+            "date": d,
+            "url": link,
+            "srcZh": src_name or qdim,
+            "srcEn": src_host or "Google News",
+            "titleZh": title,
+            "titleEn": title,
+            "sumZh": clean_desc[:90] if clean_desc else f"{title}。",
+            "sumEn": f"{title} (via Google News).",
+            "precise": True,
+        })
+        got += 1
+        if got >= limit:
+            break
+    return items
+
+
+def collect(top=20):
+    new_items = []
+    # 通道1：搜索型（更精准，优先）
+    for q, dim in GOOGLE_QUERIES:
+        new_items += fetch_google(q, dim)
+    # 通道2：权威媒体 RSS
+    for name, url in FEEDS:
+        new_items += fetch_feed(name, url)
     if not new_items:
         print("no new items fetched")
         return 0
-    new_items = new_items[:top]
+    new_items = dedup(new_items)[:top]
     existing = load_existing()
-    merged = existing + new_items
-    merged = dedup(merged)
-    # 按日期新到旧排序
+    merged = dedup(existing + new_items)
     merged.sort(key=lambda x: x.get("date", ""), reverse=True)
     save_items(merged)
-    print(f"collected {len(new_items)} new items, total={len(merged)}")
+    print(f"collected {len(new_items)} new items (google={len(GOOGLE_QUERIES)}q + feeds={len(FEEDS)}), total={len(merged)}")
     return len(new_items)
 
+
 if __name__ == "__main__":
-    top = int(sys.argv[sys.argv.index("--top") + 1]) if "--top" in sys.argv else 10
+    top = int(sys.argv[sys.argv.index("--top") + 1]) if "--top" in sys.argv else 20
     collect(top)

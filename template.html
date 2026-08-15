@@ -84,6 +84,8 @@ a:hover { text-decoration: underline; }
 .ov-tag.project { background: #f3ecf5; color: #5b2a73; }
 .ov-tag.policy { background: #e3f0f0; color: #1f5f5f; }
 .ov-tag.hot { background: #f5ece0; color: #8a5a18; }
+.ov-tag.edu { background: #f3ecdb; color: #7a5a18; }
+.ov-tag.view { background: #e7edf5; color: #2f4a73; }
 .overview-list { list-style: none; }
 .overview-list li { padding: 8px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; }
 .overview-list li:last-child { border-bottom: none; }
@@ -94,6 +96,8 @@ a:hover { text-decoration: underline; }
 .overview-list .dot.project { background: #6b3a8a; }
 .overview-list .dot.policy { background: #2c7a7b; }
 .overview-list .dot.hot { background: #c97918; }
+.overview-list .dot.edu { background: #b07418; }
+.overview-list .dot.view { background: #4a6fa5; }
 .overview-list a { font-size: 14px; color: var(--text); }
 .overview-list a:hover { color: var(--brand); }
 
@@ -122,6 +126,8 @@ a:hover { text-decoration: underline; }
 .timeline-dot.project { border-color: #6b3a8a; }
 .timeline-dot.policy { border-color: #2c7a7b; }
 .timeline-dot.hot { border-color: #c97918; }
+.timeline-dot.edu { border-color: #b07418; }
+.timeline-dot.view { border-color: #4a6fa5; }
 .timeline-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
 .timeline-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: #ede9e3; color: var(--text-sec); }
 .timeline-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
@@ -171,6 +177,8 @@ a:hover { text-decoration: underline; }
       <a href="#" data-filter="project">项目申报</a>
       <a href="#" data-filter="policy">政策</a>
       <a href="#" data-filter="hot">热点</a>
+      <a href="#" data-filter="edu">科普</a>
+      <a href="#" data-filter="view">观点</a>
       <button class="lang-btn" id="btnEn">EN</button>
     </nav>
   </div>
@@ -246,7 +254,7 @@ a:hover { text-decoration: underline; }
 <script>
 const DICT = {
   zh: {
-    all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点",
+    all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点", edu: "科普", view: "观点",
     dateHint: "选择日期范围，查看对应资讯", dateHintAll: "已选择全部时间范围",
     ovTitleDay: "今日要览", ovTitleMonth: "本月要览", ovTitleYear: "本年要览", ovTitleAll: "全部要览",
     keyTitle: "关键数据", chartTitle: "资讯分布", tlTitle: "时间线",
@@ -257,7 +265,7 @@ const DICT = {
     preciseSrc: "原文来源", orgSrc: "机构来源", refSrc: "参考来源"
   },
   en: {
-    all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot Cases",
+    all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot Cases", edu: "Science", view: "Insights",
     dateHint: "Pick a date range to view the news", dateHintAll: "All time range selected",
     ovTitleDay: "Daily Brief", ovTitleMonth: "Monthly Brief", ovTitleYear: "Yearly Brief", ovTitleAll: "Full Brief",
     keyTitle: "Key Data", chartTitle: "Distribution", tlTitle: "Timeline",
@@ -269,11 +277,11 @@ const DICT = {
   }
 };
 const DIM_LABEL = {
-  zh: { all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点" },
-  en: { all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot" }
+  zh: { all: "全部", ip: "知识产权", trademark: "商标", patent: "专利", project: "项目申报", policy: "政策", hot: "热点", edu: "科普", view: "观点" },
+  en: { all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot", edu: "Science", view: "Insights" }
 };
-const DIM_ORDER = { ip: 0, trademark: 1, patent: 2, project: 3, policy: 4, hot: 5 };
-const DIM_COLOR = { ip: "#8a1c1c", trademark: "#2f5c8a", patent: "#3a7a5e", project: "#6b3a8a", policy: "#2c7a7b", hot: "#c97918" };
+const DIM_ORDER = { ip: 0, trademark: 1, patent: 2, project: 3, policy: 4, hot: 5, edu: 6, view: 7 };
+const DIM_COLOR = { ip: "#8a1c1c", trademark: "#2f5c8a", patent: "#3a7a5e", project: "#6b3a8a", policy: "#2c7a7b", hot: "#c97918", edu: "#b07418", view: "#4a6fa5" };
 
 const ITEMS = __ITEMS_JSON__;
 const HISTORY_DATES = __HISTORY_DATES__;
@@ -471,7 +479,7 @@ function drawChart() {
   canvas.width = W * dpr; canvas.height = H * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, W, H);
-  const dims = ["ip","trademark","patent","project","policy","hot"];
+  const dims = ["ip","trademark","patent","project","policy","hot","edu","view"];
   const max = Math.max(...dims.map(d => counts[d]), 1);
   const padL = 40, padB = 36, padT = 16;
   const bw = (W - padL - 16) / dims.length;
