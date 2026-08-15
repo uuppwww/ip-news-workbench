@@ -149,6 +149,16 @@ a:hover { text-decoration: underline; }
 .filter-bar button:hover { border-color: var(--brand); color: var(--brand); }
 .filter-bar button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
 
+/* Search */
+.search-bar { margin-bottom: 20px; }
+.search-inner { position: relative; max-width: 620px; }
+.search-input { width: 100%; padding: 11px 42px 11px 16px; border: 1px solid var(--line); border-radius: 7px; font-size: 14px; background: #fff; color: var(--text); }
+.search-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px #f6e3e3; }
+.search-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: none; background: transparent; color: var(--text-hint); cursor: pointer; font-size: 15px; border-radius: 50%; display: none; line-height: 1; }
+.search-clear.show { display: block; }
+.search-clear:hover { background: #f0e9e2; color: var(--brand); }
+mark { background: #ffe08a; color: inherit; padding: 0 2px; border-radius: 2px; }
+
 .empty { text-align: center; padding: 50px 0; color: var(--text-hint); font-size: 14px; }
 
 /* Footer */
@@ -215,6 +225,14 @@ a:hover { text-decoration: underline; }
     </div>
   </div>
 
+  <!-- Search -->
+  <div class="search-bar">
+    <div class="search-inner">
+      <input type="search" id="searchInput" class="search-input" placeholder="搜索标题、摘要或来源…" autocomplete="off" />
+      <button class="search-clear" id="searchClear" title="清空">✕</button>
+    </div>
+  </div>
+
   <!-- Today overview -->
   <div class="sec-title"><span class="sec-bar"></span><h2 id="ovTitle">今日要览</h2></div>
   <div class="overview">
@@ -262,7 +280,8 @@ const DICT = {
     footer: "本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。",
     companyName: "苏州顺捷知识产权代理有限公司", contact: "联系人：",
     ovCount: "条",
-    preciseSrc: "原文来源", orgSrc: "机构来源", refSrc: "参考来源"
+    preciseSrc: "原文来源", orgSrc: "机构来源", refSrc: "参考来源",
+    searchPlaceholder: "搜索标题、摘要或来源…", searchClear: "清空"
   },
   en: {
     all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot Cases", edu: "Science", view: "Insights",
@@ -273,7 +292,8 @@ const DICT = {
     footer: "Compiled from public online sources for reference only; not investment advice.",
     companyName: "Suzhou Shunjie Intellectual Property Agency Co., Ltd.", contact: "Contact: ",
     ovCount: "items",
-    preciseSrc: "Source", orgSrc: "Org Source", refSrc: "Reference"
+    preciseSrc: "Source", orgSrc: "Org Source", refSrc: "Reference",
+    searchPlaceholder: "Search titles, summaries or sources…", searchClear: "Clear"
   }
 };
 const DIM_LABEL = {
@@ -289,11 +309,27 @@ let lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "z
 let currentFilter = "all";
 let dateMode = "day"; // day | month | year | all
 let selectedDate = new Date().toISOString().slice(0, 10);
+let searchQuery = "";
 
 function t(key) { return DICT[lang][key] || key; }
 function dimLabel(d) { return DIM_LABEL[lang][d] || d; }
 function dimRank(d) { return DIM_ORDER[d] === undefined ? 9 : DIM_ORDER[d]; }
 function host(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } }
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function highlight(text) {
+  const safe = escapeHtml(text);
+  if (!searchQuery) return safe;
+  const esc = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  try { return safe.replace(new RegExp(esc, "gi"), m => `<mark>${m}</mark>`); }
+  catch (e) { return safe; }
+}
+function matchSearch(it) {
+  if (!searchQuery) return true;
+  const q = searchQuery.toLowerCase();
+  const hay = [it.titleZh, it.titleEn, it.sumZh, it.sumEn, it.srcZh, it.srcEn, dimLabel(it.dim)]
+    .filter(Boolean).join(" ").toLowerCase();
+  return hay.includes(q);
+}
 
 function applyStaticText() {
   document.getElementById("dateHint").textContent = t("dateHint");
@@ -308,6 +344,8 @@ function applyStaticText() {
     `<span><span class="company-label">${t("contact")}</span>朱睿 18006254832</span>`;
   document.querySelectorAll('.nav a[data-filter]').forEach(el => { el.textContent = dimLabel(el.dataset.filter); });
   document.querySelectorAll('.filter-bar button[data-filter]').forEach(el => { el.textContent = dimLabel(el.dataset.filter); });
+  document.getElementById("searchInput").placeholder = t("searchPlaceholder");
+  document.getElementById("searchClear").title = t("searchClear");
   document.getElementById("btnEn").textContent = lang === "zh" ? "EN" : "中";
 }
 
@@ -403,6 +441,7 @@ function rangeItems() {
   else if (dateMode === "month") pool = pool.filter(it => it.date.startsWith(`${y}-${String(m).padStart(2,"0")}`));
   else if (dateMode === "year") pool = pool.filter(it => it.date.startsWith(String(y)));
   if (currentFilter !== "all") pool = pool.filter(it => it.dim === currentFilter);
+  if (searchQuery) pool = pool.filter(matchSearch);
   pool.sort((a, b) => b.date.localeCompare(a.date) || (dimRank(a.dim) - dimRank(b.dim)));
   return pool;
 }
@@ -436,7 +475,7 @@ function renderRange() {
   } else {
     const shown = list.slice(0, cap);
     ovList.innerHTML = shown.map(it => {
-      const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
+      const title = highlight(it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh);
       const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
       const preciseTag = it.precise === true ? (lang === "zh" ? "「原文」" : "[Source]") : (lang === "zh" ? "「机构」" : "[Org]");
       return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a><span class="ov-src">· ${preciseTag} <a href="${it.url}" target="_blank">${src}</a></span></li>`;
@@ -453,8 +492,8 @@ function renderRange() {
       html += `<div class="timeline-date">${formatDate(it.date)}</div>`;
       prevDate = it.date;
     }
-    const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
-    const sum = it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh;
+    const title = highlight(it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh);
+    const sum = highlight(it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh);
     const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
     const dom = host(it.url);
     const precise = it.precise === true;
@@ -520,6 +559,22 @@ document.querySelectorAll('.date-mode button').forEach(b => {
 });
 document.getElementById("btnEn").addEventListener("click", () => setLang(lang === "zh" ? "en" : "zh"));
 window.addEventListener("resize", drawChart);
+
+// 搜索
+const searchInput = document.getElementById("searchInput");
+const searchClear = document.getElementById("searchClear");
+function applySearch() {
+  searchQuery = searchInput.value.trim();
+  searchClear.classList.toggle("show", searchQuery.length > 0);
+  renderRange();
+  drawChart();
+}
+searchInput.addEventListener("input", applySearch);
+searchClear.addEventListener("click", () => {
+  searchInput.value = "";
+  applySearch();
+  searchInput.focus();
+});
 
 applyStaticText();
 initHistory();
