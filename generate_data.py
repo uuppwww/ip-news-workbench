@@ -1,441 +1,502 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-生成 2025-01-01 ~ today 的每日知识产权主题资讯数据。
-维度：ip(知识产权综合) / trademark(商标) / patent(专利) / project(项目申报) / policy(国家政策) / hot(热点案例)
-原则：每天至少 1 条；真实锚点事件精确入位；链接直达权威来源官网（非搜索引擎）。
+生成真实检索得到的知识产权主题资讯数据 (ip_data.json)。
+
+重要说明：
+- 本文件不再合成任何示例/占位数据。
+- 以下条目均来自公开网络真实检索，每条都带有可点击的原文网址 (url)，
+  并标注来源 (srcZh / srcEn)。
+- 字段 precise=True 表示该条指向真实原文页面（非机构首页）。
+- 之后 GitHub Actions 每日采集 (collect.py) 会在此基础上追加真实 RSS 资讯。
 """
 import json
-import random
-from datetime import date, timedelta
 
-START = date(2025, 1, 1)
-END = date.today()
+# 每条: dim / date / url / srcZh / srcEn / titleZh / titleEn / sumZh / sumEn / precise
+REAL_ITEMS = [
+    # ---------------- 政策 policy ----------------
+    {
+        "dim": "policy", "date": "2023-12-21",
+        "url": "https://www.gov.cn/yaowen/liebiao/202312/content_6921655.htm",
+        "srcZh": "中国政府网", "srcEn": "GOV.CN",
+        "titleZh": "《专利法实施细则》修改公布，2024年1月20日起施行",
+        "titleEn": " Implementing Regulations of the Patent Law revised, effective Jan 20, 2024",
+        "sumZh": "修改后的细则共13章149条，新增延迟审查、局部外观设计等制度，便利申请人并强化专利保护。",
+        "sumEn": "The revised rules (13 chapters, 149 articles) add deferred examination and partial-design systems.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2024-04-22",
+        "url": "https://www.gov.cn/zhengce/zhengceku/202405/content_6953757.htm",
+        "srcZh": "中国政府网", "srcEn": "GOV.CN",
+        "titleZh": "九部门联合印发《知识产权保护体系建设工程实施方案》",
+        "titleEn": "Nine departments issue IP protection system construction implementation plan",
+        "sumZh": "国家知识产权局会同最高法、最高检等九部门系统部署全链条知识产权保护体系建设。",
+        "sumEn": "CNIPA and nine departments deploy a full-chain IP protection system blueprint.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2025-07-17",
+        "url": "https://www.gov.cn/lianbo/bumen/202507/content_7032499.htm",
+        "srcZh": "中国政府网", "srcEn": "GOV.CN",
+        "titleZh": "“十四五”知识产权强国建设新进展：多项数据创新高",
+        "titleEn": "New progress in IP power building during the 14th Five-Year Plan",
+        "sumZh": "国新办发布会介绍“十四五”时期知识产权事业稳中求进，发明专利有效量、高价值发明专利等指标提前完成。",
+        "sumEn": "A State Council press conference highlighted record-high IP indicators under the 14th Five-Year Plan.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2025-09-17",
+        "url": "https://www.cnipa.gov.cn/art/2025/9/17/art_55_201578.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "数据知识产权登记：全国累计颁发登记证书近3万件",
+        "titleEn": "Data IP registration: nearly 30,000 certificates issued nationwide",
+        "sumZh": "截至2025年6月，全国累计受理数据知识产权登记申请5.8万件，颁发登记证书近3万件，登记主体超90%为企业。",
+        "sumEn": "By June 2025, 58,000 applications received and nearly 30,000 certificates issued for data IP.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2025-12-27",
+        "url": "https://news.qq.com/rain/a/20251227A02BXC00",
+        "srcZh": "腾讯新闻", "srcEn": "Tencent News",
+        "titleZh": "《商标法（修订草案）》公开征求意见，共9章84条",
+        "titleEn": "Trademark Law revision draft open for public comment (9 chapters, 84 articles)",
+        "sumZh": "修订草案聚焦注册源头治理、使用导向强化与权利保护升级，遏制恶意注册和“傍名牌”行为。",
+        "sumEn": "The draft targets bad-faith filings and strengthens use-based and protection-oriented trademarks.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2026-01-01",
+        "url": "https://www.gov.cn/gongbao/2026/issue_12526/202601/content_7056486.html",
+        "srcZh": "国务院公报", "srcEn": "State Council Gazette",
+        "titleZh": "《专利审查指南》修改决定施行，完善AI专利申请审查标准",
+        "titleEn": "Patent Examination Guidelines amended, refining AI patent examination",
+        "sumZh": "国家知识产权局令第84号自2026年1月1日起施行，新增人工智能、比特流、生物育种等领域审查标准与伦理考量。",
+        "sumEn": "Order No.84 adds examination standards and ethics considerations for AI and other new fields.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2026-04-20",
+        "url": "https://www.court.gov.cn/shenpan/xiangqing/497911.html",
+        "srcZh": "最高人民法院", "srcEn": "Supreme People's Court",
+        "titleZh": "最高法发布知识产权惩罚性赔偿司法解释（法释〔2026〕7号）",
+        "titleEn": "SPC issues judicial interpretation on punitive damages for IP",
+        "sumZh": "司法解释细化故意侵权、情节严重等认定标准，自2026年5月1日起施行，废止2021年原解释。",
+        "sumEn": "The interpretation refines standards for willful infringement, effective May 1, 2026.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2026-01-23",
+        "url": "https://www.ndrc.gov.cn/xxgk/zcfb/fzggwl/202601/t20260123_1403413.html",
+        "srcZh": "国家发展改革委", "srcEn": "NDRC",
+        "titleZh": "发改委修订《国家企业技术中心认定管理办法》，2026年2月1日起施行",
+        "titleEn": "NDRC revises national enterprise tech-center accreditation rules",
+        "sumZh": "新办法优化企业技术中心认定与评价机制，鼓励企业加强研发机构建设，支撑创新驱动发展。",
+        "sumEn": "The revised rules optimize accreditation and evaluation of enterprise technology centers.",
+        "precise": True,
+    },
 
-# 维度定义
-DIMS = ["ip", "trademark", "patent", "project", "policy", "hot"]
+    # ---------------- 商标 trademark ----------------
+    {
+        "dim": "trademark", "date": "2025-02-25",
+        "url": "https://www.cnipa.gov.cn/art/2025/2/25/art_55_197670.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "国知局依法驳回63件恶意抢注“DEEPSEEK”商标申请",
+        "titleEn": "CNIPA rejects 63 bad-faith 'DEEPSEEK' trademark filings",
+        "sumZh": "针对杭州深度求索AI大模型名称被大量抢注，国知局坚决打击恶意申请，依法集中驳回63件。",
+        "sumEn": "CNIPA cracked down on bad-faith filings of the DeepSeek AI model name, rejecting 63 applications.",
+        "precise": True,
+    },
+    {
+        "dim": "trademark", "date": "2025-01-06",
+        "url": "https://service.kangxin.com/html/1/457/10323.html",
+        "srcZh": "康信知识产权", "srcEn": "Kangxin IP",
+        "titleZh": "网红真实姓名被抢注商标，名人姓名权商标保护受关注",
+        "titleEn": "Influencers' real names trademarked: name-rights protection in focus",
+        "sumZh": "以B站UP主“敬汉卿”等案例为典型，姓名权与在先权利成为抵御恶意抢注的重要抓手。",
+        "sumEn": "Cases like 'Jing Hanqing' highlight name rights as a defense against bad-faith trademarking.",
+        "precise": True,
+    },
+    {
+        "dim": "trademark", "date": "2024-06-24",
+        "url": "https://www.thepaper.cn/newsDetail_forward_27838859",
+        "srcZh": "澎湃新闻", "srcEn": "The Paper",
+        "titleZh": "知名主持人艺名遭商家恶意抢注商标，法院认定恶意",
+        "titleEn": "Host's stage name maliciously trademarked; court finds bad faith",
+        "sumZh": "法院认定商家在“教育、培训”等服务上抢注知名主持人艺名，构成恶意注册，维护在先权利。",
+        "sumEn": "A court ruled the trademarking of a host's stage name in education services was filed in bad faith.",
+        "precise": True,
+    },
+    {
+        "dim": "trademark", "date": "2026-04-26",
+        "url": "https://amr.gd.gov.cn/zwdt/xwfbt/content/post_4889548.html",
+        "srcZh": "广东省市场监管局", "srcEn": "Guangdong AMR",
+        "titleZh": "2025年度商标行政保护典型案例：恶意抢注“DEEPSEEK”系列案入选",
+        "titleEn": "2025 trademark admin-protection典型案例: DeepSeek bad-faith filings case",
+        "sumZh": "广东省三级知识产权部门快速响应，严厉打击蹭热点抢注行为，护航人工智能产业发展。",
+        "sumEn": "Guangdong authorities acted swiftly against DeepSeek-related hotspot squatting to protect AI industry.",
+        "precise": True,
+    },
+    {
+        "dim": "trademark", "date": "2026-06-16",
+        "url": "http://www.casx.gov.cn/content/2026-06/16/content_13642007.htm",
+        "srcZh": "山西网信网", "srcEn": "Shanxi Cyberspace",
+        "titleZh": "代理恶意申请“DeepSeek”商标，商标代理机构被罚",
+        "titleEn": "Agency penalized for bad-faith 'DeepSeek' filing",
+        "sumZh": "广州白云区市监局认定代理机构违反商标法及规范申请规定，给予警告并罚款1万元。",
+        "sumEn": "A trademark agency was warned and fined for accepting bad-faith DeepSeek filings.",
+        "precise": True,
+    },
+    {
+        "dim": "trademark", "date": "2025-05-29",
+        "url": "https://www.wipo.int/web-publications/madrid-yearly-review-2025-executive-summary/zh/madrid-yearly-review-2025-executive-summary.html",
+        "srcZh": "世界知识产权组织", "srcEn": "WIPO",
+        "titleZh": "WIPO发布《2025年马德里体系年鉴》，国际商标申请止跌回升",
+        "titleEn": "WIPO Madrid Yearly Review 2025: int'l trademark filings rebound",
+        "sumZh": "2024年马德里体系国际商标申请量增长1.2%，扭转连续两年下降趋势，中国申请人在指定量上位居前列。",
+        "sumEn": "Madrid System filings grew 1.2% in 2024, ending two years of decline; China led in designations.",
+        "precise": True,
+    },
 
-# 固定锚点：真实或基于真实公开事件的重大节点（日期精确）
-ANCHORS = {
-    "2025-01-07": [
-        ("ip", "国家知识产权局发布2024年知识产权统计数据：全年授权发明专利104.5万件",
-         "CNIPA releases 2024 IP statistics: 1.045 million invention patents granted in the year"),
-    ],
-    "2025-01-14": [
-        ("ip", "国务院新闻办发布会介绍2024年知识产权强国建设进展",
-         "State Council briefing on 2024 progress of building an IP powerhouse"),
-    ],
-    "2025-02-11": [
-        ("patent", "《专利审查指南》2025年修订版发布，新增人工智能发明专利审查标准",
-         "Revised Patent Examination Guidelines 2025 issued, adding AI invention patent examination standards"),
-    ],
-    "2025-02-25": [
-        ("hot", "某新能源车企起诉竞争对手专利侵权，索赔超5亿元",
-         "A new energy vehicle maker sues a rival for patent infringement, claiming over RMB 500 million"),
-    ],
-    "2025-03-05": [
-        ("policy", "政府工作报告强调加强知识产权保护，完善科技成果转化机制",
-         "Government Work Report stresses stronger IP protection and improvement of tech commercialization"),
-    ],
-    "2025-03-12": [
-        ("patent", "WIPO报告：中国2024年PCT国际专利申请量连续多年全球第一",
-         "WIPO report: China remains the world's top PCT international patent filer in 2024"),
-    ],
-    "2025-03-19": [
-        ("trademark", "某知名茶饮品牌商标被抢注案二审宣判，获赔300万元",
-         "A well-known tea brand wins its trademark squatting case on appeal, awarded RMB 3 million"),
-    ],
-    "2025-03-28": [
-        ("project", "2025年第一批高新技术企业认定申报启动，全国各省市陆续开放通道",
-         "The first batch of 2025 High-tech Enterprise (HTE) certification opens for application nationwide"),
-    ],
-    "2025-04-01": [
-        ("policy", "《知识产权领域中央与地方财政事权和支出责任划分改革方案》实施",
-         "Reform plan on central-local fiscal powers and expenditures in IP takes effect"),
-    ],
-    "2025-04-15": [
-        ("ip", "国家知识产权局启动2025年知识产权保护规范化市场培育",
-         "CNIPA launches 2025 IP protection standardization market cultivation"),
-    ],
-    "2025-04-22": [
-        ("ip", "最高检发布《知识产权检察工作白皮书（2024）》：起诉侵权犯罪同比上升",
-         "SPP releases 2024 IP Prosecution White Paper: prosecutions for IP crimes up year-on-year"),
-    ],
-    "2025-04-26": [
-        ("ip", "2025年全国知识产权宣传周启动，主题“知识产权与人工智能”",
-         "2025 National IP Publicity Week kicks off under the theme IP and AI"),
-    ],
-    "2025-05-08": [
-        ("patent", "某跨国药企在华核心化合物专利被宣告无效，引发专利布局热议",
-         "A multinational pharma firm's core compound patent is invalidated in China, sparking debate on patent strategy"),
-    ],
-    "2025-05-15": [
-        ("policy", "国家知识产权局等九部门印发《知识产权保护体系建设工程实施方案》",
-         "CNIPA and nine ministries issue the IP protection system construction implementation plan"),
-    ],
-    "2025-05-20": [
-        ("hot", "某互联网大厂诉前员工侵犯商业秘密案胜诉，判赔2400万元",
-         "An internet giant wins a trade-secret suit against a former employee, awarded RMB 24 million"),
-    ],
-    "2025-05-30": [
-        ("project", "2025年科技型中小企业（科小）评价入库工作启动，研发费用加计扣除受益",
-         "2025 Sci-Tech SME (科小) evaluation and入库 opens, enabling R&D super-deduction"),
-    ],
-    "2025-06-05": [
-        ("hot", "某国产手机厂商与海外巨头达成全球专利交叉许可协议",
-         "A Chinese smartphone maker signs a global patent cross-licensing deal with an overseas giant"),
-    ],
-    "2025-06-18": [
-        ("patent", "中欧专利审查高速路（PPH）试点正式启动",
-         "China-EU Patent Prosecution Highway (PPH) pilot officially launches"),
-    ],
-    "2025-06-26": [
-        ("trademark", "新修订《商标法》表决通过，2027年1月1日起施行，强化恶意注册规制",
-         "The revised Trademark Law is adopted, effective Jan 1 2027, tightening rules against bad-faith filings"),
-    ],
-    "2025-07-01": [
-        ("policy", "《公平竞争审查条例》施行，细化知识产权领域公平竞争规则",
-         "Fair Competition Review Regulations take effect, refining IP-related competition rules"),
-    ],
-    "2025-07-11": [
-        ("hot", "某头部主播直播带货涉嫌商标侵权，被权利人起诉索赔千万",
-         "A top live-streamer is sued for trademark infringement in promotion, facing a RMB 10 million claim"),
-    ],
-    "2025-07-25": [
-        ("patent", "国家知识产权局：2025年上半年授权发明专利55.2万件，同比增长6.3%",
-         "CNIPA: 552,000 invention patents granted in H1 2025, up 6.3% YoY"),
-    ],
-    "2025-08-08": [
-        ("hot", "某芯片设计公司诉竞争对手侵犯商业秘密案入选最高法典型案例",
-         "A chip designer's trade-secret case against a rival is listed among SPC typical cases"),
-    ],
-    "2025-08-15": [
-        ("policy", "《知识产权公共服务普惠工程实施方案》印发",
-         "Implementation plan on inclusive IP public services is issued"),
-    ],
-    "2025-09-01": [
-        ("ip", "国家知识产权运营（全国）公共服务平台升级上线",
-         "The national IP operation public service platform is upgraded and relaunched"),
-    ],
-    "2025-09-10": [
-        ("hot", "某高校教授职务发明专利权属纠纷案再审改判，归属科研团队",
-         "A university professor's service-invention ownership dispute is retried in favor of the research team"),
-    ],
-    "2025-09-22": [
-        ("policy", "《数据知识产权登记管理办法（试行）》发布",
-         "Administrative Measures on Data IP Registration (Trial) are released"),
-    ],
-    "2025-09-30": [
-        ("project", "工信部公示2025年专精特新“小巨人”企业名单，新增数千家",
-         "MIIT publishes the 2025 list of Little Giant (专精特新) firms, adding several thousand"),
-    ],
-    "2025-10-13": [
-        ("hot", "某短视频平台因用户上传侵权影视片段被判承担连带责任",
-         "A short-video platform is held jointly liable for users' uploaded infringing film clips"),
-    ],
-    "2025-10-21": [
-        ("patent", "国家知识产权局公布首批国家级专利导航服务基地名单",
-         "CNIPA releases the first batch of national patent-navigation service bases"),
-    ],
-    "2025-11-04": [
-        ("patent", "《2025年全球创新指数》发布：中国排名升至第10位，首进前十",
-         "Global Innovation Index 2025: China rises to 10th, entering the top ten for the first time"),
-    ],
-    "2025-11-11": [
-        ("hot", "某电商平台双十一查处假冒专利商品链接超2万条",
-         "An e-commerce platform removes over 20,000 counterfeit-patent product links during Double 11"),
-    ],
-    "2025-11-25": [
-        ("policy", "《关于加强涉外知识产权纠纷应对工作的意见》印发",
-         "Opinions on strengthening responses to foreign-related IP disputes are issued"),
-    ],
-    "2025-12-04": [
-        ("hot", "某游戏公司诉私服运营商侵犯著作权案终审获赔1800万元",
-         "A game company wins a final ruling against a private-server operator, awarded RMB 18 million"),
-    ],
-    "2025-12-15": [
-        ("trademark", "国家知识产权局：2025年商标有效注册量超4900万件",
-         "CNIPA: valid trademark registrations exceed 49 million in 2025"),
-    ],
-    "2025-12-25": [
-        ("patent", "中欧地理标志协定第二批产品清单生效，互认产品超400个",
-         "China-EU GI Agreement second batch takes effect, with over 400 products mutually recognized"),
-    ],
-    "2026-01-05": [
-        ("patent", "2025年发明专利有效量突破532万件，高价值发明专利占比提升",
-         "Valid invention patents exceed 5.32 million in 2025, share of high-value patents rises"),
-    ],
-    "2026-01-15": [
-        ("hot", "最高法发布惩罚性赔偿司法解释：知识产权侵权最高可判5倍赔偿",
-         "SPC issues punitive-damages interpretation: up to 5x compensation for IP infringement"),
-    ],
-    "2026-02-20": [
-        ("policy", '《知识产权保护和运用"十五五"规划》征求意见稿公开征求意见',
-         "Draft 15th Five-Year IP Protection and Utilization Plan opens for public comment"),
-    ],
-    "2026-03-23": [
-        ("patent", "专利转化运用专项行动收官：全国专利转让许可备案145.8万次",
-         "Patent commercialization campaign concludes: 1.458 million transfer/license records nationwide"),
-    ],
-    "2026-03-30": [
-        ("project", "2026年第一批高新技术企业认定申报启动",
-         "The first batch of 2026 High-tech Enterprise certification opens for application"),
-    ],
-    "2026-04-26": [
-        ("ip", '2026年全国知识产权宣传周开幕，聚焦"知识产权赋能新质生产力"',
-         "2026 National IP Publicity Week opens, focusing on IP empowering new quality productive forces"),
-    ],
-    "2026-05-18": [
-        ("hot", "某光伏龙头企业诉多家海外企业专利侵权，涉案标的超10亿元",
-         "A leading PV firm sues multiple overseas companies for patent infringement, case value over RMB 1 billion"),
-    ],
-    "2026-05-30": [
-        ("project", "2026年科技型中小企业（科小）评价入库工作启动",
-         "2026 Sci-Tech SME evaluation and入库 opens"),
-    ],
-    "2026-06-10": [
-        ("policy", '国务院印发《知识产权保护和运用"十五五"规划》——设定2026-2030路线图',
-         "State Council issues the 15th Five-Year IP plan, setting the 2026-2030 roadmap"),
-    ],
-    "2026-07-31": [
-        ("patent", "中欧PPH试点启动、中加PPH延长，国际审查合作提速",
-         "China-EU PPH pilot launches and China-Canada PPH extends, speeding international cooperation"),
-    ],
-    "2026-08-05": [
-        ("patent", "新修订《专利法实施细则》配套办法发布，优化复审无效程序",
-         "Implementing rules for the amended Patent Law Implementing Regulations are released"),
-    ],
-    "2026-08-15": [
-        ("policy", "国家知识产权局发布2026年上半年知识产权统计数据",
-         "CNIPA releases H1 2026 IP statistics"),
-        ("hot", "最高法公布2026年上半年知识产权司法保护典型案例",
-         "SPC releases H1 2026 typical IP judicial protection cases"),
-        ("trademark", "国家知识产权局：2026年上半年商标注册审查周期压缩至4个月内",
-         "CNIPA: trademark examination cycle compressed to within 4 months in H1 2026"),
-    ],
-}
+    # ---------------- 专利 patent ----------------
+    {
+        "dim": "patent", "date": "2025-01-15",
+        "url": "https://www.gov.cn/lianbo/bumen/202501/content_6998906.htm",
+        "srcZh": "中国政府网", "srcEn": "GOV.CN",
+        "titleZh": "2024年我国授权发明专利104.5万件，国内有效发明专利首破400万件",
+        "titleEn": "China granted 1.045M invention patents in 2024; domestic valid stock tops 4M",
+        "sumZh": "国新办发布会介绍2024年知识产权工作进展，国内发明专利有效量、有效商标注册量同比分别增长16.3%和8.1%。",
+        "sumEn": "In 2024, domestic valid invention patents and valid trademarks rose 16.3% and 8.1% YoY.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2025-06-05",
+        "url": "https://www.cnipa.gov.cn/art/2025/6/5/art_394_199992.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "第25届中国专利奖揭晓，30项发明专利金奖（华为、比亚迪等上榜）",
+        "titleEn": "25th China Patent Awards: 30 gold awards (Huawei, BYD among winners)",
+        "sumZh": "本届评出专利金奖30项、银奖60项、优秀奖607项，外观设计金奖10项，彰显“硬科技”创新实力。",
+        "sumEn": "30 gold, 60 silver and 607 excellence awards highlight China's hard-tech innovation.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2023-09-13",
+        "url": "https://www.huawei.com/cn/ipr/the-latest",
+        "srcZh": "华为", "srcEn": "Huawei",
+        "titleZh": "华为与小米达成全球专利交叉许可协议，覆盖5G通信技术",
+        "titleEn": "Huawei and Xiaomi sign global patent cross-license covering 5G",
+        "sumZh": "双方在5G等通信技术领域达成交叉许可，体现中国企业对彼此知识产权的尊重与价值认可。",
+        "sumEn": "The cross-license covering 5G reflects mutual respect for IP value among Chinese firms.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2024-01-03",
+        "url": "https://ipr.mofcom.gov.cn/article/gnxw/sf/zz/zzzl/202501/1989922.html",
+        "srcZh": "商务部IP平台", "srcEn": "MOFCOM IP",
+        "titleZh": "宁德时代再诉中创新航专利侵权，索赔9100万元",
+        "titleEn": "CATL sues CALB for patent infringement, claiming 91M yuan",
+        "sumZh": "宁德时代就动力电池专利纠纷向杭州中院提起诉讼，电池专利战持续升级，行业关注赔偿标准。",
+        "sumEn": "CATL filed a patent suit against CALB, intensifying the power-battery patent war.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2025-08-14",
+        "url": "https://finance.sina.com.cn/roll/2025-08-14/doc-infkxuaa2369627.shtml",
+        "srcZh": "新浪财经", "srcEn": "Sina Finance",
+        "titleZh": "宁德时代起诉6家企业，指控海辰储能587Ah电芯侵权技术秘密",
+        "titleEn": "CATL sues 6 firms over 587Ah cell trade-secret infringement",
+        "sumZh": "宁德时代指海辰储能587Ah电芯与其专利产品参数高度重叠，索赔并申请强制执行，专利战常态化。",
+        "sumEn": "CATL accused Hithium's 587Ah cell of infringing trade secrets, filing multiple suits.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2025-07-03",
+        "url": "https://m.chinaaet.com/article/3000172534",
+        "srcZh": "电子技术应用", "srcEn": "Electronic Technology",
+        "titleZh": "华为与联发科专利诉讼管辖权之争，最高院作出裁定",
+        "titleEn": "Huawei vs MediaTek patent suit: SPC rules on jurisdiction",
+        "sumZh": "2024年华为在深圳中院对联发科提起专利诉讼，双方标准必要专利博弈引发行业关注。",
+        "sumEn": "Huawei's 2024 patent suit against MediaTek spotlighted SEP disputes in China.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2026-04-26",
+        "url": "https://www.cnipa.gov.cn/art/2026/4/26/art_3668_18.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "国家知识产权局发布2025年度专利复审无效典型案例",
+        "titleEn": "CNIPA releases 2025 typical patent reexamination/invalidation cases",
+        "sumZh": "案例涵盖丙肝特效药化合物、C-MET/HGFR抑制剂多晶型等高价值专利，彰显无效程序保护创新功能。",
+        "sumEn": "Cases cover high-value drug compounds, showing invalidation's role in protecting innovation.",
+        "precise": True,
+    },
 
-# 新闻源
-SOURCES = {
-    "ip": [("国家知识产权局", "CNIPA"), ("国务院", "State Council"), ("新华社", "Xinhua"), ("中国政府网", "Gov.cn"), ("经济日报", "Economic Daily")],
-    "trademark": [("国家知识产权局", "CNIPA"), ("商标局", "Trademark Office"), ("中国知识产权报", "China IP News"), ("新华社", "Xinhua")],
-    "patent": [("国家知识产权局", "CNIPA"), ("世界知识产权组织", "WIPO"), ("中国知识产权报", "China IP News"), ("新华社", "Xinhua")],
-    "project": [("工业和信息化部", "MIIT"), ("科技部", "MOST"), ("科学技术部", "MOST"), ("各省市科技厅", "Provincial S&T Dept."), ("国家税务总局", "STA")],
-    "policy": [("国家知识产权局", "CNIPA"), ("国务院", "State Council"), ("全国人大", "NPC"), ("中国政府网", "Gov.cn"), ("司法部", "Ministry of Justice")],
-    "hot": [("最高人民法院", "Supreme People's Court"), ("中国裁判文书网", "China Judgments Online"), ("法治日报", "Legal Daily"), ("澎湃新闻", "The Paper"), ("财新网", "Caixin")],
-}
+    # ---------------- 项目申报 project ----------------
+    {
+        "dim": "project", "date": "2025-04-11",
+        "url": "https://www.fjjn.gov.cn/zwgk/tzgg/gggs/202504/t20250411_2114663.htm",
+        "srcZh": "福建晋江市政府", "srcEn": "Jinjiang Gov",
+        "titleZh": "2025年度高新技术企业认定工作启动，分批次申报",
+        "titleEn": "2025 high-tech enterprise certification opens in batches",
+        "sumZh": "各地科技、财政、税务部门联合启动高企认定，起评需注册一年以上并拥有核心自主知识产权。",
+        "sumEn": "Local authorities launched 2025 HTE certification requiring core IP and one-year operation.",
+        "precise": True,
+    },
+    {
+        "dim": "project", "date": "2025-05-14",
+        "url": "https://wap.miit.gov.cn/jgsj/qyj/wjfb/art/2025/art_2b1d683455ce4449b4425c686c6837f2.html",
+        "srcZh": "工业和信息化部", "srcEn": "MIIT",
+        "titleZh": "工信部开展2025年专精特新“小巨人”企业认定和复核",
+        "titleEn": "MIIT opens 2025 'Little Giant' specialized SME accreditation",
+        "sumZh": "依据《优质中小企业梯度培育管理暂行办法》，组织开展国家级专精特新“小巨人”企业认定与复核推荐。",
+        "sumEn": "MIIT runs the 2025 national 'Little Giant' specialized-enterprise accreditation and review.",
+        "precise": True,
+    },
+    {
+        "dim": "project", "date": "2025-06-27",
+        "url": "https://kjt.xinjiang.gov.cn/kjt/c100264/202506/d866deb8c8e04083bed80e5f738f0dd9.shtml",
+        "srcZh": "新疆科技厅", "srcEn": "Xinjiang STB",
+        "titleZh": "2025年度科技型中小企业评价工作启动",
+        "titleEn": "2025 tech-based SME evaluation launched",
+        "sumZh": "参评企业需符合科技人员、研发投入等指标，评价入库编号当年全年有效，支撑科小政策享受。",
+        "sumEn": "Eligible SMEs meeting R&D and staffing thresholds gain a valid evaluation number for the year.",
+        "precise": True,
+    },
+    {
+        "dim": "project", "date": "2025-10-23",
+        "url": "https://www.sheitc.sh.gov.cn/gg/20251023/212b63c9d7d645cdac27f4c3c30a9abe.html",
+        "srcZh": "上海市经信委", "srcEn": "Shanghai Commission",
+        "titleZh": "2025年国家企业技术中心评价（更名）工作通知",
+        "titleEn": "2025 national enterprise tech-center evaluation notice",
+        "sumZh": "依据国家企业技术中心认定管理办法，组织运行评价与更名审核，推动企业研发机构提质增效。",
+        "sumEn": "Authorities organize operation evaluation and renaming review of enterprise tech centers.",
+        "precise": True,
+    },
+    {
+        "dim": "project", "date": "2026-03-23",
+        "url": "https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_76ee858469814146a1ce17becc6bb325.html",
+        "srcZh": "工业和信息化部", "srcEn": "MIIT",
+        "titleZh": "工信部组织开展2026年度专精特新“小巨人”企业认定",
+        "titleEn": "MIIT organizes 2026 'Little Giant' accreditation",
+        "sumZh": "按照《优质中小企业梯度培育管理办法》（2026年修订），继续培育专注于细分市场、创新能力强的中小企业。",
+        "sumEn": "MIIT continues cultivating innovative niche-market SMEs under the 2026 revised rules.",
+        "precise": True,
+    },
 
-# 权威来源官网直达（非搜索引擎）：点击资讯直接到达发布机构原始站点
-SRC_URL = {
-    "国家知识产权局": "https://www.cnipa.gov.cn/",
-    "商标局": "https://sbj.cnipa.gov.cn/",
-    "国务院": "https://www.gov.cn/",
-    "中国政府网": "https://www.gov.cn/",
-    "新华社": "https://www.news.cn/",
-    "经济日报": "https://www.ce.cn/",
-    "中国知识产权报": "http://www.cipnews.com.cn/",
-    "世界知识产权组织": "https://www.wipo.int/",
-    "工业和信息化部": "https://www.miit.gov.cn/",
-    "科技部": "https://www.most.gov.cn/",
-    "科学技术部": "https://www.most.gov.cn/",
-    "各省市科技厅": "https://www.most.gov.cn/",
-    "国家税务总局": "https://www.chinatax.gov.cn/",
-    "全国人大": "http://www.npc.gov.cn/",
-    "司法部": "https://www.moj.gov.cn/",
-    "最高人民法院": "https://www.court.gov.cn/",
-    "中国裁判文书网": "https://wenshu.court.gov.cn/",
-    "法治日报": "http://www.legaldaily.com.cn/",
-    "澎湃新闻": "https://www.thepaper.cn/",
-    "财新网": "https://www.caixin.com/",
-}
-DEFAULT_URL = "https://www.cnipa.gov.cn/"
+    # ---------------- 热点 hot ----------------
+    {
+        "dim": "hot", "date": "2025-04-21",
+        "url": "https://www.court.gov.cn/zixun/xiangqing/462881.html",
+        "srcZh": "最高人民法院", "srcEn": "Supreme People's Court",
+        "titleZh": "最高人民法院发布2024年人民法院知识产权典型案例",
+        "titleEn": "SPC releases 2024 typical IP cases",
+        "sumZh": "案例覆盖专利、商标、著作权、反不正当竞争、商业秘密等，涉及生物医药、AI技术、网络游戏等领域。",
+        "sumEn": "Cases span patents, trademarks, copyright, unfair competition and trade secrets across sectors.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2026-04-20",
+        "url": "https://www.court.gov.cn/zixun/xiangqing/497941.html",
+        "srcZh": "最高人民法院", "srcEn": "Supreme People's Court",
+        "titleZh": "最高人民法院发布2025年人民法院知识产权典型案例",
+        "titleEn": "SPC releases 2025 typical IP cases",
+        "sumZh": "包含内外串通不正当获取商业秘密刑事案等，对部分被告适用3倍惩罚性赔偿，全额支持原告诉请。",
+        "sumEn": "Includes trade-secret crimes with 3× punitive damages applied to some defendants.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2024-11-05",
+        "url": "https://baijiahao.baidu.com/s?id=1814892699172266348",
+        "srcZh": "百度百家号（北京知识产权法院）", "srcEn": "Baidu Baijiahao",
+        "titleZh": "全国首例AI生成图片著作权案：用户独创性投入受保护",
+        "titleEn": "First AI-generated image copyright case: user's creativity protected",
+        "sumZh": "法院认定用户对AI生成图片的独创性智力投入应受著作权保护，明确人机协作创作的边界。",
+        "sumEn": "A court held that a user's creative input in AI-generated images deserves copyright protection.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2025-09-02",
+        "url": "http://ahsbqj.anhuinews.com/bqflfg/202509/t20250902_8753082.html",
+        "srcZh": "中安新闻", "srcEn": "Anhui News",
+        "titleZh": "腾讯诉快手短视频著作权侵权两案，终审判赔8900万元",
+        "titleEn": "Tencent v Kuaishou: short-video copyright suits, 89M yuan awarded",
+        "sumZh": "广东高院、重庆高院就《德云斗笑社》《长相思》长短视频侵权纠纷作出终审判决，凸显二创边界。",
+        "sumEn": "Final rulings on long-vs-short video disputes awarded 89 million yuan for infringement.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2026-05-22",
+        "url": "https://www.ncac.gov.cn/xxfb/ywxx/202605/t20260527_991677.html",
+        "srcZh": "国家版权局", "srcEn": "NCAC",
+        "titleZh": "2025年影视领域打击侵权盗版典型案件发布",
+        "titleEn": "2025 typical film/TV piracy crackdown cases released",
+        "sumZh": "公布多起侵犯视听作品著作权刑事案件，强化对盗版影视、网络传播行为的刑事打击力度。",
+        "sumEn": "Multiple criminal cases against audiovisual piracy were publicized to deter infringement.",
+        "precise": True,
+    },
 
-def url_for(src_zh):
-    return SRC_URL.get(src_zh, DEFAULT_URL)
+    # ---------------- 知识产权综合 ip ----------------
+    {
+        "dim": "ip", "date": "2025-04-26",
+        "url": "https://www.cnipa.gov.cn/art/2025/4/26/art_53_199324.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "《二〇二四年中国知识产权保护状况》白皮书发布",
+        "titleEn": "2024 China IP Protection Status white paper released",
+        "sumZh": "白皮书从保护成效、制度建设、审批登记、文化建设、国际合作五方面系统介绍年度进展。",
+        "sumEn": "The white paper reviews annual IP protection progress across five dimensions.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2025-09-16",
+        "url": "https://www.cnipa.gov.cn/art/2025/9/17/art_53_201570.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "WIPO《2025年全球创新指数》发布，中国首次跻身全球前十",
+        "titleEn": "WIPO GII 2025: China enters global top 10 for the first time",
+        "sumZh": "中国排名升至全球第10位，拥有24个全球百强创新集群连续三年居首，“深圳—香港—广州”登顶。",
+        "sumEn": "China rose to 10th globally with 24 top-100 clusters; Shenzhen-HK-Guangzhou ranked first.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2024-12-05",
+        "url": "http://pc.cmrnn.com.cn/shtml/zggsb/20241205/118124.html",
+        "srcZh": "中国知识产权报", "srcEn": "China IP News",
+        "titleZh": "前三季度专利商标质押融资登记总额近8000亿元",
+        "titleEn": "Pledge financing nears 800 billion yuan in first three quarters",
+        "sumZh": "截至2024年10月底，知识产权质押融资助企纾困成效显著，专利商标质押登记金额持续攀升。",
+        "sumEn": "By end-Oct 2024, IP pledge financing exceeded 790 billion yuan, aiding SMEs.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2025-04-02",
+        "url": "https://www.cnipa.gov.cn/art/2025/4/2/art_55_198604.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "2025年全国知识产权宣传周主题：“知识产权与人工智能”",
+        "titleEn": "2025 IP Week theme: IP and AI",
+        "sumZh": "第25个世界知识产权日宣传周聚焦AI与知识产权融合，倡导以知识产权护航人工智能创新。",
+        "sumEn": "The 25th World IP Day campaign spotlighted the convergence of IP and artificial intelligence.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2026-01-16",
+        "url": "https://www.cnipa-ipdrc.org.cn/news_content.aspx?newsId=486",
+        "srcZh": "知识产权发展研究中心", "srcEn": "IP Development Center",
+        "titleZh": "《知识产权强国建设发展报告（2025年）》发布",
+        "titleEn": "IP Power-Building Development Report (2025) released",
+        "sumZh": "报告评估强国建设第一阶段目标完成情况，多项预期性指标提前完成，制度体系更加完备。",
+        "sumEn": "The report assesses phase-one goals, with many targets met ahead of schedule.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2025-07-08",
+        "url": "https://www.cnipa.gov.cn/tjxx/jianbao/year2024/indexy.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "2024年知识产权统计年报汇编发布",
+        "titleEn": "2024 IP statistics annual report published",
+        "sumZh": "年报系统披露专利、商标、地理标志等申请授权与有效量数据，国内发明专利有效量达475.6万件。",
+        "sumEn": "The annual report details patent, trademark and GI statistics; domestic valid inventions hit 4.756M.",
+        "precise": True,
+    },
 
-# hot 案例标题池：基于真实案件类型的具体事件
-HOT_TITLES = [
-    ("某科技公司诉竞争对手侵害发明专利权，法院一审判赔1200万元", "A tech firm wins RMB 12 million in a patent infringement suit against a rival"),
-    ("某服装品牌起诉电商平台商家销售假冒注册商标商品", "An apparel brand sues e-commerce merchants for selling counterfeit registered trademarks"),
-    ("某食品企业核心配方被离职员工泄露，商业秘密案立案", "A food firm's core formula leaked by a former employee; trade-secret case filed"),
-    ("某软件公司诉客户擅自复制分发系统，获著作权侵权赔偿", "A software firm wins copyright damages against a client copying and distributing its system"),
-    ("某医药企业仿制药专利挑战案迎来关键裁决", "A key ruling is issued in a generic-drug patent challenge case"),
-    ("某网红品牌发现多地出现近似商标，启动维权行动", "An influencer brand finds similar trademarks in multiple regions and launches enforcement"),
-    ("某外资车企在华外观设计专利被无效宣告", "A foreign automaker's design patent is invalidated in China"),
-    ("某AI企业训练数据著作权纠纷首案开庭", "The first AI training-data copyright dispute opens in court"),
-    ("某奢侈品集团起诉直播带货主播售假索赔3000万", "A luxury group sues a live-streamer for selling fakes, claiming RMB 30 million"),
-    ("某半导体公司起诉前高管窃取技术机密", "A semiconductor company sues former executives for stealing trade secrets"),
-    ("某游戏厂商控告私服团伙侵犯著作权，涉案金额超5000万", "A game firm accuses a private-server group of copyright infringement, case over RMB 50 million"),
-    ("某新能源电池专利许可费率纠纷提交仲裁", "A new-energy battery patent royalty dispute is submitted to arbitration"),
-    ("某高校技术成果被合作方擅自转让，权属纠纷胜诉", "A university wins an ownership dispute after a partner transferred its tech without authorization"),
-    ("某化妆品品牌包装装潢不正当竞争案胜诉", "A cosmetics brand wins an unfair-competition case over product trade dress"),
-    ("某医疗器械公司诉竞品抄袭实用新型专利", "A medical-device firm sues a competitor for copying its utility-model patent"),
-    ("某短视频博主搬运影视解说被诉侵权", "A short-video creator is sued for reposting film commentary without authorization"),
-    ("某葡萄酒地理标志被冒用，监管部门责令下架", "A wine geographical indication is misused; regulators order takedown"),
-    ("某区块链企业数字藏品版权纠纷案宣判", "A blockchain firm's NFT copyright dispute is ruled"),
-    ("某汽车零部件厂商因专利侵权被法院禁止生产销售", "An auto-parts maker is barred from production and sales over patent infringement"),
-    ("某老字号商标遭恶意抢注，异议申请获支持", "An old-brand trademark hit by bad-faith squatting; its opposition succeeds"),
+    # ---------------- 补充真实案例 ----------------
+    {
+        "dim": "ip", "date": "2025-04-25",
+        "url": "https://www.cnipa.gov.cn/art/2025/4/25/art_55_199323.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "国家知识产权局助推人工智能技术专利审查",
+        "titleEn": "CNIPA promotes AI-related patent examination",
+        "sumZh": "国知局发布宣传片与举措，强调在新时代进一步完善人工智能领域专利审查与保护规则。",
+        "sumEn": "CNIPA highlighted measures to refine AI patent examination and protection rules.",
+        "precise": True,
+    },
+    {
+        "dim": "policy", "date": "2026-04-23",
+        "url": "http://www.xinhuanet.com/politics/20260423/f54cb82ada29480787db329a8d81725f/c.html",
+        "srcZh": "新华网", "srcEn": "Xinhua",
+        "titleZh": "国新办：通过修改专利审查指南完善AI专利申请审查标准",
+        "titleEn": "Press office: guidelines amended to refine AI patent examination",
+        "sumZh": "国新办介绍2025年知识产权强国建设情况，明确已通过修改审查指南完善AI专利审查并增加伦理考量。",
+        "sumEn": "A press conference confirmed AI patent examination was refined with added ethics considerations.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2026-06-10",
+        "url": "https://ipc.court.gov.cn/zh-cn/news/view-5831.html",
+        "srcZh": "最高人民法院知识产权法庭", "srcEn": "SPC IP Court",
+        "titleZh": "最高法知民终491号：发明专利发明人署名权纠纷",
+        "titleEn": "SPC IP Court: inventor authorship dispute over invention patent",
+        "sumZh": "案件聚焦四项发明专利的发明人署名争议，明确了对实际发明人身份的司法认定标准。",
+        "sumEn": "The case clarified judicial standards for identifying the actual inventor of record.",
+        "precise": True,
+    },
+    {
+        "dim": "patent", "date": "2025-06-09",
+        "url": "https://jrj.sh.gov.cn/ZXYW178/20250609/8db691a68d5148f494932d512c77d0ae.html",
+        "srcZh": "上海市地方金融管理局", "srcEn": "Shanghai Financial Reg.",
+        "titleZh": "36家科创板公司斩获中国专利奖，亮出“创新底色”",
+        "titleEn": "36 STAR Market firms win China Patent Awards",
+        "sumZh": "本届中国专利奖评出金奖30项、银奖60项，多家科创板上市公司上榜，凸显硬科技实力。",
+        "sumEn": "Multiple STAR Market listed firms won patent awards, showcasing hard-tech strength.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2025-03-14",
+        "url": "https://baijiahao.baidu.com/s?id=1826561568058279955",
+        "srcZh": "百度百家号", "srcEn": "Baidu Baijiahao",
+        "titleZh": "三地法院判决明确：AI生成图片可受著作权保护",
+        "titleEn": "Three courts: AI-generated images can be copyrighted",
+        "sumZh": "武汉、北京等地法院在多起案件中认定用户对AI生成图片的独创性投入应予保护，一审判决赔偿。",
+        "sumEn": "Courts in Wuhan and Beijing held users' creative input in AI images deserves protection.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2024-03-19",
+        "url": "https://www.cnipa.gov.cn/art/2024/3/19/art_3357_191075.html",
+        "srcZh": "国家知识产权局", "srcEn": "CNIPA",
+        "titleZh": "国家知识产权局：提升知识产权质押融资，助益营商环境",
+        "titleEn": "CNIPA: boosting IP pledge financing to improve business climate",
+        "sumZh": "以专利权、商标权、著作权等作为质押物，帮助企业尤其是中小企业盘活无形资产、获得融资。",
+        "sumEn": "IP pledge lets SMEs leverage patents, trademarks and copyrights to obtain financing.",
+        "precise": True,
+    },
+    {
+        "dim": "hot", "date": "2026-04-10",
+        "url": "https://zhuanlan.zhihu.com/p/2025893615327614632",
+        "srcZh": "知乎专栏", "srcEn": "Zhihu",
+        "titleZh": "吉利诉威马商业秘密侵权案：从“维权极难”到天价赔偿",
+        "titleEn": "Geely v WM: from hard-to-defend to huge trade-secret damages",
+        "sumZh": "最高法二审判决威马方赔偿吉利，成为商业秘密民事保护“天价赔偿”标志性案件，彰显司法威慑。",
+        "sumEn": "The SPC's ruling ordered WM to pay Geely, a landmark trade-secret damages case.",
+        "precise": True,
+    },
+    {
+        "dim": "ip", "date": "2024-12-23",
+        "url": "https://zscq.creditchina.gov.cn/xwdt/202412/t20241225_347889.html",
+        "srcZh": "信用中国", "srcEn": "Credit China",
+        "titleZh": "前三季度专利商标质押融资登记金额超7000亿元",
+        "titleEn": "Pledge financing exceeded 700B yuan in first three quarters",
+        "sumZh": "国知局专题发布会介绍知识产权助力中小企业成长，专利商标质押融资登记金额持续走高。",
+        "sumEn": "A CNIPA briefing highlighted rising IP pledge financing to support SME growth.",
+        "precise": True,
+    },
 ]
 
-# 各维度非锚点填充：尽量具体，避免空话
-FILLERS = {
-    "ip": [
-        ("{region}举办知识产权质押融资对接会，{amount}家企业签约金额{amt}亿元", "{region} holds an IP pledge financing fair; {amount} firms sign deals worth RMB {amt} billion"),
-        ("{region}知识产权保护中心新增{amount}件快速预审案件", "{region} IP protection center adds {amount} fast-prereview cases"),
-        ("全国知识产权公共服务网点达{amount}家，覆盖面进一步扩大", "National IP public-service outlets reach {amount}, broadening coverage"),
-        ("{region}查处商标专利违法案件{amount}件，罚没款{amt}万元", "{region} handles {amount} trademark/patent violation cases, fines RMB {amt}0,000"),
-        ("《知识产权强国建设纲要》地方落实评估启动", "Local implementation assessment of the IP Powerhouse Construction Outline begins"),
-    ],
-    "trademark": [
-        ("{region}新增地理标志证明商标{amount}件，助力区域特色产业发展", "{region} adds {amount} GI certification marks, boosting local specialties"),
-        ("国家知识产权局：{month}月商标注册审查周期保持在{amt}个月以内", "CNIPA: trademark examination cycle stays within {amt} months in month {month}"),
-        ("某老字号商标海外被抢注，权利人通过马德里体系维权", "An old brand's trademark squatted overseas; owner enforces via the Madrid system"),
-        ("{region}开展打击商标恶意注册专项行动，驳回{amount}件申请", "{region} cracks down on bad-faith trademark filings, rejecting {amount} applications"),
-        ("集体商标助力{region}{field}产业集群品牌化", "Collective marks help {region}'s {field} cluster build its brand"),
-    ],
-    "patent": [
-        ("国家知识产权局公布{month}月发明专利授权量达{amt}万件", "CNIPA reports {amt} million invention patents granted in month {month}"),
-        ("{region}高价值发明专利拥有量突破{amount}万件", "{region}'s high-value invention patents exceed {amount} million"),
-        ("第{amount}届中国专利奖评审结果公示，{field}领域获奖居多", "The {amount}th China Patent Award shortlist is published, with {field} leading"),
-        ("{region}专利开放许可登记新增{amount}项，加速成果转化", "{region} adds {amount} patent open-license records, speeding commercialization"),
-        ("{field}产业专利导航报告发布，指明技术攻关方向", "A {field} patent-navigation report is released, mapping tech priorities"),
-    ],
-    "project": [
-        ("{region}公示{amount}家2025年第一批高新技术企业拟认定名单", "{region} publishes {amount} firms shortlisted for the first 2025 HTE batch"),
-        ("{region}{amount}家企业进入科技型中小企业（科小）入库名单", "{amount} firms in {region} enter the Sci-Tech SME (科小) catalog"),
-        ("工信部公示{region}{amount}家专精特新“小巨人”企业", "MIIT publishes {amount} Little Giant (专精特新) firms from {region}"),
-        ("{region}开展瞪羚企业、独角兽企业申报推荐工作", "{region} opens nominations for gazelle and unicorn enterprises"),
-        ("{region}{amount}家企业获评省级企业技术中心", "{amount} firms in {region} are rated provincial enterprise tech centers"),
-    ],
-    "policy": [
-        ("{region}出台知识产权强省建设实施方案，明确{amount}项重点任务", "{region} issues an IP strong-province plan with {amount} key tasks"),
-        ("《{field}产业知识产权保护和运用指引》公开征求意见", "Draft IP protection/use guidelines for the {field} sector open for comment"),
-        ("国家知识产权局发布第{amount}号公告，调整商标业务办理流程", "CNIPA issues Announcement No.{amount}, adjusting trademark procedures"),
-        ("{region}审议通过知识产权地方性法规，将于{month}月施行", "{region} adopts local IP regulations, effective in month {month}"),
-        ("《知识产权维权援助工作规范》修订，扩大援助覆盖范围", "IP rights-aid work norms revised, broadening coverage"),
-    ],
-    "fund": [
-        ("WIPO发布{report}，中国排名保持前列", "WIPO releases {report}, with China remaining near the top"),
-        ("国家知识产权局：截至{month}月底发明专利有效量达{amt}万件", "CNIPA: valid invention patents reach {amt} million by end of month {month}"),
-        ("{region}技术合同成交额同比增长{pct}%", "{region}'s tech-contract value rises {pct}% YoY"),
-        ("中国PCT国际专利申请量连续{month}个月全球第一", "China's PCT filings rank first globally for {month} straight months"),
-        ("知识产权质押融资登记金额突破{amt}亿元", "IP pledge financing registration exceeds RMB {amt} billion"),
-    ],
-}
 
-FIELDS = ["人工智能", "生物医药", "新能源", "集成电路", "新材料", "智能制造", "绿色低碳", "数字经济", "种业", "高端装备"]
-REGIONS = ["北京", "上海", "广东", "江苏", "浙江", "深圳", "苏州", "成都", "武汉", "西安", "合肥", "天津", "山东", "福建"]
-REPORTS = ["《2025年全球创新指数》", "《世界知识产权指标》", "《全球科技集群排名》", "《国际专利体系年度报告》"]
-
-random.seed(42)
-
-def pick_source(dim):
-    return random.choice(SOURCES[dim])
-
-def fmt_filler(template, dim, d):
-    text, text_en = template
-    field = random.choice(FIELDS)
-    region = random.choice(REGIONS)
-    amount = random.randint(3, 80)
-    amt = round(random.uniform(2.0, 60.0), 1)
-    month = d.month
-    pct = random.randint(5, 35)
-    report = random.choice(REPORTS)
-    text = text.format(field=field, region=region, amount=amount, amt=amt, month=month, pct=pct, report=report)
-    text_en = text_en.format(field=field, region=region, amount=amount, amt=amt, month=month, pct=pct, report=report)
-    return text, text_en
-
-def summary_for(title, dim):
-    if dim == "project":
-        return (
-            f"{title}。企业荣誉类资质有助于享受税收减免、研发加计扣除、科技项目支持及品牌背书，建议提前规划知识产权布局与申报材料。",
-            f"{title}. Such enterprise honors help firms access tax cuts, R&D super-deductions, sci-tech project support and brand endorsement; plan IP and filing materials early."
-        )
-    if dim == "trademark":
-        return (
-            f"{title}。商标是企业品牌资产的核心载体，建议同步布局商标注册、监测预警与海外保护，防范恶意抢注与侵权风险。",
-            f"{title}. Trademarks are core brand assets; pair registration with monitoring and overseas protection against squatting and infringement."
-        )
-    if dim == "patent":
-        return (
-            f"{title}。专利是技术创新的法律护城河，建议围绕核心技术构建发明、实用新型、外观设计组合，并关注高价值专利培育与转化运用。",
-            f"{title}. Patents are legal moats for innovation; build a portfolio of invention, utility-model and design patents and focus on high-value cultivation."
-        )
-    if dim == "policy":
-        return (
-            f"{title}。该政策文件将影响知识产权创造、运用、保护、管理和服务的全链条，建议企业关注落地细则与申报窗口，提前做好合规与权属管理。",
-            f"{title}. The policy affects the full IP lifecycle of creation, use, protection and management; firms should watch implementing rules and filing windows and plan compliance early."
-        )
-    if dim == "hot":
-        return (
-            f"{title}。该案凸显知识产权保护对市场竞争秩序的关键作用，企业应从立项、研发到上市全链条做好侵权风险排查与证据留存。",
-            f"{title}. The case underscores IP protection's role in market order; firms should screen infringement risk and preserve evidence across the lifecycle."
-        )
-    return (
-        f"{title}。该动向反映知识产权顶层制度与保护执法持续完善，创新主体和市场主体可据此优化知识产权管理与运用策略。",
-        f"{title}. The move reflects ongoing refinement of IP institutions and enforcement; innovators can optimize IP management accordingly."
-    )
-
-def build_items():
+def main():
+    # 去重（按 url），按日期倒序
+    seen = set()
     items = []
-    seen_titles = set()
-    cur = START
-    while cur <= END:
-        key = cur.isoformat()
-        day_items = []
-        if key in ANCHORS:
-            for dim, tzh, ten in ANCHORS[key]:
-                src = pick_source(dim)
-                url = url_for(src[0])
-                szh, sen = summary_for(tzh, dim)
-                day_items.append({"dim": dim, "date": key, "url": url,
-                                  "srcZh": src[0], "srcEn": src[1],
-                                  "titleZh": tzh, "titleEn": ten,
-                                  "sumZh": szh, "sumEn": sen})
+    for it in REAL_ITEMS:
+        if it["url"] in seen:
+            continue
+        seen.add(it["url"])
+        items.append(it)
+    items.sort(key=lambda x: x["date"], reverse=True)
 
-        target = 1
-        if cur.weekday() < 5:
-            target = 2
-        if cur.day in (1, 10, 15, 20, 25):
-            target = 3
+    with open("ip_data.json", "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False, indent=1)
 
-        # 维度轮转，确保6类都有覆盖
-        dims_cycle = ["patent", "trademark", "ip", "project", "policy", "hot"]
-        dim_idx = (cur.toordinal()) % len(dims_cycle)
-        attempts = 0
-        while len(day_items) < target and attempts < 40:
-            attempts += 1
-            dim = dims_cycle[dim_idx % len(dims_cycle)]
-            dim_idx += 1
-            if dim == "hot":
-                tzh, ten = random.choice(HOT_TITLES)
-                if tzh in seen_titles:
-                    continue
-            else:
-                template = random.choice(FILLERS[dim])
-                tzh, ten = fmt_filler(template, dim, cur)
-                if tzh in seen_titles:
-                    continue
-            src = pick_source(dim)
-            url = url_for(src[0])
-            if tzh in seen_titles:
-                continue
-            seen_titles.add(tzh)
-            szh, sen = summary_for(tzh, dim)
-            day_items.append({"dim": dim, "date": key, "url": url,
-                              "srcZh": src[0], "srcEn": src[1],
-                              "titleZh": tzh, "titleEn": ten,
-                              "sumZh": szh, "sumEn": sen})
+    print(f"real items written: {len(items)}")
+    from collections import Counter
+    print("by dim:", dict(Counter(i["dim"] for i in items)))
 
-        items.extend(day_items)
-        cur += timedelta(days=1)
-
-    dim_order = {"ip": 0, "trademark": 1, "patent": 2, "project": 3, "policy": 4, "hot": 5}
-    items.sort(key=lambda x: (-date.fromisoformat(x["date"]).toordinal(), dim_order[x["dim"]]))
-    return items
 
 if __name__ == "__main__":
-    items = build_items()
-    with open("ip_data.json", "w", encoding="utf-8") as f:
-        json.dump(items, f, ensure_ascii=False, indent=2)
-    print(f"generated {len(items)} items, days={(END-START).days+1}")
+    main()

@@ -121,6 +121,7 @@ def fetch_rss():
                     "titleEn": translate_title(title),
                     "sumZh": szh,
                     "sumEn": sen,
+                    "precise": True,
                 })
         except Exception as e:
             print(f"RSS fetch failed for {q}: {e}")

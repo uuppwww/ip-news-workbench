@@ -14,12 +14,8 @@ def main():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         items = json.load(f)
 
-    # 日期轴：2025-01-01 到今天
-    dates = []
-    cur = START
-    while cur <= END:
-        dates.append(cur.isoformat())
-        cur += __import__("datetime").timedelta(days=1)
+    # 日期轴：仅采用数据里真实存在的日期（倒序），不做无数据的铺满
+    dates = sorted({it["date"] for it in items}, reverse=True)
 
     with open(TEMPLATE, "r", encoding="utf-8") as f:
         html = f.read()
@@ -31,7 +27,7 @@ def main():
         f.write(html)
 
     print(f"report generated: {OUTPUT}")
-    print(f"items={len(items)}, dates={len(dates)}")
+    print(f"items={len(items)}, real_dates={len(dates)}")
 
 if __name__ == "__main__":
     main()

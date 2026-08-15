@@ -130,6 +130,9 @@ a:hover { text-decoration: underline; }
 .timeline-src a { color: var(--text-sec); font-weight: 500; }
 .timeline-src a:hover { color: var(--brand); }
 .timeline-src .ext { font-size: 10px; opacity: .7; margin-left: 2px; }
+.timeline-src .precise-badge { font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-right: 5px; }
+.timeline-src .precise-badge.yes { background: #e8f5e9; color: #1f5e3f; }
+.timeline-src .precise-badge.no { background: #f0f0f0; color: #777; }
 .ov-src { font-size: 12px; color: var(--text-hint); margin-left: 2px; white-space: nowrap; }
 .ov-src a { color: var(--text-hint); }
 .ov-src a:hover { color: var(--brand); }
@@ -247,20 +250,22 @@ const DICT = {
     dateHint: "选择日期范围，查看对应资讯", dateHintAll: "已选择全部时间范围",
     ovTitleDay: "今日要览", ovTitleMonth: "本月要览", ovTitleYear: "本年要览", ovTitleAll: "全部要览",
     keyTitle: "关键数据", chartTitle: "资讯分布", tlTitle: "时间线",
-    today: "回到今天", empty: "该范围暂无资讯", more: "条，详见下方时间线",
+    today: "最新", empty: "该范围暂无资讯", more: "条，详见下方时间线",
     footer: "本报告由公开网络检索整理，仅作资讯参考，不构成投资建议。",
     companyName: "苏州顺捷知识产权代理有限公司", contact: "联系人：",
-    ovCount: "条"
+    ovCount: "条",
+    preciseSrc: "原文来源", orgSrc: "机构来源", refSrc: "参考来源"
   },
   en: {
     all: "All", ip: "IP", trademark: "Trademark", patent: "Patent", project: "Grants", policy: "Policy", hot: "Hot Cases",
     dateHint: "Pick a date range to view the news", dateHintAll: "All time range selected",
     ovTitleDay: "Daily Brief", ovTitleMonth: "Monthly Brief", ovTitleYear: "Yearly Brief", ovTitleAll: "Full Brief",
     keyTitle: "Key Data", chartTitle: "Distribution", tlTitle: "Timeline",
-    today: "Today", empty: "No news for this range", more: " items, see timeline below",
+    today: "Latest", empty: "No news for this range", more: " items, see timeline below",
     footer: "Compiled from public online sources for reference only; not investment advice.",
     companyName: "Suzhou Shunjie Intellectual Property Agency Co., Ltd.", contact: "Contact: ",
-    ovCount: "items"
+    ovCount: "items",
+    preciseSrc: "Source", orgSrc: "Org Source", refSrc: "Reference"
   }
 };
 const DIM_LABEL = {
@@ -338,22 +343,18 @@ function initHistory() {
   monthSel.addEventListener("change", () => { refreshDays(); renderRange(); });
   daySel.addEventListener("change", () => { syncSelectedDate(); renderRange(); });
   document.getElementById("btnToday").addEventListener("click", () => {
-    const today = new Date();
-    if (years.includes(today.getFullYear())) yearSel.value = String(today.getFullYear());
+    // 跳到最新一条有数据的日期
+    yearSel.value = String(years[0]);
     refreshMonths();
-    if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
     refreshDays();
-    if (dateMode === "day" && [...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
     if (dateMode === "all") setMode("day");
-    else renderRange();
+    else { syncSelectedDate(); renderRange(); }
   });
 
-  const today = new Date();
-  if (years.includes(today.getFullYear())) yearSel.value = String(today.getFullYear());
+  // 默认选中最新一条有数据的日期
+  yearSel.value = String(years[0]);
   refreshMonths();
-  if ([...monthSel.options].map(o=>+o.value).includes(today.getMonth()+1)) monthSel.value = String(today.getMonth()+1);
   refreshDays();
-  if (dateMode === "day" && [...daySel.options].map(o=>+o.value).includes(today.getDate())) daySel.value = String(today.getDate());
   syncSelectedDate();
 }
 
@@ -429,7 +430,8 @@ function renderRange() {
     ovList.innerHTML = shown.map(it => {
       const title = it["title"+(lang==="zh"?"Zh":"En")] || it.titleZh;
       const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
-      return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a><span class="ov-src">· <a href="${it.url}" target="_blank">${src}</a></span></li>`;
+      const preciseTag = it.precise === true ? (lang === "zh" ? "「原文」" : "[Source]") : (lang === "zh" ? "「机构」" : "[Org]");
+      return `<li><span class="dot ${it.dim}"></span><a href="${it.url}" target="_blank">${title}</a><span class="ov-src">· ${preciseTag} <a href="${it.url}" target="_blank">${src}</a></span></li>`;
     }).join("") + (list.length > cap ? `<li class="empty" style="padding:8px 0;">…共 ${list.length} ${t("more")}</li>` : "");
   }
 
@@ -447,12 +449,14 @@ function renderRange() {
     const sum = it["sum"+(lang==="zh"?"Zh":"En")] || it.sumZh;
     const src = it["src"+(lang==="zh"?"Zh":"En")] || it.srcZh;
     const dom = host(it.url);
-    const srcLabel = lang === "zh" ? "来源" : "Source";
+    const precise = it.precise === true;
+    const badgeClass = precise ? "yes" : "no";
+    const badgeText = precise ? t("preciseSrc") : t("orgSrc");
     html += `<div class="timeline-item"><div class="timeline-dot ${it.dim}"></div>
       <div class="timeline-meta"><span class="timeline-tag">${dimLabel(it.dim)}</span></div>
       <div class="timeline-title"><a href="${it.url}" target="_blank">${title}</a></div>
       <div class="timeline-sum">${sum}</div>
-      <div class="timeline-src"><a href="${it.url}" target="_blank">${srcLabel}：${src} · ${dom}<span class="ext">↗</span></a></div></div>`;
+      <div class="timeline-src"><a href="${it.url}" target="_blank"><span class="precise-badge ${badgeClass}">${badgeText}</span>${src} · ${dom}<span class="ext">↗</span></a></div></div>`;
   });
   timeline.innerHTML = html;
 }
