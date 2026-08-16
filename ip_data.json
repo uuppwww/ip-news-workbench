@@ -60,6 +60,114 @@
   "precise": true
  },
  {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/14/art_57_207729.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "东北片区地理标志保护工作座谈会在长春举办",
+  "titleEn": "东北片区地理标志保护工作座谈会在长春举办",
+  "sumZh": "东北片区地理标志保护工作座谈会在长春举办。",
+  "sumEn": "东北片区地理标志保护工作座谈会在长春举办 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/14/art_57_207728.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "贵州省市区三级联动 精准服务三马产业园数据标注企业",
+  "titleEn": "贵州省市区三级联动 精准服务三马产业园数据标注企业",
+  "sumZh": "贵州省市区三级联动 精准服务三马产业园数据标注企业。",
+  "sumEn": "贵州省市区三级联动 精准服务三马产业园数据标注企业 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/14/art_57_207727.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "陕西举办企业出海知识产权保险专题培训",
+  "titleEn": "陕西举办企业出海知识产权保险专题培训",
+  "sumZh": "陕西举办企业出海知识产权保险专题培训。",
+  "sumEn": "陕西举办企业出海知识产权保险专题培训 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/14/art_55_207722.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "从“加快审查”升级为“精准服务创新”（法治网）",
+  "titleEn": "从“加快审查”升级为“精准服务创新”（法治网）",
+  "sumZh": "从“加快审查”升级为“精准服务创新”（法治网）。",
+  "sumEn": "从“加快审查”升级为“精准服务创新”（法治网） (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "patent",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147888",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "援引加入制度在实用新型专利申请缺图情形中的适用探析",
+  "titleEn": "援引加入制度在实用新型专利申请缺图情形中的适用探析",
+  "sumZh": "援引加入制度在实用新型专利申请缺图情形中的适用探析。",
+  "sumEn": "援引加入制度在实用新型专利申请缺图情形中的适用探析 (China IP News).",
+  "precise": true
+ },
+ {
+  "dim": "patent",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147870",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "国外专利审查信息动态（2026年8月14日）",
+  "titleEn": "国外专利审查信息动态（2026年8月14日）",
+  "sumZh": "国外专利审查信息动态（2026年8月14日）。",
+  "sumEn": "国外专利审查信息动态（2026年8月14日） (China IP News).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147868",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "“精于工、匠于心、品于行”",
+  "titleEn": "“精于工、匠于心、品于行”",
+  "sumZh": "“精于工、匠于心、品于行”。",
+  "sumEn": "“精于工、匠于心、品于行” (China IP News).",
+  "precise": true
+ },
+ {
+  "dim": "patent",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147866",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "以专利审查赋能创新生态",
+  "titleEn": "以专利审查赋能创新生态",
+  "sumZh": "以专利审查赋能创新生态。",
+  "sumEn": "以专利审查赋能创新生态 (China IP News).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147862",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "苏州工业园区：以“知”攀高 竞逐全球",
+  "titleEn": "苏州工业园区：以“知”攀高 竞逐全球",
+  "sumZh": "苏州工业园区：以“知”攀高 竞逐全球。",
+  "sumEn": "苏州工业园区：以“知”攀高 竞逐全球 (China IP News).",
+  "precise": true
+ },
+ {
   "dim": "view",
   "date": "2026-08-14",
   "url": "https://www.iprdaily.cn/news_42901.html",
@@ -180,15 +288,27 @@
   "precise": true
  },
  {
-  "dim": "hot",
+  "dim": "view",
   "date": "2026-08-14",
-  "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE80bWszOFktUDBZNzdPUHRoVDVKTFJidnNZdmtvNnZ6RVIwMkJuX0FvX0Q3V0w0ZmRJMkJVc2tSNlhLcndzdDVkQVZfcVhUVjY3QWc2OEU1S3U?oc=5",
-  "srcZh": "ciplawyer.cn",
-  "srcEn": "ciplawyer.cn",
-  "titleZh": "知识产权环球资讯| Meta因危害青少年被判赔5.67亿美元；北京高院再审改判“长城”商标侵权；Maxell投屏专利被三星全部无效-综合|知产速递|知识产权律师网 - ciplawyer.cn",
-  "titleEn": "知识产权环球资讯| Meta因危害青少年被判赔5.67亿美元；北京高院再审改判“长城”商标侵权；Maxell投屏专利被三星全部无效-综合|知产速递|知识产权律师网 - ciplawyer.cn",
-  "sumZh": "知识产权环球资讯| Meta因危害青少年被判赔5.67亿美元；北京高院再审改判“长城”商标侵权；Maxell投屏专利被三星全部无效-综合|知产速递|知识产权律师网 &nbsp;&n",
-  "sumEn": "知识产权环球资讯| Meta因危害青少年被判赔5.67亿美元；北京高院再审改判“长城”商标侵权；Maxell投屏专利被三星全部无效-综合|知产速递|知识产权律师网 - ciplawyer.cn (via Google News).",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147882",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "专家声音（2026年8月14日）",
+  "titleEn": "专家声音（2026年8月14日）",
+  "sumZh": "专家声音（2026年8月14日）。",
+  "sumEn": "专家声音（2026年8月14日） (China IP News).",
+  "precise": true
+ },
+ {
+  "dim": "view",
+  "date": "2026-08-14",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147865",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "材料部多个处室获评2025年度局专利审查质量保障优秀处室—— “材”智双全，为创新加“料”！",
+  "titleEn": "材料部多个处室获评2025年度局专利审查质量保障优秀处室—— “材”智双全，为创新加“料”！",
+  "sumZh": "材料部多个处室获评2025年度局专利审查质量保障优秀处室—— “材”智双全，为创新加“料”！。",
+  "sumEn": "材料部多个处室获评2025年度局专利审查质量保障优秀处室—— “材”智双全，为创新加“料”！ (China IP News).",
   "precise": true
  },
  {
@@ -249,6 +369,30 @@
   "titleEn": "July 2026 Provincial Patent Infringement Administrative Adjudication Statistics",
   "sumZh": "发布7月及1—7月各省专利侵权纠纷行政裁决立案、结案数据，全国1—7月立案3594件。",
   "sumEn": "Releases July and Jan–Jul adjudication filings/disposals; nationwide filings reach 3,594 in 7 months.",
+  "precise": true
+ },
+ {
+  "dim": "policy",
+  "date": "2026-08-13",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/13/art_57_207710.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "《福建省地理标志运用促进工程实施方案（2026-2028年）》出台",
+  "titleEn": "《福建省地理标志运用促进工程实施方案（2026-2028年）》出台",
+  "sumZh": "《福建省地理标志运用促进工程实施方案（2026-2028年）》出台。",
+  "sumEn": "《福建省地理标志运用促进工程实施方案（2026-2028年）》出台 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-13",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/13/art_57_207702.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "宁夏依托省局共建 全面开启“美丽新宁夏”知识产权强区建设新征程",
+  "titleEn": "宁夏依托省局共建 全面开启“美丽新宁夏”知识产权强区建设新征程",
+  "sumZh": "宁夏依托省局共建 全面开启“美丽新宁夏”知识产权强区建设新征程。",
+  "sumEn": "宁夏依托省局共建 全面开启“美丽新宁夏”知识产权强区建设新征程 (CNIPA).",
   "precise": true
  },
  {
@@ -381,6 +525,18 @@
   "titleEn": "CNIPA recognizes 58 products as geographical indications (No.687)",
   "sumZh": "依据《地理标志产品保护办法》，国家知识产权局对临晋江石榴等58个产品予以地理标志产品认定并实施保护。",
   "sumEn": "CNIPA recognized 58 products including Linjinjiang pomegranate as geographical indications and placed them under protection.",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-12",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/12/art_55_207682.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "为发展新质生产力提供坚实法治保障（知识产权报）",
+  "titleEn": "为发展新质生产力提供坚实法治保障（知识产权报）",
+  "sumZh": "为发展新质生产力提供坚实法治保障（知识产权报）。",
+  "sumEn": "为发展新质生产力提供坚实法治保障（知识产权报） (CNIPA).",
   "precise": true
  },
  {
@@ -984,6 +1140,18 @@
   "precise": true
  },
  {
+  "dim": "ip",
+  "date": "2026-08-07",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/7/art_55_207629.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "以“两升”促“两强”，走好新的五年（知识产权报）",
+  "titleEn": "以“两升”促“两强”，走好新的五年（知识产权报）",
+  "sumZh": "以“两升”促“两强”，走好新的五年（知识产权报）。",
+  "sumEn": "以“两升”促“两强”，走好新的五年（知识产权报） (CNIPA).",
+  "precise": true
+ },
+ {
   "dim": "view",
   "date": "2026-08-07",
   "url": "https://finance.sina.com.cn/tech/roll/2026-08-07/doc-inimnent3182125.shtml",
@@ -1128,6 +1296,18 @@
   "precise": true
  },
  {
+  "dim": "ip",
+  "date": "2026-08-06",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/6/art_53_207627.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "国家知识产权局党组理论学习中心组专题学习习近平党建思想",
+  "titleEn": "国家知识产权局党组理论学习中心组专题学习习近平党建思想",
+  "sumZh": "国家知识产权局党组理论学习中心组专题学习习近平党建思想。",
+  "sumEn": "国家知识产权局党组理论学习中心组专题学习习近平党建思想 (CNIPA).",
+  "precise": true
+ },
+ {
   "dim": "view",
   "date": "2026-08-06",
   "url": "https://www.dg.gov.cn/dgsmch/gkmlpt/content/4/4569/post_4569884.html",
@@ -1245,6 +1425,18 @@
   "titleEn": "Litigation or Arbitration: How to Choose for IP Disputes",
   "sumZh": "从知识产权纠纷特征出发，对比诉讼与仲裁在适用范围、保密性、专业性、执行便利性、效率等方面的差异，提出选择建议。",
   "sumEn": "Compares litigation and arbitration across scope, confidentiality, expertise, enforcement and efficiency, with guidance on choosing the right path.",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-05",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/5/art_55_207590.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "一图速览2026年上半年我国知识产权统计数据（知识产权报）",
+  "titleEn": "一图速览2026年上半年我国知识产权统计数据（知识产权报）",
+  "sumZh": "一图速览2026年上半年我国知识产权统计数据（知识产权报）。",
+  "sumEn": "一图速览2026年上半年我国知识产权统计数据（知识产权报） (CNIPA).",
   "precise": true
  },
  {
@@ -1368,15 +1560,15 @@
   "precise": true
  },
  {
-  "dim": "hot",
+  "dim": "view",
   "date": "2026-08-05",
-  "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5KS1hpV3ByZS1IX3RjVExwcnVvcUQ1TV9IZVR4UjlzVk9McXJSdkFPTzJuaGhHOUdFT0NTT3YwdnJ0OWF4MkduSHNNZDkwSXhsM2JOeHRB?oc=5",
-  "srcZh": "搜狐网",
-  "srcEn": "sohu.com",
-  "titleZh": "顺络电子：原告不服一审判决 就专利侵权案向最高法上诉 - 搜狐网",
-  "titleEn": "顺络电子：原告不服一审判决 就专利侵权案向最高法上诉 - 搜狐网",
-  "sumZh": "顺络电子：原告不服一审判决 就专利侵权案向最高法上诉 &nbsp;&nbsp; 搜狐网",
-  "sumEn": "顺络电子：原告不服一审判决 就专利侵权案向最高法上诉 - 搜狐网 (via Google News).",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147746",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "今日查分！2026年度专利代理师资格考试成绩可通过4种方式查询",
+  "titleEn": "今日查分！2026年度专利代理师资格考试成绩可通过4种方式查询",
+  "sumZh": "今日查分！2026年度专利代理师资格考试成绩可通过4种方式查询。",
+  "sumEn": "今日查分！2026年度专利代理师资格考试成绩可通过4种方式查询 (China IP News).",
   "precise": true
  },
  {
@@ -1557,6 +1749,18 @@
   "titleEn": "Shanghai Notice on the 15th FYP for High-quality IP Development",
   "sumZh": "明确到2030年建成国际知识产权重要城市，部署创造、运用、保护、服务、人才等任务。",
   "sumEn": "Aims to build Shanghai into a key international IP city by 2030, covering creation, use, protection and talent.",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-03",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/3/art_53_207523.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "局领导在京会见中国美国商会会长一行",
+  "titleEn": "局领导在京会见中国美国商会会长一行",
+  "sumZh": "局领导在京会见中国美国商会会长一行。",
+  "sumEn": "局领导在京会见中国美国商会会长一行 (CNIPA).",
   "precise": true
  },
  {
@@ -2148,6 +2352,18 @@
   "precise": true
  },
  {
+  "dim": "patent",
+  "date": "2026-07-30",
+  "url": "https://www.iprchn.com/cipnews/news_content.aspx?newsId=147680",
+  "srcZh": "中国知识产权资讯网",
+  "srcEn": "China IP News",
+  "titleZh": "22家专利代理机构执业许可证被撤销",
+  "titleEn": "22家专利代理机构执业许可证被撤销",
+  "sumZh": "22家专利代理机构执业许可证被撤销。",
+  "sumEn": "22家专利代理机构执业许可证被撤销 (China IP News).",
+  "precise": true
+ },
+ {
   "dim": "edu",
   "date": "2026-07-30",
   "url": "https://www.cnipa.gov.cn/art/2026/7/30/art_66_207462.html",
@@ -2277,6 +2493,18 @@
   "titleEn": "Notice: CNIPA Trademark Office 2026 centralized briefings",
   "sumZh": "国家知识产权局商标局2026年度集中宣讲启动，围绕新修订商标法、商标业务电子化、网上服务系统等主题开展系列宣讲。",
   "sumEn": "The CNIPA Trademark Office launched its 2026 series of briefings on the revised Trademark Law, e-services and the online filing system.",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-07-29",
+  "url": "https://www.cnipa.gov.cn/art/2026/7/29/art_53_207399.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "国家知识产权局召开2026年先进荣誉表彰会",
+  "titleEn": "国家知识产权局召开2026年先进荣誉表彰会",
+  "sumZh": "国家知识产权局召开2026年先进荣誉表彰会。",
+  "sumEn": "国家知识产权局召开2026年先进荣誉表彰会 (CNIPA).",
   "precise": true
  },
  {
@@ -2685,18 +2913,6 @@
   "titleEn": "Guiding Opinions on Further Strengthening GI Protection",
   "sumZh": "两部门联合印发国知发保字〔2021〕11号文件，从夯实保护基础、健全业务体系、加强行政保护、构建协同保护格局等方面部署地理标志保护工作。",
   "sumEn": "A joint policy document outlining measures to consolidate the GI protection foundation, improve the business system, and strengthen administrative and collaborative protection.",
-  "precise": true
- },
- {
-  "dim": "hot",
-  "date": "2026-07-27",
-  "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9xcUVoZWVTdnhCbnNCYm5ZTGxubmJKYjdpMHN2a1JwT0h2ZDRHdW9rVEp1MFpMWVZ6SE4tMU1iT2txYXhNbEQyZThObWZDUldvcGtSOVN3LTVlalZpTjI0cWJJNlNrRERn?oc=5",
-  "srcZh": "chinanews.com.cn",
-  "srcEn": "chinanews.com.cn",
-  "titleZh": "瑞幸咖啡泰国商标维权二审再胜，侵权方判赔9500万泰铢 - chinanews.com.cn",
-  "titleEn": "瑞幸咖啡泰国商标维权二审再胜，侵权方判赔9500万泰铢 - chinanews.com.cn",
-  "sumZh": "瑞幸咖啡泰国商标维权二审再胜，侵权方判赔9500万泰铢 &nbsp;&nbsp; chinanews.com.cn",
-  "sumEn": "瑞幸咖啡泰国商标维权二审再胜，侵权方判赔9500万泰铢 - chinanews.com.cn (via Google News).",
   "precise": true
  },
  {
@@ -4296,18 +4512,6 @@
   "precise": true
  },
  {
-  "dim": "hot",
-  "date": "2026-07-15",
-  "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPOGU2N2FFa1JCano5WGRCV2d3bWhaX1RYSHloMVhIMU5aQUhGRG5mbFVwb3hNakJkeV9PMUVNUWtqZF9Jd3RFYWs1ZlFVaTBvVjYzWEJfOG5nZnA0WEhXQ2NDTElQN1dGM3QwR3pkV2VndmdvekRGR1FrZFRxSFNCVHhLTU0wYzdPVjFvRGJIUW9WYllDRHkyU0dpaDZxTDlRM0diQk1jUXFVcFFaQy1hRmNrWDlIUFhwSjdWNmlKN1RFZXNQcnMyNmI3OW1xbVlublRVREtJR29tQkZnQUliREp6ZEF0elgxVGE4d1V0eEJBTW1sb3NJ?oc=5",
-  "srcZh": "中國報 China Press",
-  "srcEn": "chinapress.com.my",
-  "titleZh": "MADANI车牌侵权 陆交局总监判赔4万 - 中國報 China Press",
-  "titleEn": "MADANI车牌侵权 陆交局总监判赔4万 - 中國報 China Press",
-  "sumZh": "MADANI车牌侵权 陆交局总监判赔4万 &nbsp;&nbsp; 中國報 China Press",
-  "sumEn": "MADANI车牌侵权 陆交局总监判赔4万 - 中國報 China Press (via Google News).",
-  "precise": true
- },
- {
   "dim": "view",
   "date": "2026-07-14",
   "url": "https://www.cnipa.gov.cn/art/2026/7/14/art_55_207185.html",
@@ -5172,18 +5376,6 @@
   "precise": true
  },
  {
-  "dim": "hot",
-  "date": "2026-07-08",
-  "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1UWVRqRTUweXNUNDBfSWljRkZWWjBUNFpDRHZ4akJySm02a1hOUEpVSlV0cDFIZ1U4QTNqQkRCYjlfakVpbVY5cXF0SExnZw?oc=5",
-  "srcZh": "知产力",
-  "srcEn": "zhichanli.com",
-  "titleZh": "新商标法系列二 | 商标侵权该赔多少？商标法用了44年回答：先得算出来。 - 知产力",
-  "titleEn": "新商标法系列二 | 商标侵权该赔多少？商标法用了44年回答：先得算出来。 - 知产力",
-  "sumZh": "新商标法系列二 | 商标侵权该赔多少？商标法用了44年回答：先得算出来。 &nbsp;&nbsp; 知产力",
-  "sumEn": "新商标法系列二 | 商标侵权该赔多少？商标法用了44年回答：先得算出来。 - 知产力 (via Google News).",
-  "precise": true
- },
- {
   "dim": "patent",
   "date": "2026-07-07",
   "url": "https://www.cnipa.gov.cn/art/2026/7/7/art_53_207102.html",
@@ -5869,18 +6061,6 @@
  },
  {
   "dim": "hot",
-  "date": "2026-07-03",
-  "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5lZHNKUVMxT2NjT1M4QWFSeFk1VXVDSTdMQlpIX1pnU0FVVldmTENfTWhVdVUwaHY4N0haMkJoTXRiWXR3VTd5d2hWRllVdUc4Q1pKc1B3?oc=5",
-  "srcZh": "Jiemian.com",
-  "srcEn": "m.jiemian.com",
-  "titleZh": "茉莉奶白最高56万年薪急招法务，被判赔LV千万元后订单量翻倍 - Jiemian.com",
-  "titleEn": "茉莉奶白最高56万年薪急招法务，被判赔LV千万元后订单量翻倍 - Jiemian.com",
-  "sumZh": "茉莉奶白最高56万年薪急招法务，被判赔LV千万元后订单量翻倍 &nbsp;&nbsp; Jiemian.com",
-  "sumEn": "茉莉奶白最高56万年薪急招法务，被判赔LV千万元后订单量翻倍 - Jiemian.com (via Google News).",
-  "precise": true
- },
- {
-  "dim": "hot",
   "date": "2026-07-02",
   "url": "https://baijiahao.baidu.com/s?id=1869592361079637465",
   "srcZh": "钱江晚报（百度百家号）",
@@ -6009,54 +6189,6 @@
   "titleEn": "Vigorously Promoting IP Commercialization in the New Energy Industry",
   "sumZh": "宁德时代首席知识产权官孙明岩提出建设先进动力电池和储能产业链知识产权运营中心、开展产业链供应链知识产权协作、推进专利与标准结合等新能源领域专利转化路径。",
   "sumEn": "Sun Mingyan proposes building an IP operation center for the power battery and energy storage chain, supply-chain IP collaboration, and patent-standard integration to promote patent conversion in new energy.",
-  "precise": true
- },
- {
-  "dim": "hot",
-  "date": "2026-07-02",
-  "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1MeUhPMGFIakE3LUJNME93Z0NFVFJ5WEI3WkwyUDVqdTh2ZHpFdGctc1BHel83bThsTjVVejBQN2JzR1hROWNhMXluT0dTS3doTmJV?oc=5",
-  "srcZh": "华尔街见闻",
-  "srcEn": "wallstreetcn.com",
-  "titleZh": "一审被判赔LV千万，茉莉奶白四叶花logo陷侵权风波 - 华尔街见闻",
-  "titleEn": "一审被判赔LV千万，茉莉奶白四叶花logo陷侵权风波 - 华尔街见闻",
-  "sumZh": "一审被判赔LV千万，茉莉奶白四叶花logo陷侵权风波 &nbsp;&nbsp; 华尔街见闻",
-  "sumEn": "一审被判赔LV千万，茉莉奶白四叶花logo陷侵权风波 - 华尔街见闻 (via Google News).",
-  "precise": true
- },
- {
-  "dim": "hot",
-  "date": "2026-07-02",
-  "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9IM0FfTTJRN01aVnRkR21wcXN2QlExRGViVGpyVnBwNEVsQlVKaXZ0XzZXXzE3RXI5cVk4NVBISnp1OVg0V04zZ0haWUlvblJkd21EeWJlaklTTUlNQjVTcWMzcw?oc=5",
-  "srcZh": "新浪网",
-  "srcEn": "sina.cn",
-  "titleZh": "LV诉茉莉奶白侵权判赔1030万_新浪新闻 - 新浪网",
-  "titleEn": "LV诉茉莉奶白侵权判赔1030万_新浪新闻 - 新浪网",
-  "sumZh": "LV诉茉莉奶白侵权判赔1030万_新浪新闻 &nbsp;&nbsp; 新浪网",
-  "sumEn": "LV诉茉莉奶白侵权判赔1030万_新浪新闻 - 新浪网 (via Google News).",
-  "precise": true
- },
- {
-  "dim": "hot",
-  "date": "2026-07-02",
-  "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1HeElMX1lVZkNfN1otOTZObTU0RE9kY0xmTTB3UmlnYllYY1JDeWlQLWRLVzdVcWE2QjBKT2lMeWp4dWFsb21Lc0wySDdmUnNJc01VS2Jyb2Q?oc=5",
-  "srcZh": "ciplawyer.cn",
-  "srcEn": "ciplawyer.cn",
-  "titleZh": "LV诉茉莉奶白商标侵权案一审宣判：茉莉奶白被判赔1030万元 - ciplawyer.cn",
-  "titleEn": "LV诉茉莉奶白商标侵权案一审宣判：茉莉奶白被判赔1030万元 - ciplawyer.cn",
-  "sumZh": "LV诉茉莉奶白商标侵权案一审宣判：茉莉奶白被判赔1030万元 &nbsp;&nbsp; ciplawyer.cn",
-  "sumEn": "LV诉茉莉奶白商标侵权案一审宣判：茉莉奶白被判赔1030万元 - ciplawyer.cn (via Google News).",
-  "precise": true
- },
- {
-  "dim": "hot",
-  "date": "2026-07-02",
-  "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE84NXVNenY0LWlhNlMtYTNULWt2d2xxZFFXSTVXSV9SZ3U2NUhrZHo4V1RlV05JZlNjZ0FSdFdvaHNhS0F4dFYxdzR5MEVaS1lTY3hxMkx4elU?oc=5",
-  "srcZh": "ciplawyer.cn",
-  "srcEn": "ciplawyer.cn",
-  "titleZh": "专利侵权损害赔偿计算期间的确定 - ciplawyer.cn",
-  "titleEn": "专利侵权损害赔偿计算期间的确定 - ciplawyer.cn",
-  "sumZh": "专利侵权损害赔偿计算期间的确定 &nbsp;&nbsp; ciplawyer.cn",
-  "sumEn": "专利侵权损害赔偿计算期间的确定 - ciplawyer.cn (via Google News).",
   "precise": true
  },
  {

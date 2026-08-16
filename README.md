@@ -28,12 +28,16 @@ python3 collect.py --top 20
 python3 generate_report.py
 ```
 
-## 采集引擎（双通道）
-- **搜索型 RSS（Google News）**：按各维度关键词搜索，标题直接命中，稳定产出「热点 / 科普 / 观点」等维度。需 GitHub Actions 海外机房网络（国内本地跑可能连不上，会自动静默跳过）。
-- **权威媒体 RSS**：人民网 / 新华网 / 中国新闻网 / 钛媒体 / 新浪科技 各频道，国内外均稳定可用，作为兜底。
+## 采集引擎（四通道）
+- **搜索型 RSS（Google News）**：按各维度关键词搜索，标题直接命中。需 GitHub Actions 海外机房网络（国内本地可能连不上，自动静默跳过）。
+- **权威媒体 RSS**：人民网 / 新华网 / 中国新闻网 / 钛媒体 / 新浪科技 各频道，作为兜底。
+- **国家知识产权局官网（HTML 抓取）**：`cnipa.gov.cn` 新闻页，URL 内嵌真实发布日期，权威且稳定。
+- **中国知识产权资讯网（HTML 抓取）**：`iprchn.com`，逐条抓文章页取真实发布日期，覆盖科普/观点/专利等维度。
+
+> 说明：Google News / Bing 等搜索型 RSS 不稳定，通用媒体 RSS 中知识产权标题又很稀疏；新增两个垂直官网抓取通道后，工作日可稳定产出新鲜真实资讯。
 
 ## 文件说明
-- `collect.py` 采集引擎（双通道 RSS，按 URL 去重合并追加）
+- `collect.py` 采集引擎（四通道，按 URL 去重合并追加）
 - `generate_report.py` 报告生成引擎（读 `ip_data.json` → 注入 `template.html`）
 - `_build_full.py` 数据合并与 edu/view 策展脚本（合并 `ip_data.json` + 全部 `_ev*.json` → 产出最终 `ip_data.json`）
 - `template.html` 报告模板（单文件、离线可用、内置中英字典）

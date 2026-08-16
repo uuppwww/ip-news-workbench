@@ -122,17 +122,19 @@ def strip_html(s):
     return s
 
 
-def parse_date(pub, fallback):
-    if pub:
-        try:
-            dt = parsedate_to_datetime(pub)
-            if dt:
-                if dt.tzinfo is not None:
-                    dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
-                return dt.date().isoformat()
-        except Exception:
-            pass
-    return fallback
+def parse_date(pub):
+    """解析 RSS pubDate；失败返回 None。调用方应跳过，而不是假设为今天。"""
+    if not pub:
+        return None
+    try:
+        dt = parsedate_to_datetime(pub)
+        if dt:
+            if dt.tzinfo is not None:
+                dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
+            return dt.date().isoformat()
+    except Exception:
+        pass
+    return None
 
 
 def hits_keyword(text):
@@ -170,7 +172,9 @@ def fetch_feed(name, url):
             continue
         if not hits_keyword(title):
             continue
-        d = parse_date(pub, today.isoformat())
+        d = parse_date(pub)
+        if not d:
+            continue
         if not within_days(d, 30, today):
             continue
         dim = classify(title)
@@ -220,7 +224,9 @@ def fetch_google(query, qdim, limit=8):
         if src is not None:
             src_name = (src.text or "").strip()
             src_host = (urlparse(src.get("url") or "").hostname or "").replace("www.", "")
-        d = parse_date(pub, today.isoformat())
+        d = parse_date(pub)
+        if not d:
+            continue
         if not within_days(d, 45, today):
             continue
         # 优先用查询自带维度，除非标题能更精确归类
@@ -247,6 +253,109 @@ def fetch_google(query, qdim, limit=8):
     return items
 
 
+def fetch_cnipa():
+    """通道3：国家知识产权局官网新闻（HTML，URL 内嵌真实发布日期，稳定兜底）。"""
+    items = []
+    url = "https://www.cnipa.gov.cn/col/col4/index.html"
+    try:
+        r = requests.get(url, timeout=25, headers=UA)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding or "utf-8"
+        html = r.text
+    except Exception as e:
+        print(f"cnipa failed: {e}")
+        return items
+
+    today = date.today()
+    seen = set()
+    # 例：<a ... href="/art/2026/8/14/art_57_207729.html" ...>标题</a>
+    for m in re.finditer(
+        r'<a\b[^>]*href="(/art/(\d{4})/(\d{1,2})/(\d{1,2})/[^"]+)"[^>]*>(.*?)</a>',
+        html, re.S,
+    ):
+        href, y, mo, d = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4))
+        tag = m.group(0)
+        tm = re.search(r'title=[\'"]([^\'"]+)', tag)
+        title = strip_html(tm.group(1) if tm else m.group(5))
+        if not title:
+            continue
+        iso = f"{y:04d}-{mo:02d}-{d:02d}"
+        if not within_days(iso, 30, today):
+            continue
+        full = "https://www.cnipa.gov.cn" + href
+        if full in seen:
+            continue
+        seen.add(full)
+        items.append({
+            "dim": classify(title),
+            "date": iso,
+            "url": full,
+            "srcZh": "国家知识产权局",
+            "srcEn": "CNIPA",
+            "titleZh": title,
+            "titleEn": title,
+            "sumZh": f"{title}。",
+            "sumEn": f"{title} (CNIPA).",
+            "precise": True,
+        })
+    return items
+
+
+def fetch_iprchn(limit=10):
+    """通道4：中国知识产权资讯网（HTML，逐条抓文章页取真实发布日期）。"""
+    items = []
+    try:
+        r = requests.get("https://www.iprchn.com/index.html", timeout=25, headers=UA)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding or "utf-8"
+        html = r.text
+    except Exception as e:
+        print(f"iprchn index failed: {e}")
+        return items
+
+    today = date.today()
+    seen = set()
+    for m in re.finditer(
+        r'<a\b[^>]*href="(cipnews/news_content\.aspx\?newsId=\d+)"[^>]*>(.*?)</a>',
+        html, re.S,
+    ):
+        href = m.group(1)
+        tag = m.group(0)
+        tm = re.search(r'title=[\'"]([^\'"]+)', tag)
+        title = strip_html(tm.group(1) if tm else m.group(2))
+        if not title or title in seen:
+            continue
+        seen.add(title)
+        full = "https://www.iprchn.com/" + href
+        # 抓文章页取真实发布日期（文章页首个 2026/8/14 形式即发布日期）
+        iso = today.isoformat()
+        try:
+            ar = requests.get(full, timeout=20, headers=UA)
+            ar.encoding = ar.apparent_encoding or "utf-8"
+            dm = re.search(r'20(\d{2})[/-](\d{1,2})[/-](\d{1,2})', ar.text)
+            if dm:
+                iso = f"20{dm.group(1)}-{int(dm.group(2)):02d}-{int(dm.group(3)):02d}"
+        except Exception:
+            pass
+        if not within_days(iso, 30, today):
+            continue
+        items.append({
+            "dim": classify(title),
+            "date": iso,
+            "url": full,
+            "srcZh": "中国知识产权资讯网",
+            "srcEn": "China IP News",
+            "titleZh": title,
+            "titleEn": title,
+            "sumZh": f"{title}。",
+            "sumEn": f"{title} (China IP News).",
+            "precise": True,
+        })
+        if len(items) >= limit:
+            break
+    return items
+
+
 def collect(top=20):
     new_items = []
     # 通道1：搜索型（更精准，优先）
@@ -255,6 +364,9 @@ def collect(top=20):
     # 通道2：权威媒体 RSS
     for name, url in FEEDS:
         new_items += fetch_feed(name, url)
+    # 通道3/4：知识产权垂直官网（HTML 兜底，稳定产出新鲜 IP 资讯）
+    new_items += fetch_cnipa()
+    new_items += fetch_iprchn()
     if not new_items:
         print("no new items fetched")
         return 0
@@ -263,7 +375,7 @@ def collect(top=20):
     merged = dedup(existing + new_items)
     merged.sort(key=lambda x: x.get("date", ""), reverse=True)
     save_items(merged)
-    print(f"collected {len(new_items)} new items (google={len(GOOGLE_QUERIES)}q + feeds={len(FEEDS)}), total={len(merged)}")
+    print(f"collected {len(new_items)} new items (google={len(GOOGLE_QUERIES)}q + feeds={len(FEEDS)} + cnipa + iprchn), total={len(merged)}")
     return len(new_items)
 
 
