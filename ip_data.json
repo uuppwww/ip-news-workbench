@@ -1,5 +1,77 @@
 [
  {
+  "dim": "ip",
+  "date": "2026-08-28",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/28/art_57_207890.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "湖北省知识产权局召开知识产权快速协同保护工作调度会",
+  "titleEn": "湖北省知识产权局召开知识产权快速协同保护工作调度会",
+  "sumZh": "湖北省知识产权局召开知识产权快速协同保护工作调度会。",
+  "sumEn": "湖北省知识产权局召开知识产权快速协同保护工作调度会 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-28",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/28/art_57_207888.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "《地理标志产品质量要求 陕西苹果》省级地方标准项目推进会召开",
+  "titleEn": "《地理标志产品质量要求 陕西苹果》省级地方标准项目推进会召开",
+  "sumZh": "《地理标志产品质量要求 陕西苹果》省级地方标准项目推进会召开。",
+  "sumEn": "《地理标志产品质量要求 陕西苹果》省级地方标准项目推进会召开 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-28",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/28/art_57_207886.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "江苏举办医疗健康领域数据知识产权保护运用专场活动",
+  "titleEn": "江苏举办医疗健康领域数据知识产权保护运用专场活动",
+  "sumZh": "江苏举办医疗健康领域数据知识产权保护运用专场活动。",
+  "sumEn": "江苏举办医疗健康领域数据知识产权保护运用专场活动 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "policy",
+  "date": "2026-08-27",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/27/art_57_207877.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "“数聚知产・价值焕新” 学术沙龙在筑举办 贵州集中发布多项数据知识产权制度成果",
+  "titleEn": "“数聚知产・价值焕新” 学术沙龙在筑举办 贵州集中发布多项数据知识产权制度成果",
+  "sumZh": "“数聚知产・价值焕新” 学术沙龙在筑举办 贵州集中发布多项数据知识产权制度成果。",
+  "sumEn": "“数聚知产・价值焕新” 学术沙龙在筑举办 贵州集中发布多项数据知识产权制度成果 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "view",
+  "date": "2026-08-27",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/27/art_57_207875.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "2026年度国家知识产权局商标局商标集中宣讲活动在雄安新区举办",
+  "titleEn": "2026年度国家知识产权局商标局商标集中宣讲活动在雄安新区举办",
+  "sumZh": "2026年度国家知识产权局商标局商标集中宣讲活动在雄安新区举办。",
+  "sumEn": "2026年度国家知识产权局商标局商标集中宣讲活动在雄安新区举办 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "policy",
+  "date": "2026-08-26",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/26/art_53_207863.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "知识产权新修订法律法规全国巡回宣贯首站活动在西安启动",
+  "titleEn": "知识产权新修订法律法规全国巡回宣贯首站活动在西安启动",
+  "sumZh": "知识产权新修订法律法规全国巡回宣贯首站活动在西安启动。",
+  "sumEn": "知识产权新修订法律法规全国巡回宣贯首站活动在西安启动 (CNIPA).",
+  "precise": true
+ },
+ {
   "dim": "hot",
   "date": "2026-08-25",
   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1jN1YyNEkwbmRVX3ZyZVZNclVqNlh2Qy1HLTh2bklLTHJjRlRIX3pPNTdqU21HU0ZSamdJN1BIcmJCLWdKMF84SGkzNFhrR0l1VGFRanJaLTRVRDZk?oc=5",
@@ -21,6 +93,18 @@
   "titleEn": "附百案判决┃浙江高院知产审判庭：《外观设计专利侵权纠纷百案解析》 - 知产财经",
   "sumZh": "附百案判决┃浙江高院知产审判庭：《外观设计专利侵权纠纷百案解析》 &nbsp;&nbsp; 知产财经",
   "sumEn": "附百案判决┃浙江高院知产审判庭：《外观设计专利侵权纠纷百案解析》 - 知产财经 (via Google News).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-08-24",
+  "url": "https://www.cnipa.gov.cn/art/2026/8/24/art_53_207843.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "国家知识产权局党组传达学习习近平总书记在中共中央政治局会议和党外人士座谈会上的重要讲话精神",
+  "titleEn": "国家知识产权局党组传达学习习近平总书记在中共中央政治局会议和党外人士座谈会上的重要讲话精神",
+  "sumZh": "国家知识产权局党组传达学习习近平总书记在中共中央政治局会议和党外人士座谈会上的重要讲话精神。",
+  "sumEn": "国家知识产权局党组传达学习习近平总书记在中共中央政治局会议和党外人士座谈会上的重要讲话精神 (CNIPA).",
   "precise": true
  },
  {
