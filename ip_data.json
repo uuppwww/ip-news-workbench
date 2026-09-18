@@ -1,5 +1,17 @@
 [
  {
+  "dim": "patent",
+  "date": "2026-09-17",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/17/art_53_208200.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "第十五届中国国际专利技术与产品交易会将于11月6日至8日在无锡举办",
+  "titleEn": "第十五届中国国际专利技术与产品交易会将于11月6日至8日在无锡举办",
+  "sumZh": "第十五届中国国际专利技术与产品交易会将于11月6日至8日在无锡举办。",
+  "sumEn": "第十五届中国国际专利技术与产品交易会将于11月6日至8日在无锡举办 (CNIPA).",
+  "precise": true
+ },
+ {
   "dim": "hot",
   "date": "2026-09-16",
   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFB4ZnZ2RGRaZ1lTUFU1QkRfVURyVDRPNlp4LVBRM0YyZUpobmNNVGtjdzZZaHMyQTdmUWVEY0FidEdEcF95aTFNZ19zQlQ2SE5jVmFmTFRlaFRaOGg1VzdWOU9R?oc=5",
@@ -24,6 +36,30 @@
   "precise": true
  },
  {
+  "dim": "ip",
+  "date": "2026-09-16",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/16/art_53_208181.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "局领导应邀率团赴印出席第18次金砖国家知识产权局局长会议",
+  "titleEn": "局领导应邀率团赴印出席第18次金砖国家知识产权局局长会议",
+  "sumZh": "局领导应邀率团赴印出席第18次金砖国家知识产权局局长会议。",
+  "sumEn": "局领导应邀率团赴印出席第18次金砖国家知识产权局局长会议 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-09-16",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/16/art_57_208175.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "辽宁出台知识产权质押融资新政",
+  "titleEn": "辽宁出台知识产权质押融资新政",
+  "sumZh": "辽宁出台知识产权质押融资新政。",
+  "sumEn": "辽宁出台知识产权质押融资新政 (CNIPA).",
+  "precise": true
+ },
+ {
   "dim": "hot",
   "date": "2026-09-15",
   "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPalR1cjhiSmtldkNmQlFzbWxxMlVVTnQwSEFJWmV6TDYwVGdTY3NGQVU2UF9qbkRweld3NWJrYTFZZTNiV2RMbVNma244OHpRbHZPMEVCVDE5MU5WZzVCWG9PbjhxaXJZY0doXzR6a2dWYkxPU1RnbmNaWkM5V3BTdnpfR1dSbUpKQjRBTQ?oc=5",
@@ -33,6 +69,66 @@
   "titleEn": "双线维权大捷！沪泰颜料成功化解国内外双重商标危机 - Sohu",
   "sumZh": "双线维权大捷！沪泰颜料成功化解国内外双重商标危机 &nbsp;&nbsp; Sohu",
   "sumEn": "双线维权大捷！沪泰颜料成功化解国内外双重商标危机 - Sohu (via Google News).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-09-15",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/15/art_53_208169.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "国家知识产权局党组传达学习习近平总书记近期重要讲话和重要指示批示精神",
+  "titleEn": "国家知识产权局党组传达学习习近平总书记近期重要讲话和重要指示批示精神",
+  "sumZh": "国家知识产权局党组传达学习习近平总书记近期重要讲话和重要指示批示精神。",
+  "sumEn": "国家知识产权局党组传达学习习近平总书记近期重要讲话和重要指示批示精神 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "ip",
+  "date": "2026-09-15",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/15/art_57_208153.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "重庆举办知识产权服务支撑重点领域关键核心技术攻关专题培训班",
+  "titleEn": "重庆举办知识产权服务支撑重点领域关键核心技术攻关专题培训班",
+  "sumZh": "重庆举办知识产权服务支撑重点领域关键核心技术攻关专题培训班。",
+  "sumEn": "重庆举办知识产权服务支撑重点领域关键核心技术攻关专题培训班 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "policy",
+  "date": "2026-09-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/14/art_57_208140.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "北京发布《潮玩产业知识产权保护指引》",
+  "titleEn": "北京发布《潮玩产业知识产权保护指引》",
+  "sumZh": "北京发布《潮玩产业知识产权保护指引》。",
+  "sumEn": "北京发布《潮玩产业知识产权保护指引》 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "policy",
+  "date": "2026-09-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/14/art_57_208141.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "深圳发布第三版知识产权公共服务办事指南",
+  "titleEn": "深圳发布第三版知识产权公共服务办事指南",
+  "sumZh": "深圳发布第三版知识产权公共服务办事指南。",
+  "sumEn": "深圳发布第三版知识产权公共服务办事指南 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "patent",
+  "date": "2026-09-14",
+  "url": "https://www.cnipa.gov.cn/art/2026/9/14/art_57_208105.html",
+  "srcZh": "国家知识产权局",
+  "srcEn": "CNIPA",
+  "titleZh": "《北京市专利预审与专利审查高速路（PPH）申请工作指引》发布",
+  "titleEn": "《北京市专利预审与专利审查高速路（PPH）申请工作指引》发布",
+  "sumZh": "《北京市专利预审与专利审查高速路（PPH）申请工作指引》发布。",
+  "sumEn": "《北京市专利预审与专利审查高速路（PPH）申请工作指引》发布 (CNIPA).",
   "precise": true
  },
  {
