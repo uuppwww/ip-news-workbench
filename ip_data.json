@@ -1,5 +1,17 @@
 [
  {
+  "dim": "hot",
+  "date": "2026-09-18",
+  "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9wWWdfTmxqYk1JSlVhQl90R3o1b1pLSGJ2ejYtYzdXbHVJNjhFQmItUmFEVTYtc3g3cHIwX1BvX2VwUDVTeUt2VHEtTlJ0VE1lanJTbk9odU1zaFdHanh3?oc=5",
+  "srcZh": "huxiu.com",
+  "srcEn": "m.huxiu.com",
+  "titleZh": "中国企业出海知识产权纠纷三年近翻倍：NPE围猎与商标抢注成常态化风险 - huxiu.com",
+  "titleEn": "中国企业出海知识产权纠纷三年近翻倍：NPE围猎与商标抢注成常态化风险 - huxiu.com",
+  "sumZh": "中国企业出海知识产权纠纷三年近翻倍：NPE围猎与商标抢注成常态化风险 &nbsp;&nbsp; huxiu.com",
+  "sumEn": "中国企业出海知识产权纠纷三年近翻倍：NPE围猎与商标抢注成常态化风险 - huxiu.com (via Google News).",
+  "precise": true
+ },
+ {
   "dim": "patent",
   "date": "2026-09-17",
   "url": "https://www.cnipa.gov.cn/art/2026/9/17/art_53_208200.html",
@@ -57,6 +69,18 @@
   "titleEn": "辽宁出台知识产权质押融资新政",
   "sumZh": "辽宁出台知识产权质押融资新政。",
   "sumEn": "辽宁出台知识产权质押融资新政 (CNIPA).",
+  "precise": true
+ },
+ {
+  "dim": "hot",
+  "date": "2026-09-16",
+  "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9fREI3QUFMUzBOcnFqUzRTcmJLZjdJck1iTU9PMDdsb2trRXZiZFU4c2FVVEJQemJVS1IzVmVOcFR6LTBGQmQya3NsRFNTZkZ5MXpPSTRCQ1E?oc=5",
+  "srcZh": "ciplawyer.cn",
+  "srcEn": "ciplawyer.cn",
+  "titleZh": "江西法院发布商业秘密保护典型案例 - ciplawyer.cn",
+  "titleEn": "江西法院发布商业秘密保护典型案例 - ciplawyer.cn",
+  "sumZh": "江西法院发布商业秘密保护典型案例 &nbsp;&nbsp; ciplawyer.cn",
+  "sumEn": "江西法院发布商业秘密保护典型案例 - ciplawyer.cn (via Google News).",
   "precise": true
  },
  {
