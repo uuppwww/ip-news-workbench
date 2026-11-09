@@ -1,5 +1,17 @@
 [
  {
+  "dim": "hot",
+  "date": "2026-11-09",
+  "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5DMExlMTVpYXFQYWYzQ3lwQjAzOUp6cVZ5Zy1JU0hscWNnem1SV0lUQ1UwekR6UTdnYVZhRC0xWXQwcDAzaFNqSExwdmhGVkZfZzJQWVpuQl9uUE5s?oc=5",
+  "srcZh": "电子工程专辑EE Times China",
+  "srcEn": "eet-china.com",
+  "titleZh": "LG化学针对中资企业的专利禁令申请被驳回，主诉讼仍待裁决 - 电子工程专辑EE Times China",
+  "titleEn": "LG化学针对中资企业的专利禁令申请被驳回，主诉讼仍待裁决 - 电子工程专辑EE Times China",
+  "sumZh": "LG化学针对中资企业的专利禁令申请被驳回，主诉讼仍待裁决 &nbsp;&nbsp; 电子工程专辑EE Times China",
+  "sumEn": "LG化学针对中资企业的专利禁令申请被驳回，主诉讼仍待裁决 - 电子工程专辑EE Times China (via Google News).",
+  "precise": true
+ },
+ {
   "dim": "edu",
   "date": "2026-11-08",
   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1rbExET2YtalZPWFVIQVZZZ2pjc0lRZVVSck5iRDEtaWpMYlh2OE8zdkh6YjJreUV5djV3dmhJdFUxdnVIR28yMUNCY1RsZ1pkSTNKOVVPVmxheXpHZnZz?oc=5",
@@ -309,6 +321,18 @@
   "titleEn": "欧盟商标：出海欧洲，品牌保护第一步 - 雨果跨境",
   "sumZh": "欧盟商标：出海欧洲，品牌保护第一步 &nbsp;&nbsp; 雨果跨境",
   "sumEn": "欧盟商标：出海欧洲，品牌保护第一步 - 雨果跨境 (via Google News).",
+  "precise": true
+ },
+ {
+  "dim": "edu",
+  "date": "2026-10-23",
+  "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE05NURPUFdyemlsQTZrTW1GakljWk9OMFJ2a1B5TFBuaTNKSVMxUnRNaWVfVW5Mb1N5SXkwUHp0NDcyOEZRSG8tcGNVUUo0UQ?oc=5",
+  "srcZh": "川观新闻",
+  "srcEn": "cbgc.scol.com.cn",
+  "titleZh": "多点突破、全链赋能！绵阳以知识产权服务精准护航产业升级 - 川观新闻",
+  "titleEn": "多点突破、全链赋能！绵阳以知识产权服务精准护航产业升级 - 川观新闻",
+  "sumZh": "多点突破、全链赋能！绵阳以知识产权服务精准护航产业升级 &nbsp;&nbsp; 川观新闻",
+  "sumEn": "多点突破、全链赋能！绵阳以知识产权服务精准护航产业升级 - 川观新闻 (via Google News).",
   "precise": true
  },
  {
